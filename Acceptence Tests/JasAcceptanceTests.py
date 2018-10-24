@@ -28,14 +28,23 @@ class TestTA(unittest.TestCase):
         self.p.command("login ta1 password")
 
         #View assignment of second TA
-        self.assertEqual("Course: CS-351 Section:802",self.p.command("user view-assignments ta2"))
+        self.assertEqual("\nUsername: ta2\nRole(s): TA \nEmail: ta2@uwm.edu \nAssignments: CS-351-802" ,self.p.command("user view ta2"))
+
+        self.p.command("logout")
+
+        #Log in to second ta
+        self.p.command("login ta2 password")
+
+        #View Ta1 assignments
+        self.assertEqual("\nUsername: ta1\nRole(s): TA \nEmail: None \nAssignments: CS-351-801" ,self.p.command("user view ta1"))
+
 
     # User Story #34 : TA: Read public contact information for all users
     def test_ta_read_public_info(self):
         self.p.command("login ta1 password")
         
         #Only display public info 
-        self.assertEqual("email=ta2@uwm.edu",self.p.command("user view-info ta2"))
+        self.assertEqual("\nUsername: ta2\nRole(s): TA \nEmail: ta2@uwm.edu",self.p.command("user view ta2"))
 
 class TestInstructor(unittest.TestCase):
 
@@ -64,14 +73,14 @@ class TestInstructor(unittest.TestCase):
         self.p.command("login instr1 password")
 
         #ta1 should have no assignments, ta2 is assigned to CS-351 Section 802
-        self.assertEqual("None","user view-assignments ta1")
-        self.assertEqual("Course: CS-351 Section:802","user view-assignments ta2")
+        self.assertEqual("Username: ta1 \nRole(s): TA \nEmail: None \nAssignments: None","user view ta1")
+        self.assertEqual("Username: ta2 \nRole(s): TA \nEmail:ta2uwm.edu \nAssignments: CS-351-802","user view ta2")
 
     # User Story #43 : Instructor: Get TA email
     def test_instr_view_ta_email(self):
         self.p.command("login instr1 password")
-        self.assertEqual("None","user view-info ta1")
-        self.assertEqual("Email: ta2@uwm.edu","user view-info ta2")
+        self.assertEqual("Username: ta1 \nRole(s): TA \nEmail: None \nAssignments: None","user view ta1")
+        self.assertEqual("Username: ta2 \nRole(s): TA \nEmail:ta2uwm.edu \nAssignments: CS-351-802","user view ta2")
 
     # User Story #48 : Change TA lab section
     def test_instr_change_ta_lab(self):
@@ -89,6 +98,6 @@ class TestInstructor(unittest.TestCase):
 
         #Test changes to sections
         self.assertEqual("TA section changed.",self.p.command("user edit ta2 snum=801"))
-        self.assertEqual("Course: CS-351 Section:801",self.p.command("user view-assignments ta2"))
+        self.assertEqual("Username: ta2 \nRole(s): TA \nEmail:None \nAssignments: CS-351-801",self.p.command("user view ta2"))
         self.assertEqual("TA section changed.",self.p.command("user edit ta2 snum=802"))
-        self.assertEqual("Course: CS-351 Section:802",self.p.command("user view-assignments ta2"))
+        self.assertEqual("Username: ta2 \nRole(s): TA \nEmail:None \nAssignments: CS-351-802",self.p.command("user view ta2"))
