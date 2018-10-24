@@ -32,7 +32,7 @@ class TestTA(unittest.TestCase):
 class TestSupervisor(unittest.TestCase):
 
     # Test #24 Create account
-    def createNoLoggin(self):
+    def createNoLogin(self):
 
         mySetup = Project()
 
