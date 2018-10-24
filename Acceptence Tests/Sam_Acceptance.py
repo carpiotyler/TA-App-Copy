@@ -6,10 +6,14 @@ from Skeleton import Project
 class TestTA(unittest.TestCase):
 
     # Edit contact info #15
-    def contactNoLoggin(self):
+    def Login(self):
         mySetup = Project()
 
-        self.assertEqual(mySetup.command("user edit phone (414)883-4893"), "You need to login before you can edit contact information",
+        mySetup.command("login King password1")
+        mySetup.command("user add perms=TA username=Lars password=password2")
+        mySetup.command("logout")
+
+        self.assertEqual(mySetup.command("login Lars password2"), "Login successful",
                          "Test failed. Should not have been able to edit without logging in")
 
     def editContactInfo(self):
@@ -31,45 +35,16 @@ class TestTA(unittest.TestCase):
 
 class TestSupervisor(unittest.TestCase):
 
-    # Test #24 Create account
-    def createNoLogin(self):
+    # Test logging in
+    def Login(self):
 
         mySetup = Project()
 
-        self.assertEqual(mySetup.command("user add perms=student username=Momo password=Cram"),
-                         "You need to login before you can edit contact information",
-                         "Test failed. Should not have been able to create account without logging in")
+        self.assertEqual(mySetup.command("login King password1"),
+                         "Login successful",
+                         "Test failed. Could not log in")
 
-    # Test if create user fails if they are not given a role
-    def createNoRole(self):
-
-        mySetup = Project()
-        mySetup.command("login King password1")
-        self.assertEqual(mySetup.command("user add username=Momo password=Cram"),
-                         "You need to assign a role to the new user",
-                         "Test failed. Should not have been able to add user without a role")
-        mySetup.command("logout")
-
-    # No password
-    def createNoPass(self):
-
-        mySetup = Project()
-        mySetup.command("user login King")
-        self.assertEqual(mySetup.command("user add perms=student username=Momo"),
-                         "You need to assign a password to the new user",
-                         "Test failed. Should not have been able to add user without a role")
-        mySetup.command("logout")
-
-    # No username
-    def createNoUsername(self):
-        mySetup = Project()
-        mySetup.command("user login King")
-        self.assertEqual(mySetup.command("user add perms=student password=Hello"),
-                         "You need to assign a password to the new user",
-                         "Test failed. Should not have been able to add user without a role")
-        mySetup.command("logout")
-
-        # Test a successful add for each role
+    # Test a successful add for each role
     def createUserSuccess(self):
         mySetup = Project()
         mySetup.command("login King")
@@ -77,58 +52,23 @@ class TestSupervisor(unittest.TestCase):
                          "Momo successfully added", "user was not successfully added")
         mySetup.command("logout")
 
-    # user adding account is not a supervisor
-    def createNotSupervisor(self):
-
-        mySetup = Project()
-
-        mySetup.command("user login Momo")
-        self.assertEqual(mySetup.command("user add perms=student username=Tom password=Cream"), "Nono can't add users",
-                         "Test Failed. This user should not be able to add users")
-        mySetup.command("logout")
-
     # Add course #22
-    # Test to make sure Supervisor is logged in
-    def courseCorrectLogin(self):
-
-        mySetup = Project()
-
-        # Test no login
-        self.assertEqual(mySetup.command("course add CS-251"),
-                         "You need to login before you can create a course",
-                         "Test failed. Should not have been able to create a course without logging in")
-
-        # Test when student logs in
-        mySetup.command("login Mono Cram")
-        self.assertEqual(mySetup.command("course add CS-251"),
-                         "User not authorized to add course", "Test Failed. Student should not be able to add courses")
-        mySetup.command("logout")
-
     def courseSuccessAdd(self):
         mySetup = Project()
         mySetup.command("login King password1")
-        self.assertEqual(mySetup.command("course add CS-251"),
+        self.assertEqual(mySetup.command("course add dept=CS cnum=251"),
                          "Course Added: CS-251", "Test Failed. Course was not successfully added")
         mySetup.command("logout")
-
 
     # account edit by supervisor #30
     def accountEdit(self):
         mySetup = Project()
 
-        # Test no login
-        self.assertEqual(mySetup.command("user edit Nono role=TA"),
-                         "You need to login before you can edit a user",
-                         "Test failed. Should not have been able to edit user without logging in")
-        # Test student login
-        mySetup.command("login Mono Cram")
-        self.assertEqual(mySetup.command("user edit King role=TA"),
-                         "User not authorized to change role", "Test Failed. Student should not be able to edit roles")
-        mySetup.command("logout")
-
+        # edit role
         mySetup.command("login King password1")
-        self.assertEqual(mySetup.command("user edit Mono role=TA"),
-                         "Successfully changed Mono role to TA", "Test Failed. Role was not successfully changed")
+        self.assertEqual(mySetup.command("user edit Momo role=TA"),
+                         "Successfully changed Momo role to TA", "Test Failed. Role was not successfully changed")
+
 
     # Test different account changes
     def accountChanges(self):
@@ -145,7 +85,7 @@ class TestSupervisor(unittest.TestCase):
         mySetup = Project()
 
         mySetup.command("login King password1")
-        self.assertEqual(mySetup.command("user delete Lars"), "User successfully removed",
+        self.assertEqual(mySetup.command("user delete Lars"), "Lars successfully removed",
                          "User could not be removed successfully")
         mySetup.command("logout")
 
@@ -153,13 +93,6 @@ class TestSupervisor(unittest.TestCase):
 # Test that any user's ability to view a specific course #99
 class TestAll(unittest.TestCase):
 
-    def userLoggedIn(self):
-        mySetup = Project()
-
-        # Test to make sure user is logged in
-        self.assertEqual(mySetup.command("course view CS-417"),
-                         "You need to login before you can create a course",
-                         "Test failed. Should not have been able to create a course without logging in")
 
     # create course and test view with supervisor
     def successView(self):
