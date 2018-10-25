@@ -15,8 +15,27 @@
 
 class CommandParser:
 
+    # These two data sets contain the all the commands and their description. The first array is useful for testing if
+    # the parse function has been passed a valid command and the descriptions are useful for help and telling the user
+    # when they messed up a command call.
     commandList = ['login', 'logout', 'department', 'course', 'section', 'user', 'help', 'exit']
-    descriptionList = []  # Fill me later
+    descriptionList = {'login': "",
+                       'logout': "",
+                       'department': "",
+                       'course': "",
+                       'section': "",
+                       'user': "",
+                       'help': "",
+                       'exit': ""}
+
+    # This dictionary contains the a set of key values pairs where the key is the command name and the value is the
+    # class the handles all that. It contains department because im still not exactly clear how we're going to deal with
+    # the department command without a department manager (or if we even still need a department command). This is
+    # useful for formatting the strings to return when testing.
+    namesdict = {"user": "PersonManager",
+                 "course": "CourseManager",
+                 "section": "SectionManager",
+                 "department": "DepartmentManger"}
 
     uting = False  # Unit Testing
 

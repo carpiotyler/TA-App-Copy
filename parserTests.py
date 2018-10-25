@@ -8,7 +8,7 @@ from parser import CommandParser as cp
 
 
 class ParserTest(unittest.TestCase):
-    def setup(self):
+    def setUp(self):
         cp.uting = True
 
     def tearDown(self):
