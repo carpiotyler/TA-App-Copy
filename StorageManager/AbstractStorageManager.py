@@ -34,8 +34,10 @@ class AbstractStorageManager(ABC):
     def add_user(self, username, password): pass
     # Adds a user to the user list
 
+    @abstractmethod
     def get_course(self, dept, cnum): pass
     # returns an array representing the course requested, or None if nothing
 
+    @abstractmethod
     def get_user(self, username): pass
     # Returns an array representing the user requested, or None if nothing
