@@ -5,19 +5,19 @@ class AbstractStorageManager(ABC):
     # ################################################################################# #
     # The following classes are used for interacting with AbstractStorageManager        #
     # ################################################################################# #
-    class Course:
+    class course:
         dept = ""
         cnum = ""
         sections = []
         name = ""
         description = ""
 
-    class User:
+    class user:
         username = ""
         password = ""
         role = ""
 
-    class Section:
+    class section:
         dept = ""
         cnum = ""
         snum = ""
