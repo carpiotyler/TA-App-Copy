@@ -21,10 +21,10 @@ class AbstractStorageManager(ABC):
             self.role = str_role
 
     class Section:
-        def __init__(self, str_dept, str_cnum, strsnum):
+        def __init__(self, str_dept, str_cnum, str_snum):
             self.dept = str_dept
             self.cnum = str_cnum
-            self.snum = str_dept
+            self.snum = str_snum
 
     # ################################################################################# #
     # List of functional storage methods to be implemented by a data system             #
