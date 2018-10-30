@@ -5,22 +5,26 @@ class AbstractStorageManager(ABC):
     # ################################################################################# #
     # The following classes are used for interacting with AbstractStorageManager        #
     # ################################################################################# #
-    class course:
-        dept = ""
-        cnum = ""
-        sections = []
-        name = ""
-        description = ""
+    class Course:
 
-    class user:
-        username = ""
-        password = ""
-        role = ""
+        def __init__(self, str_dept, str_cnum, strarray_sections=[], str_name="", str_description=""):
+            self.dept = str_dept
+            self.cnum = str_cnum
+            self.sections = strarray_sections
+            self.name = str_name
+            self.description = str_description
 
-    class section:
-        dept = ""
-        cnum = ""
-        snum = ""
+    class User:
+        def __init(self, str_username, str_password="", str_role=""):
+            self.username = str_username
+            self.password = str_password
+            self.role = str_role
+
+    class Section:
+        def __init__(self, str_dept, str_cnum, strsnum):
+            self.dept = str_dept
+            self.cnum = str_cnum
+            self.snum = str_dept
 
     # ################################################################################# #
     # List of functional storage methods to be implemented by a data system             #
