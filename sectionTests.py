@@ -5,20 +5,17 @@ from sectionManager import sectionManager
 class sectionTest(unittest.TestCase):
 
     def setup(self):
-        course = CourseManager()
-        course.add("CS", "251")
-        set = sectionManager()
-    def test_add(self):
+        self.course = CourseManager()
+        self.course.add("CS", "251")
+        self.sec = sectionManager()
 
-        self.assertEquals(set.add("CS", "251", "401"), "Section 401 added to CS-251")
+    def test_add(self):
+        self.assertEquals(self.sec.add("CS", "251", "401"), "Section 401 added to CS-251")
 
     def test_alreadyExists(self):
-        set.add("CS", "251", "401")
-        set = sectionManager("CS", "251", "401")
-        self.assertEquals(set.add(), "Section 401 already exists in CS-251")
+        self.sec.add("CS", "251", "401")
+        self.assertEquals(self.sec.add("CS", "251", "401"), "Section 401 already exists in CS-251")
 
-    def test_infoMiss(self):
-        set
     # test if calling to add a section that's time conflicts with its lecture fails
     def test_timeConflict(self):
         pass
