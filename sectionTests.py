@@ -1,12 +1,15 @@
 import unittest
 from courseManager import CourseManager
 from sectionManager import sectionManager
+from userManager import UserManager
 
 class sectionTest(unittest.TestCase):
 
     def setup(self):
         self.course = CourseManager()
         self.course.add(dept="CS", cnum="251")
+        self.user.add("Bob")
+        self.user.add("Rob")
         self.sec = sectionManager()
 
     def test_add(self):
