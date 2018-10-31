@@ -1,13 +1,45 @@
 from StorageManager import myStorageManager
-import json
+import json, os
 
 
 class JSONStorageManager(myStorageManager.AbstractStorageManager):
 
-    def __init__(self, str_filename="default.json"):
-        self.file_name = str_filename
+    def __init__(self, str_file_name="default.json"):
+        self.file_name = str_file_name
 
-    def set_up(self): pass
+    def set_up(self, overwrite_files=False):
+        base_db_json = """
+            {
+                "courses":[
+                
+                ],
+                
+                "users":[
+                    {
+                        "username":"supervisor",
+                        "password":"123"
+                    }
+                ],
+                
+                "sections":[
+                
+                ]
+            }
+        """
+        try:
+            file = open(self.file_name)
+            file.close()
+            if overwrite_files:
+                print("Overwriting: " + self.file_name)
+                os.remove(self.file_name)
+            else:
+                return False
+        except FileNotFoundError:
+            pass
+        file = open(self.file_name, "w+")
+        file.write(base_db_json)
+        file.close()
+        return True
 
     def get_course(self, dept, cnum): pass
 
@@ -20,8 +52,3 @@ class JSONStorageManager(myStorageManager.AbstractStorageManager):
     def insert_section(self, section): pass
 
     def insert_user(self, user): pass
-
-
-database = JSONStorageManager("test.json")
-
-print(database.Course.cnum)

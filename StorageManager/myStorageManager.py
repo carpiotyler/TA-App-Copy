@@ -32,6 +32,7 @@ class AbstractStorageManager(ABC):
     @abstractmethod
     def set_up(self): pass
     # Sets up storage. JSON, Database, whatever. Also creates one user: username=supervisor password=1234 role=supervisor
+    # Returns true on successful setup false otherwise
 
     @abstractmethod
     def insert_course(self, course): pass
