@@ -8,12 +8,20 @@ class sectionTest(unittest.TestCase):
     def setup(self):
         self.course = CourseManager()
         self.course.add(dept="CS", cnum="251")
-        self.user.add("Bob")
-        self.user.add("Rob")
+        self.user.add("Bob", "Instructor")
+        self.user.add("Rob", "TA")
+        self.user.add("Randall Cobb", "Instructor")
         self.sec = sectionManager()
 
     def test_add(self):
         self.assertEquals(self.sec.add("CS", "251", "401"), "Section 401 added to CS-251")
+
+    def test_addNoInfo(self):
+        self.assertEquals(self.sec.add(dept="CS", cnum="251"), "No section was specified")
+        self.assertEquals(self.sec.add(dept="CS", cnum="251", ins="Bob"), "No section was specified")
+
+    def test_notQualified(self):
+        self.assertEquals(self.sec.add(dept="CS", cnum="251", snum="401", ins="Rob"), "Rob can't teach lectures")
 
     def test_alreadyExists(self):
         self.sec.add("CS", "251", "401")
