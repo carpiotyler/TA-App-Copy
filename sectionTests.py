@@ -1,12 +1,22 @@
 import unittest
-
-from sectionManager import Section
+from courseManager import CourseManager
+from sectionManager import sectionManager
 
 class sectionTest(unittest.TestCase):
 
     def setup(self):
-        set = Section("CS", "251", "401")
+        course = CourseManager()
+        course.add("CS", "251")
 
+    def test_add(self):
+        set = sectionManager("CS", "251", "401")
+        self.assertEquals(set.add(), "Section 401 added to CS-251")
+
+    def test_alreadyExists(self):
+        set = sectionManager("CS", "251", "401")
+        set.add()
+        set = sectionManager("CS", "251", "401")
+        self.assertEquals(set.add(), "Section 401 already exists in CS-251")
 
     # test if calling to add a section that's time conflicts with its lecture fails
     def test_timeConflict(self):
