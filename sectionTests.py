@@ -6,7 +6,7 @@ class sectionTest(unittest.TestCase):
 
     def setup(self):
         self.course = CourseManager()
-        self.course.add("CS", "251")
+        self.course.add(dept="CS", cnum="251")
         self.sec = sectionManager()
 
     def test_add(self):
