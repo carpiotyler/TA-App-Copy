@@ -1,11 +1,14 @@
 import unittest
-
+from courseManager import courseManager
 from sectionManager import Section
 
 class sectionTest(unittest.TestCase):
 
     def setup(self):
-        set = Section("CS", "251", "401")
+        course = courseManager()
+        course.add("CS", "251")
+        sec = Section("CS", "251", "401")
+        sec.add()
 
 
     # test if calling to add a section that's time conflicts with its lecture fails
@@ -14,6 +17,7 @@ class sectionTest(unittest.TestCase):
 
     # make sure you can't remove a lecture section that has discussions and lab sections attached
     def test_removeLecture(self):
+
         pass
 
     # test to make sure adding a section without a lecture can't be done
