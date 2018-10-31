@@ -36,9 +36,6 @@ class sectionTest(unittest.TestCase):
         self.assertEquals(self.sec.add("CS", "251", "801"), "CS-251 needs a lecture section before adding "
                                                             "disc/lab section")
 
-    # test that adding a new section with a TA/instructor does not create a conflict in the TA/instructors schedule
-    def test_scheduleConflict(self):
-        pass
 
     # make sure "section delete 801" can only delete a disc/lab section and doesn't delete anything else
     def test_delete(self):

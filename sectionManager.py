@@ -18,7 +18,3 @@ class sectionManager:
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
-    # retrieve other sections associated with this one
-    def getAssociated(self, dept=None, cnum=None, snum=None):
-        pass
-
