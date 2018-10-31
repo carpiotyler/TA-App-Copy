@@ -20,13 +20,10 @@ class sectionTest(unittest.TestCase):
     def test_timeConflict(self):
         pass
 
-    # make sure you can't remove a lecture section that has discussions and lab sections attached
-    def test_removeLecture(self):
-        pass
-
     # test to make sure adding a section without a lecture can't be done
     def test_discDependency(self):
-        pass
+        self.assertEquals(self.sec.add("CS", "251", "801"), "CS-251 needs a lecture section before adding "
+                                                            "disc/lab section")
 
     # test that adding a new section with a TA/instructor does not create a conflict in the TA/instructors schedule
     def test_scheduleConflict(self):
@@ -34,9 +31,17 @@ class sectionTest(unittest.TestCase):
 
     # make sure "section delete 801" can only delete a disc/lab section and doesn't delete anything else
     def test_delete(self):
-        pass
+        self.sec.add("CS", "251", "401")
+        self.sec.add("CS", "251", "801")
+        self.assertEquals(self.sec.delete("CS", "251", "401"), "Delete failed. Lecture could not be deleted "
+                                                               "because a discussion/lab depends on it")
 
     # test "section view secNum" command output
     def test_view(self):
         pass
+
+    def test_edit(self):
+        self.sec.add("CS", "251", "401", "Rob")
+        self.assertEquals(self.sec.edit("CS", "251", "401", "Bob"), "Successfully changed TA to Bob")
+        self.assertEquals(self.edit("CS", "251", "402", "Rob"), "Section does not exist")
 

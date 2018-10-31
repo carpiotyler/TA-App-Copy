@@ -3,25 +3,22 @@
 class sectionManager:
 
     # validates and adds to database if okay
-    def add(self, dept, cnum, snum):
+    def add(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
     # validates and deletes from database
-    def delete(self, dept, cnum, snum):
+    def delete(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
     # validates and copies information from database to report
-    def view(self, dept, cnum, snum):
+    def view(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
     # validates and takes given section and edits what is asked to edit
-    def edit(self, dept, cnum, snum):
+    def edit(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
     # retrieve other sections associated with this one
-    def getAssociated(self, dept, cnum, snum):
+    def getAssociated(self, dept=None, cnum=None, snum=None):
         pass
 
-    # get associated instructor/TA
-    def getInstructor(self, dept, cnum, snum):
-        pass
