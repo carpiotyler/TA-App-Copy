@@ -1,7 +1,8 @@
-# import courseManager
-# import sectionManager
-# import userManager
-# import authManager
+from user_manager   import UserManager    as UM
+from sectionManager import sectionManager as SM
+from courseManager  import CourseManager  as CM
+from auth_manager   import AuthManager    as AM
+from user_manager   import User
 
 # This is the command parser class, used to bridge the gap between the CLI and our managers so the managers are able to
 # work with the website version (or whatever is next). This class has only static methods and only one public function,
@@ -20,10 +21,9 @@ class CommandParser:
     # These two data sets contain the all the commands and their description. The first array is useful for testing if
     # the parse function has been passed a valid command and the descriptions are useful for help and telling the user
     # when they messed up a command call.
-    commandList = ['login', 'logout', 'department', 'course', 'section', 'user', 'help', 'exit']
+    commandList = ['login', 'logout', 'course', 'section', 'user', 'help', 'exit']
     descriptionList = {'login': "",
                        'logout': "",
-                       'department': "",
                        'course': "",
                        'section': "",
                        'user': "",
@@ -34,40 +34,76 @@ class CommandParser:
     # class the handles all that. It contains department because im still not exactly clear how we're going to deal with
     # the department command without a department manager (or if we even still need a department command). This is
     # useful for formatting the strings to return when testing.
-    namesdict = {"user": "PersonManager",
+    namesdict = {"user": "UserManager",
                  "course": "CourseManager",
-                 "section": "SectionManager",
+                 "section": "sectionManager",
                  "department": "DepartmentManger"}
 
-    uting = False  # Unit Testing
+    def __init__(self, uting: bool = False):
+        self.user = None
+        self.uting = uting
+        self.commandList = CommandParser.commandList
+
+        self.authmgr = AM()
+        self.usermgr = UM()
+
+    def currentUser(self):
+        return self.user
 
     # The only public function of this class that will either call other helper methods to parse any of the larger
     # commands or if the command is simple it parses it itself. Case does not matter for the command, fields won't
     # lose their case.
-    @staticmethod
-    def parse(command, user='default', testing=uting):
-        return ""
+    def parse(self, command: str)->str:
+        cmdarr = command.split(" ")
+        cmdarr[0] = cmdarr[0].lower()
+
+        if(len(cmdarr) == 0 or not (cmdarr[0] in CommandParser.commandList)):
+            return "Invalid Command"
+
+        elif(cmdarr[0] == 'course'):
+            return self.parseCourse(command)
+
+        elif(cmdarr[0] == 'section'):
+            return self.parseSection(command)
+
+        elif(cmdarr[0] == 'user'):
+            return self.parseUser(command)
+
+        elif(cmdarr[0] == 'exit'):
+            exit() # This just stops the whole program but whatever
+
+        elif(cmdarr[0] == 'login'):
+            if(len(cmdarr) < 3):
+                return "Not enough fields to login"
+
+            self.user = self.authmgr.login(cmdarr[1], cmdarr[2])
+
+            return "Success"
+
+        elif(cmdarr[0] == 'logout'):
+            if(self.user is None):
+                return "Not currently logged in"
+
+            self.authmgr.logout(self.user.username)
+
+            self.user = None
+
+            return "Logged out"
+
+        else:
+            return "Invalid command"
 
     # A helper method to just be used inside this class to parse one of the major commands, course. This also checks
     # auth to insure that the user has perms to do what they're trying to do.
-    @staticmethod
-    def parseCourse(command, user='default', testing=uting):
+    def parseCourse(self, command:str)->str:
         return ""
 
     # A helper method to just be used inside this class to parse one of the major commands, user. This also checks
     # auth to insure that the user has perms to do what they're trying to do.
-    @staticmethod
-    def parseUser(command, user='default', testing=uting):
+    def parseUser(self, command:str)->str:
         return ""
 
     # A helper method to just be used inside this class to parse one of the major commands, section. This also checks
     # auth to insure that the user has perms to do what they're trying to do.
-    @staticmethod
-    def parseSection(command, user='default', testing=uting):
-        return ""
-
-    # A helper method to just be used inside this class to parse one of the major commands, department. This also checks
-    # auth to insure that the user has perms to do what they're trying to do.
-    @staticmethod
-    def parseDept(command, user='default', testing=uting):
+    def parseSection(self, command:str)->str:
         return ""
