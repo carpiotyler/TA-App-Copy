@@ -96,21 +96,3 @@ class Section(SectionManager):
             return False
         else:
             return True
-
-    def getDepartment(self):
-        return self.department
-
-    def getCourse(self):
-        return self.course
-
-    def getSectionNum(self):
-        return self.sectionNum
-
-    def setDepartment(self, dept):
-        self.department = dept
-
-    def setCourse(self, course):
-        self.course = course
-
-    def setSectionNum(self, snum):
-        self.sectionNum = snum
