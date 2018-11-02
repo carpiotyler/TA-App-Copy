@@ -3,7 +3,9 @@
             {
                 "dept" : "CS",
                 "cnum" : "351",
-                "sections" : ["401"]
+                "sections" : ["401"],
+                "name" : "",
+                "description" : ""
             }
         ],
         "users": [

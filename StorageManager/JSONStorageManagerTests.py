@@ -107,7 +107,9 @@ class JSONStorageManagerTests(unittest.TestCase):
                     {
                         "dept" : "CS",
                         "cnum" : "351",
-                        "sections" : ["401"]
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
                     }
                 ],
                 "users": [
@@ -128,16 +130,122 @@ class JSONStorageManagerTests(unittest.TestCase):
         """
         test_json = json.loads(str_test_db)
         json.dump(test_json, self.file)
+        self.file.close()
         response_course = self.db.get_course("CS", "351")
         self.assertIsNotNone(response_course, "Response shouldn't be none!")
         self.assertEqual(response_course.dept, "CS")
         self.assertEqual(response_course.cnum, "351")
-        self.assertTrue(response_course.sections.contains("401"))
+        self.assertTrue("401" in response_course.sections)
+        # Testing on nonexistent courses
+        none_course = self.db.get_course("MATH", "240")
+        self.assertIsNone(none_course, "Shouldn't be in database!")
+
+    def test_get_course_all(self):
+        # Testing get_course with no dept or cnum (Get all courses)
+        self.file = open("test.json", "w")
+        str_test_db = """
+            {
+                "courses": [
+                    {
+                        "dept" : "CS",
+                        "cnum" : "351",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    },
+                    {
+                        "dept" : "MATH",
+                        "cnum" : "240",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    }
+                ],
+                "users": [
+                    {
+                        "username" : "JTB",
+                        "password" : "andrew"
+                    }
+                ],
+                "sections": [
+                    {
+                        "dept": "CS",
+                        "cnum": "351",
+                        "snum": "401",
+                        "instructor" : ""
+                    }
+                ]
+            }
+        """
+        test_json = json.loads(str_test_db)
+        json.dump(test_json, self.file)
         self.file.close()
+        all_courses = self.db.get_course()
+        self.assertIsNotNone(all_courses)
+        self.assertTrue(isinstance(all_courses, list))
+        self.assertTrue(len(all_courses), 2)
 
-    def test_get_course_all(self): pass
-
-    def test_get_course_just_dept(self): pass
+    def test_get_course_just_dept(self):
+        # Testing that get_course called with just a dept returns all courses with that dept
+        self.file = open("test.json", "w")
+        str_test_db = """
+            {
+                "courses": [
+                    {
+                        "dept" : "CS",
+                        "cnum" : "351",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    },
+                    {
+                        "dept" : "MATH",
+                        "cnum" : "240",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    },
+                    {
+                        "dept" : "CS",
+                        "cnum" : "361",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    },
+                    {
+                        "dept" : "CS",
+                        "cnum" : "317",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    }
+                ],
+                "users": [
+                    {
+                        "username" : "JTB",
+                        "password" : "andrew"
+                    }
+                ],
+                "sections": [
+                    {
+                        "dept": "CS",
+                        "cnum": "351",
+                        "snum": "401",
+                        "instructor" : ""
+                    }
+                ]
+            }
+        """
+        test_json = json.loads(str_test_db)
+        json.dump(test_json, self.file)
+        self.file.close()
+        all_courses = self.db.get_course("CS")
+        self.assertIsNotNone(all_courses)
+        self.assertTrue(isinstance(all_courses, list))
+        self.assertTrue(len(all_courses), 3)
+        # Testing on nonexistent depts
+        none_course = self.db.get_course("LING")
+        self.assertIsNone(none_course, "Shouldn't be in database!")
 
     def test_insert_user(self): pass
 
