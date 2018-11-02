@@ -1,6 +1,6 @@
 import unittest
 from courseManager import CourseManager
-from sectionManager import SectionManager
+from sectionManager import mySectionManager, Section
 from user_Manager import UserManager
 
 class sectionTest(unittest.TestCase):
@@ -12,7 +12,7 @@ class sectionTest(unittest.TestCase):
         self.user.add("Rob", "TA")
         self.user.add("Randall Cobb", "Instructor")
         self.course.add(dept="CS", cnum="351", ta="Bob", secton="401")
-        self.sec = SectionManager()
+        self.sec = mySectionManager()
 
     def test_add(self):
         self.assertEquals(self.sec.add("CS", "251", "401"), "Section 401 added to CS-251")

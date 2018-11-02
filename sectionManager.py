@@ -21,7 +21,8 @@ class SectionManager(abc.ABC):
         pass
 
 
-class Section(SectionManager):
+class mySectionManager(SectionManager):
+
 
     # validates and adds to database if okay
     def add(self, dept=None, cnum=None, snum=None, ins=None):
@@ -36,7 +37,8 @@ class Section(SectionManager):
         if self.exists(db, dept, cnum, snum):
             return "Section already exists"
 
-        db.insert_section(self)
+        sec = Section(dept, cnum, snum)
+        db.insert_section(sec)
 
         """Do you prefer to create a string prior to return or is this okay?"""
         return "Section Added: " + dept + "-" + cnum + "-" + snum
@@ -56,6 +58,7 @@ class Section(SectionManager):
         if result is None:
             return "Could not find" + dept + "-" + cnum + "-" + snum
         else:
+
             return result
 
     # validates and takes given section and edits what is asked to edit
@@ -96,3 +99,29 @@ class Section(SectionManager):
             return False
         else:
             return True
+
+
+class Section:
+
+    def __init__(self, dept=None, cnum=None, snum=None):
+        self.department = dept
+        self.courseNum = cnum
+        self.sectionNum = snum
+
+    def getDepartment(self):
+        return self.department
+
+    def getCourse(self):
+        return self.courseNum
+
+    def getSectionNum(self):
+        return self.sectionNum
+
+    def setDepartment(self, dept):
+        self.department = dept
+
+    def setCourse(self, course):
+        self.courseNum = course
+
+    def setSectionNum(self, snum):
+        self.sectionNum = snum
