@@ -9,6 +9,7 @@ class JSONStorageManager(storage):
         self.file_name = str_file_name
 
     def set_up(self, overwrite_files=False):
+        # Below is the base json format for an empty database
         base_db_json = """
             {
                 "courses":[
@@ -29,15 +30,20 @@ class JSONStorageManager(storage):
             }
         """
         try:
+            # This try is testing for if the database file exists or not
             file = open(self.file_name)
             file.close()
+            # In the case a file exists, calling setup could be bad (Essentially deleting a database). We check overwrite perms here
             if overwrite_files:
                 print("Overwriting: " + self.file_name)
                 os.remove(self.file_name)
             else:
+                # No database was setup, false returned
                 return False
         except FileNotFoundError:
             pass
+
+        # Writing the base JSON to our file database
         file = open(self.file_name, "w+")
         file.write(base_db_json)
         file.close()
@@ -49,6 +55,7 @@ class JSONStorageManager(storage):
         json_database = json.load(file)
         file.close()
 
+        # Please note the difference between dict_course (Python Dict from json) and course_course (database interfacing type)
         if len(dept) == 0 and len(cnum) == 0:
             # Getting all courses and returning as list
             ret_vals = []
@@ -58,6 +65,7 @@ class JSONStorageManager(storage):
                 course_course.description = dict_course["description"]
                 course_course.name = dict_course["name"]
                 ret_vals.append(course_course)
+            # This check maintains the practice that if no course exists, return None. Clunky but useful.
             if len(ret_vals) > 0:
                 return ret_vals
         elif len(cnum) == 0:
@@ -70,6 +78,7 @@ class JSONStorageManager(storage):
                     course_course.description = dict_course["description"]
                     course_course.name = dict_course["name"]
                     ret_vals.append(course_course)
+            # This check maintains the practice that if no course exists, return None. Clunky but useful.
             if len(ret_vals) > 0:
                 return ret_vals
         else:
