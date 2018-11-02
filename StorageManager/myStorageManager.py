@@ -21,10 +21,11 @@ class AbstractStorageManager(ABC):
             self.role = str_role
 
     class Section:
-        def __init__(self, str_dept, str_cnum, str_snum):
+        def __init__(self, str_dept, str_cnum, str_snum, str_instructor):
             self.dept = str_dept
             self.cnum = str_cnum
             self.snum = str_snum
+            self.instructor = str_instructor
 
     # ################################################################################# #
     # List of functional storage methods to be implemented by a data system             #
@@ -52,11 +53,15 @@ class AbstractStorageManager(ABC):
     @abstractmethod
     def get_course(self, dept, cnum): pass
     # Builds a Course object that has this dept and cnum (plus other data from database) and returns it. None if no entry matches.
+    # Returns a list of Course Objects that match dept if cnum is not specified. If dept and cnum are both blank, returns all courses as a list.
 
     @abstractmethod
     def get_user(self, username): pass
     # Builds a User object that has this username (plus other data from database) and returns it. None if no entry matches
+    # Returns a list of User objects if username is not specified.
 
     @abstractmethod
     def get_section(self, dept, cnum, snum): pass
     # Builds a Section object that has this username (plus other data from database) and returns it. None if no entry matches
+    # Returns a list of Section Objects that match (dept, cnum) if snum is not specified (All sections of a course). Returns a list that
+    # matches dept only if (cnum, snum) are not specified. Returns all sections if cnum, dept, snum are all blank.

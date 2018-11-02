@@ -4,7 +4,7 @@ import json, os
 
 class JSONStorageManager(myStorageManager.AbstractStorageManager):
 
-    def __init__(self, str_file_name="default.json"):
+    def __init__(self, str_file_name="database.json"):
         self.file_name = str_file_name
 
     def set_up(self, overwrite_files=False):
@@ -17,7 +17,8 @@ class JSONStorageManager(myStorageManager.AbstractStorageManager):
                 "users":[
                     {
                         "username":"supervisor",
-                        "password":"123"
+                        "password":"123",
+                        "role":"supervisor"
                     }
                 ],
                 
@@ -41,11 +42,11 @@ class JSONStorageManager(myStorageManager.AbstractStorageManager):
         file.close()
         return True
 
-    def get_course(self, dept, cnum): pass
+    def get_course(self, dept = "", cnum = ""): pass
 
-    def get_section(self, dept, cnum, snum): pass
+    def get_section(self, dept, cnum = "", snum = ""): pass
 
-    def get_user(self, username): pass
+    def get_user(self, username = ""): pass
 
     def insert_course(self, course): pass
 
