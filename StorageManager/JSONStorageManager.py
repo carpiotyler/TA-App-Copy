@@ -96,7 +96,29 @@ class JSONStorageManager(storage):
 
     def get_user(self, username = ""): pass
 
-    def insert_course(self, course): pass
+    def insert_course(self, course):
+        if isinstance(course, storage.Course):
+            file = open(self.file_name)
+            json_database = json.load(file)
+            file.close()
+            # Checking for if the course is in databse via dept&cnum, overwriting if one matches
+            for dict_course in json_database["courses"]:
+                if dict_course["dept"] == course.dept and dict_course["cnum"] == course.cnum:
+                    dict_course["sections"] = course.sections.copy()
+                    dict_course["description"] = course.description
+                    dict_course["name"] = course.name
+                    file = open(self.file_name, "w")
+                    json.dump(json_database, file)
+                    file.close()
+                    return
+
+            # We make it here if a course doesn't exist yet
+            new_dict_course = {'dept' : course.dept, 'cnum' : course.cnum  , 'sections' : course.sections.copy(), 'name' : course.name, 'description' : course.description}
+            json_database["courses"].append(new_dict_course)
+            file = open(self.file_name, "w")
+            json.dump(json_database, file, indent=2)
+            file.close()
+            return
 
     def insert_section(self, section): pass
 

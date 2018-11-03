@@ -93,9 +93,9 @@ class JSONStorageManagerTests(unittest.TestCase):
         self.assertIsNotNone(response_course)
         self.assertEquals(response_course.name, "Data Structures and Algorithms")
         self.assertEqual(len(response_course.sections), 3)
-        self.assertTrue(response_course.sections.contains("401"))
-        self.assertTrue(response_course.sections.contains("801"))
-        self.assertTrue(response_course.sections.contains("802"))
+        self.assertTrue("401" in response_course.sections)
+        self.assertTrue("801" in response_course.sections)
+        self.assertTrue("802" in response_course.sections)
         os.remove("test.json")
 
     def test_get_course(self):
