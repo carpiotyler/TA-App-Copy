@@ -1,12 +1,15 @@
 class CourseManager:
-    def add(self, dept=None, cnum=None, ta=None, secton=None):
+    def __init__(self):
         pass
 
-    def delete(self, dept=None, cnum=None, ta=None, secton=None):
+    def add(self, dept=None, cnum=None, ta=None, section=None):
         pass
 
-    def edit(self, dept=None, cnum=None, ta=None, secton=None):
+    def delete(self, dept=None, cnum=None, ta=None, section=None):
         pass
 
-    def view(self, dept=None, cnum=None, ta=None, secton=None):
+    def edit(self, dept=None, cnum=None, ta=None, section=None):
+        pass
+
+    def view(self, dept=None, cnum=None, ta=None, section=None):
         pass
