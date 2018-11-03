@@ -330,14 +330,88 @@ class JSONStorageManagerTests(unittest.TestCase):
         self.assertEqual(response_user.role, "")
 
         # Testing on nonexistent user
-        none_course = self.db.get_user("rock")
-        self.assertIsNone(none_course, "Shouldn't be in database!")
+        none_user = self.db.get_user("rock")
+        self.assertIsNone(none_user, "Shouldn't be in database!")
 
-    def test_insert_section(self): pass
+    def test_insert_section(self):
+        # Again, we don't validate incoming data, we just insert the incoming section object to the json database
+        self.db.set_up()
+        test_section1 = jsm.JSONStorageManager.Section("CS", "351", "401")
+        self.db.insert_section(test_section1)
+        response_section = self.db.get_section("CS", "351", "401")
+        self.assertIsNotNone(response_section)
+        self.assertTrue(isinstance(response_section, jsm.JSONStorageManager.Section))
+        self.assertEqual(response_section.dept, "CS")
+        self.assertEqual(response_section.cnum, "351")
+        self.assertEqual(response_section.snum, "401")
+        self.assertEqual(response_section.instructor, "")
 
-    def test_insert_section_edit(self): pass
+        # Testing inserting a non section object, shouldn't cause a runtime exception
+        try:
+            self.db.insert_section("CS-351-401")
+        except:
+            self.assertTrue(False, "Must not throw an exception! Insert simply ignores all non Section objects!")
+        os.remove("test.json")
 
-    def test_get_section(self): pass
+    def test_insert_section_edit(self):
+        # Tests the "edit" functionality of insert_section
+        self.db.set_up()
+        test_section1 = jsm.JSONStorageManager.Section("CS", "351", "401")
+        self.db.insert_section(test_section1)
+        test_section1.instructor = "Boyland"
+        self.db.insert_section(test_section1)
+        response_section = self.db.get_section("CS", "351", "401")
+        self.assertIsNotNone(response_section)
+        self.assertEqual(response_section.dept, "CS")
+        self.assertEqual(response_section.cnum, "351")
+        self.assertEqual(response_section.snum, "401")
+        self.assertEqual(response_section.instructor, "Boyland")
+        os.remove("test.json")
+
+    def test_get_section(self):
+        # Tests basic functionality of get_section. Get out what we put in.
+        self.file = open("test.json", "w")
+        str_test_db = """
+            {
+                "courses": [
+                    {
+                        "dept" : "CS",
+                        "cnum" : "351",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    }
+                ],
+                "users": [
+                    {
+                        "username" : "JTB",
+                        "password" : "andrew",
+                        "role" : ""
+                    }
+                ],
+                "sections": [
+                    {
+                        "dept": "CS",
+                        "cnum": "351",
+                        "snum": "401",
+                        "instructor" : "Boyland"
+                    }
+                ]
+            }
+        """
+        test_json = json.loads(str_test_db)
+        json.dump(test_json, self.file)
+        self.file.close()
+        response_section = self.db.get_section("CS", "351", "401")
+        self.assertIsNotNone(response_section, "Response shouldn't be none!")
+        self.assertEqual(response_section.dept, "CS")
+        self.assertEqual(response_section.cnum, "351")
+        self.assertEqual(response_section.snum, "401")
+        self.assertEqual(response_section.instructor, "Boyland")
+
+        # Testing on nonexistent section
+        none_section = self.db.get_section("MATH", "240", "401")
+        self.assertIsNone(none_section, "Shouldn't be in database!")
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(JSONStorageManagerTests)

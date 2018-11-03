@@ -63,5 +63,6 @@ class AbstractStorageManager(ABC):
     @abstractmethod
     def get_section(self, dept, cnum, snum): pass
     # Builds a Section object that has this username (plus other data from database) and returns it. None if no entry matches
-    # Returns a list of Section Objects that match (dept, cnum) if snum is not specified (All sections of a course). Returns a list that
-    # matches dept only if (cnum, snum) are not specified. Returns all sections if cnum, dept, snum are all blank.
+
+    # (NOT IMPLEMENTED/MAY NEVER BE NECESSARY) Returns a list of Section Objects that match (dept, cnum) if snum is not specified (All sections of a course). Returns a list that
+    # (NOT IMPLEMENTED/MAY NEVER BE NECESSARY) Matches dept only if (cnum, snum) are not specified. Returns all sections if cnum, dept, snum are all blank.

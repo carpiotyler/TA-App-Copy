@@ -92,7 +92,19 @@ class JSONStorageManager(storage):
                     return course_course
         return None
 
-    def get_section(self, dept, cnum = "", snum = ""): pass
+    def get_section(self, dept, cnum, snum):
+        # Importing database from json(self.file_name)
+        file = open(self.file_name)
+        json_database = json.load(file)
+        file.close()
+
+        # Getting a section and returning it, or returning none
+        for dict_section in json_database["sections"]:
+            if dict_section["dept"] == dept and dict_section["cnum"] == cnum and dict_section["snum"] == snum:
+                section_section = storage.Section(dept, cnum, snum)
+                section_section.instructor = dict_section["instructor"]
+                return section_section
+        return None
 
     def get_user(self, username = ""):
         # Importing database from json(self.file_name)
@@ -115,6 +127,7 @@ class JSONStorageManager(storage):
             file = open(self.file_name)
             json_database = json.load(file)
             file.close()
+
             # Checking for if the course is in database via dept&cnum, overwriting if one matches
             for dict_course in json_database["courses"]:
                 if dict_course["dept"] == course.dept and dict_course["cnum"] == course.cnum:
@@ -134,7 +147,29 @@ class JSONStorageManager(storage):
             file.close()
             return
 
-    def insert_section(self, section): pass
+    def insert_section(self, section):
+        # Inserting a section objects data into JSON
+        if isinstance(section, storage.Section):
+            file = open(self.file_name)
+            json_database = json.load(file)
+            file.close()
+
+            # Checking for if the section is in database via dept&cnum&snum, overwriting if one matches
+            for dict_section in json_database["sections"]:
+                if dict_section["dept"] == section.dept and dict_section["cnum"] == section.cnum and dict_section["snum"] == section.snum:
+                    dict_section["instructor"] = section.instructor
+                    file = open(self.file_name, "w")
+                    json.dump(json_database, file, indent=4)
+                    file.close()
+                    return
+
+            # We make it here if a section doesn't exist yet
+            new_dict_section = {'dept' : section.dept, 'cnum' : section.cnum  , 'snum' : section.snum, 'instructor' : section.instructor}
+            json_database["sections"].append(new_dict_section)
+            file = open(self.file_name, "w")
+            json.dump(json_database, file, indent=4)
+            file.close()
+            return
 
     def insert_user(self, user):
         # Inserting a user objects data into JSON
@@ -142,6 +177,7 @@ class JSONStorageManager(storage):
             file = open(self.file_name)
             json_database = json.load(file)
             file.close()
+
             # Checking for if the user is in database via username, overwriting if one matches
             for dict_user in json_database["users"]:
                 if dict_user["username"] == user.username:
