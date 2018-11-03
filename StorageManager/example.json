@@ -11,7 +11,8 @@
         "users": [
             {
                 "username" : "JTB",
-                "password" : "andrew"
+                "password" : "andrew",
+                "role" : ""
             }
         ],
         "sections": [

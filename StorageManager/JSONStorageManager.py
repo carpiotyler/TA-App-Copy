@@ -94,21 +94,35 @@ class JSONStorageManager(storage):
 
     def get_section(self, dept, cnum = "", snum = ""): pass
 
-    def get_user(self, username = ""): pass
+    def get_user(self, username = ""):
+        # Importing database from json(self.file_name)
+        file = open(self.file_name)
+        json_database = json.load(file)
+        file.close()
+
+        # Getting a user and returning it, or returning none
+        for dict_user in json_database["users"]:
+            if dict_user["username"] == username:
+                user_user = storage.User(username)
+                user_user.password = dict_user["password"]
+                user_user.role = dict_user["role"]
+                return user_user
+        return None
 
     def insert_course(self, course):
+        # Inserting a course objects data into JSON
         if isinstance(course, storage.Course):
             file = open(self.file_name)
             json_database = json.load(file)
             file.close()
-            # Checking for if the course is in databse via dept&cnum, overwriting if one matches
+            # Checking for if the course is in database via dept&cnum, overwriting if one matches
             for dict_course in json_database["courses"]:
                 if dict_course["dept"] == course.dept and dict_course["cnum"] == course.cnum:
                     dict_course["sections"] = course.sections.copy()
                     dict_course["description"] = course.description
                     dict_course["name"] = course.name
                     file = open(self.file_name, "w")
-                    json.dump(json_database, file)
+                    json.dump(json_database, file, indent=4)
                     file.close()
                     return
 
@@ -116,10 +130,32 @@ class JSONStorageManager(storage):
             new_dict_course = {'dept' : course.dept, 'cnum' : course.cnum  , 'sections' : course.sections.copy(), 'name' : course.name, 'description' : course.description}
             json_database["courses"].append(new_dict_course)
             file = open(self.file_name, "w")
-            json.dump(json_database, file, indent=2)
+            json.dump(json_database, file, indent=4)
             file.close()
             return
 
     def insert_section(self, section): pass
 
-    def insert_user(self, user): pass
+    def insert_user(self, user):
+        # Inserting a user objects data into JSON
+        if isinstance(user, storage.User):
+            file = open(self.file_name)
+            json_database = json.load(file)
+            file.close()
+            # Checking for if the user is in database via username, overwriting if one matches
+            for dict_user in json_database["users"]:
+                if dict_user["username"] == user.username:
+                    dict_user["password"] = user.password
+                    dict_user["role"] = user.role
+                    file = open(self.file_name, "w")
+                    json.dump(json_database, file, indent=4)
+                    file.close()
+                    return
+
+            # We make it here if a user doesn't exist yet
+            new_dict_user = {'username' : user.username, 'password' : user.password  , 'role' : user.role}
+            json_database["users"].append(new_dict_user)
+            file = open(self.file_name, "w")
+            json.dump(json_database, file, indent=4)
+            file.close()
+            return

@@ -15,7 +15,7 @@ class AbstractStorageManager(ABC):
             self.description = str_description
 
     class User:
-        def __init(self, str_username, str_password="", str_role=""):
+        def __init__(self, str_username, str_password="", str_role=""):
             self.username = str_username
             self.password = str_password
             self.role = str_role
@@ -48,7 +48,7 @@ class AbstractStorageManager(ABC):
     @abstractmethod
     def insert_section(self, section): pass
     # Inserts a Section to the user list, overwriting if it exists. Does not error check for valid data!
-    # Does not validate data! Simply makes sure it has received a user object then inserts it to the database.
+    # Does not validate data! Simply makes sure it has received a section object then inserts it to the database.
 
     @abstractmethod
     def get_course(self, dept, cnum): pass

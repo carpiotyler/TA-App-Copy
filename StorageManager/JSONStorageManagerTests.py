@@ -79,6 +79,12 @@ class JSONStorageManagerTests(unittest.TestCase):
         self.assertEqual(response_course.cnum, "351")
         self.assertIsNotNone(response_course.sections)
         self.assertTrue(isinstance(response_course.sections, list), "sections parameter of any returned course must be a list")
+
+        # Testing inserting a non course object, shouldn't cause a runtime exception
+        try:
+            self.db.insert_course("351")
+        except:
+            self.assertTrue(False, "Must not throw an exception! Insert simply ignores all non Course objects!")
         os.remove("test.json")
 
     def test_insert_course_edit(self):
@@ -164,7 +170,8 @@ class JSONStorageManagerTests(unittest.TestCase):
                 "users": [
                     {
                         "username" : "JTB",
-                        "password" : "andrew"
+                        "password" : "andrew",
+                        "role" : ""
                     }
                 ],
                 "sections": [
@@ -223,7 +230,8 @@ class JSONStorageManagerTests(unittest.TestCase):
                 "users": [
                     {
                         "username" : "JTB",
-                        "password" : "andrew"
+                        "password" : "andrew",
+                        "role" : ""
                     }
                 ],
                 "sections": [
@@ -247,11 +255,83 @@ class JSONStorageManagerTests(unittest.TestCase):
         none_course = self.db.get_course("LING")
         self.assertIsNone(none_course, "Shouldn't be in database!")
 
-    def test_insert_user(self): pass
+    def test_insert_user(self):
+        # Again, we don't validate incoming data, we just insert the incoming user object to the json database
+        self.db.set_up()
+        test_user1 = jsm.JSONStorageManager.User("rock", "password")
+        self.db.insert_user(test_user1)
+        response_user = self.db.get_user("rock")
+        self.assertIsNotNone(response_user)
+        self.assertTrue(isinstance(response_user, jsm.JSONStorageManager.User))
+        self.assertEqual(response_user.username, "rock")
+        self.assertEqual(response_user.password, "password")
+        self.assertEqual(response_user.role, "")
 
-    def test_insert_user_edit(self): pass
+        # Testing inserting a non user object, shouldn't cause a runtime exception
+        try:
+            self.db.insert_user("rock")
+        except:
+            self.assertTrue(False, "Must not throw an exception! Insert simply ignores all non User objects!")
+        os.remove("test.json")
 
-    def test_get_user(self): pass
+    def test_insert_user_edit(self):
+        # Tests the "edit" functionality of insert_user
+        self.db.set_up()
+        test_user1 = jsm.JSONStorageManager.User("rock", "password")
+        self.db.insert_user(test_user1)
+        test_user1.password = "123"
+        test_user1.role = "admin"
+        self.db.insert_user(test_user1)
+        response_user = self.db.get_user("rock")
+        self.assertIsNotNone(response_user)
+        self.assertEqual(response_user.username, "rock")
+        self.assertEqual(response_user.password, "123")
+        self.assertEqual(response_user.role, "admin")
+        os.remove("test.json")
+
+    def test_get_user(self):
+        # Tests basic functionality of get_user. Get out what we put in.
+        self.file = open("test.json", "w")
+        str_test_db = """
+            {
+                "courses": [
+                    {
+                        "dept" : "CS",
+                        "cnum" : "351",
+                        "sections" : ["401"],
+                        "name" : "",
+                        "description" : ""
+                    }
+                ],
+                "users": [
+                    {
+                        "username" : "JTB",
+                        "password" : "andrew",
+                        "role" : ""
+                    }
+                ],
+                "sections": [
+                    {
+                        "dept": "CS",
+                        "cnum": "351",
+                        "snum": "401",
+                        "instructor" : ""
+                    }
+                ]
+            }
+        """
+        test_json = json.loads(str_test_db)
+        json.dump(test_json, self.file)
+        self.file.close()
+        response_user = self.db.get_user("JTB")
+        self.assertIsNotNone(response_user, "Response shouldn't be none!")
+        self.assertEqual(response_user.username, "JTB")
+        self.assertEqual(response_user.password, "andrew")
+        self.assertEqual(response_user.role, "")
+
+        # Testing on nonexistent user
+        none_course = self.db.get_user("rock")
+        self.assertIsNone(none_course, "Shouldn't be in database!")
 
     def test_insert_section(self): pass
 
