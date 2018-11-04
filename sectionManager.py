@@ -1,4 +1,4 @@
-from StorageManager import JSONStorageManager as jsm
+from JSONStorageManager import JSONStorageManager as jsm
 import abc
 
 
@@ -20,28 +20,25 @@ class SectionManager(abc.ABC):
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
-
 class mySectionManager(SectionManager):
 
+    def __init__(self):
+        self.db = jsm("section.json")
 
     # validates and adds to database if okay
     def add(self, dept=None, cnum=None, snum=None, ins=None):
-
-        """Don't know what file to write to"""
-        db = jsm.JSONStorageManager("section.json")
 
         # check if user inputs information needed for adding
         invalid = self.actionHelper(dept, cnum, snum, "addition")
         if invalid != "okay":
             return invalid
-        if self.exists(db, dept, cnum, snum):
+        if self.exists(self.db, dept, cnum, snum):
             return "Section already exists"
 
-        sec = Section(dept, cnum, snum)
-        db.insert_section(sec)
+        sec = self.db.Section(dept, cnum, snum)
+        self.db.insert_section(sec)
 
-        """Do you prefer to create a string prior to return or is this okay?"""
-        return "Section Added: " + sec.toString()
+        return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor= " + ins
 
     # validates and deletes from database
     def delete(self, dept=None, cnum=None, snum=None, ins=None):
@@ -55,13 +52,13 @@ class mySectionManager(SectionManager):
         if invalid != "okay":
             return invalid
 
-        """Check if """
-        db = jsm.JSONStorageManager("section.json")
-        result = db.get_section(dept, cnum, snum)
+        """Check if Section exists in the database and return"""
+
+        result = self.db.get_section(dept, cnum, snum)
         if result is None:
             return "Could not find" + dept + "-" + cnum + "-" + snum
         else:
-            return result.toString()
+            return result.dept + "-" + result.cnum + "-" + result.snum + "instructor= " + result.instructor
 
     # validates and takes given section and edits what is asked to edit
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
@@ -78,6 +75,7 @@ class mySectionManager(SectionManager):
         return switch.get(None, "okay")
 
     # check if number format is correct (e.g. labs should be 801, discussions 601, lectures 401)
+    """Specific requirements for section numbers aren't implemented yet"""
     def valNum(self):
         pass
 
@@ -98,32 +96,3 @@ class mySectionManager(SectionManager):
             return False
         else:
             return True
-
-
-class Section:
-
-    def __init__(self, dept=None, cnum=None, snum=None):
-        self.department = dept
-        self.courseNum = cnum
-        self.sectionNum = snum
-
-    def getDepartment(self):
-        return self.department
-
-    def getCourse(self):
-        return self.courseNum
-
-    def getSectionNum(self):
-        return self.sectionNum
-
-    def setDepartment(self, dept):
-        self.department = dept
-
-    def setCourse(self, course):
-        self.courseNum = course
-
-    def setSectionNum(self, snum):
-        self.sectionNum = snum
-
-    def toString(self):
-        return self.department + "-" + self.courseNum + "-" + self.sectionNum
