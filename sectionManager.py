@@ -35,8 +35,6 @@ class mySectionManager(SectionManager):
         invalid = self.actionHelper(dept, cnum, snum, "addition")
         if invalid != "okay":
             return invalid
-        if not self.courseExists(dept, cnum):
-            return "Course does not exist for section to add to"
         if self.exists(self.db, dept, cnum, snum):
             return "Section already exists"
         if ins is not None and not self.userExists(ins):
@@ -118,7 +116,3 @@ class mySectionManager(SectionManager):
             return False
         else:
             return True
-
-    def courseExists(self, dept, cnum):
-        if self.db.get_course(dept, cnum) is None:
-            return False
