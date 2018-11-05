@@ -15,28 +15,29 @@ class sectionTest(unittest.TestCase):
         self.sec = mySectionManager()
 
     def test_add(self):
-        self.assertEquals(self.sec.add("CS", "251", "401"), "Section 401 added to CS-251")
+        self.assertEquals(self.sec.add("CS", "251", "401"), "Section Added: CS-251-401")
+        self.assertEquals(self.sec.add("CS", "251", "401", "Bob"), "Section Added: CS-251-401 instructor= Bob")
 
     def test_addNoInfo(self):
-        self.assertEquals(self.sec.add(dept="CS", cnum="251"), "Could not complete addition, section is needed")
-        self.assertEquals(self.sec.add(dept="CS", cnum="251", ins="Bob"), "Could not complete addition, section"
-                                                                          " is needed")
-        self.assertEquals(self.sec.add(dept="CS", snum="401", ins="Bob"), "Could not complete addition, "
-                                                                          "course is needed")
-        self.assertEquals(self.sec.add(cnum="251", snum="401", ins="Bob"), "Could not complete addition, "
-                                                                           "department is needed")
+        self.assertRaisesRegex(ValueError, "Could not complete addition, section is needed",
+                               self.sec.add(dept="CS", cnum="251"))
+        self.assertRaisesRegex(ValueError, "Could not complete addition, section is needed",
+                               self.sec.add(dept="CS", cnum="251", ins="Bob"))
+        self.assertRaisesRegex(ValueError, "Could not complete addition, course is needed",
+                               self.sec.add(dept="CS", snum="401", ins="Bob"))
+        self.assertRaisesRegex(ValueError, "Could not complete addition, department is needed",
+                               self.sec.add(cnum="251", snum="401", ins="Bob"))
 
     # user does not exist and shouldn't be able to be added
     def user_none(self):
-        self.assertEquals(self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"), "Nobody does not exist "
-                                                                                         "in the system ")
+        self.assertRaisesRegex(RuntimeError, "Nobody does not exist in the system ", self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"))
 
     def test_notQualified(self):
         self.assertEquals(self.sec.add(dept="CS", cnum="251", snum="401", ins="Rob"), "Rob can't teach lectures")
 
     def test_alreadyExists(self):
         self.sec.add("CS", "251", "401")
-        self.assertEquals(self.sec.add("CS", "251", "401"), "Section 401 already exists in CS-251")
+        self.assertRaisesRegex(RuntimeError, "Section already exists", self.sec.add("CS", "251", "401"))
 
     # test if calling to add a section that's time conflicts with its lecture fails
     """No time has been implemented yet"""

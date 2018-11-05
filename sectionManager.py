@@ -31,16 +31,20 @@ class mySectionManager(SectionManager):
         # check if user inputs information needed for adding
         invalid = self.actionHelper(dept, cnum, snum, "addition")
         if invalid != "okay":
-            return invalid
+            raise ValueError(invalid)
         if self.exists(self.db, dept, cnum, snum):
-            return "Section already exists"
-        if not self.userExist(ins):
-            return ins + " does not exist in the system"
+            raise RuntimeError("Section already exists")
+        if ins is not None and not self.userExist(ins):
+            raise RuntimeError(ins + " does not exist in the system")
 
-        sec = self.db.Section(dept, cnum, snum)
-        self.db.insert_section(sec)
-
-        return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor= " + ins
+        if ins is None:
+            sec = self.db.Section(dept, cnum, snum)
+            self.db.insert_section(sec)
+            return "Section Added: " + dept + "-" + cnum + "-" + snum
+        else:
+            sec = self.db.Section(dept, cnum, snum, ins)
+            self.db.insert_section(sec)
+            return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor= " + ins
 
     # validates and deletes from database
     def delete(self, dept=None, cnum=None, snum=None, ins=None):
@@ -52,15 +56,14 @@ class mySectionManager(SectionManager):
         """check if user has input enough information"""
         invalid = self.actionHelper(dept, cnum, snum, "view")
         if invalid != "okay":
-            return invalid
+            raise ValueError(invalid)
 
         """Check if Section exists in the database and return"""
-
         result = self.db.get_section(dept, cnum, snum)
         if result is None:
-            return "Could not find" + dept + "-" + cnum + "-" + snum
+            raise RuntimeError("Could not find" + dept + "-" + cnum + "-" + snum)
         else:
-            return result.dept + "-" + result.cnum + "-" + result.snum + "instructor= " + result.instructor
+            print(result.dept + "-" + result.cnum + "-" + result.snum + "instructor= " + result.instructor)
 
     # validates and takes given section and edits what is asked to edit
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
