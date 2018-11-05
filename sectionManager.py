@@ -102,3 +102,5 @@ class mySectionManager(SectionManager):
     def userExist(self, ins):
         if self.db.get_user(ins) is None:
             return False
+        else:
+            return True
