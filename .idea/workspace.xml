@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab503d09-7165-4892-bc5d-58c46c1de57b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/TA-App.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthManager/auth_manager_tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthManager/authManagerTests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserManager/userManagerTests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManager/auth_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManager/auth_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManager/authManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManager/auth_manager_tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StorageManager/myStorageManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/StorageManager/myStorageManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserManager/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserManager/userManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserManager/user_manager_tests.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,10 +19,16 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/TA_App$Unittests_for_user_manager_tests_UserManagerTests.coverage" NAME="Unittests for user_manager_tests.UserManagerTests Coverage Results" MODIFIED="1541290786216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UserManager" />
+    <SUITE FILE_PATH="coverage/TA_App$Unittests_for_authManagerTests_AuthManagerTests.coverage" NAME="Unittests for authManagerTests.AuthManagerTests Coverage Results" MODIFIED="1541405069073" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AuthManager" />
+    <SUITE FILE_PATH="coverage/TA_App$Unittests_for_authManagerTests_AuthManagerTests_test_login.coverage" NAME="Unittests for authManagerTests.AuthManagerTests.test_login Coverage Results" MODIFIED="1541403991988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AuthManager" />
+    <SUITE FILE_PATH="coverage/TA_App$Unittests_for_userManagerTests_UserManagerTests.coverage" NAME="Unittests for userManagerTests.UserManagerTests Coverage Results" MODIFIED="1541403564560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UserManager" />
     <SUITE FILE_PATH="coverage/TA_App$Unittests_for_auth_manager_TestAuth.coverage" NAME="Unittests for auth_manager.TestAuth Coverage Results" MODIFIED="1541022813338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/manager" />
     <SUITE FILE_PATH="coverage/TA_App$user_manager.coverage" NAME="user_manager Coverage Results" MODIFIED="1541275455189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/TA_App$Unittests_for_JSONStorageManagerTests_JSONStorageManagerTests.coverage" NAME="Unittests for JSONStorageManagerTests.JSONStorageManagerTests Coverage Results" MODIFIED="1541288221134" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StorageManager" />
     <SUITE FILE_PATH="coverage/TA_App$Unittests_for_user_manager_UserTest.coverage" NAME="Unittests for user_manager.UserTest Coverage Results" MODIFIED="1541288742294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="235" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1249136423">
@@ -42,14 +50,14 @@
           <entry key="project.open.time.1" value="8" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.15" value="1" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.opened" value="11" />
+          <entry key="project.open.time.2" value="2" />
+          <entry key="project.opened" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="json" value="1" />
-          <entry key="py" value="28" />
+          <entry key="py" value="36" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
@@ -57,19 +65,19 @@
         <counts>
           <entry key="JSON" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="28" />
+          <entry key="Python" value="36" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="20" />
-          <entry key="py" value="3768" />
+          <entry key="dummy" value="74" />
+          <entry key="py" value="4193" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="20" />
-          <entry key="Python" value="3768" />
+          <entry key="PLAIN_TEXT" value="74" />
+          <entry key="Python" value="4193" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -82,73 +90,83 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.2/python_stubs/-1199943126/builtins.py">
+        <entry file="file://$PROJECT_DIR$/AuthManager/authManagerTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12225">
-              <caret line="815" column="8" selection-start-line="815" selection-start-column="8" selection-end-line="815" selection-end-column="8" />
+            <state relative-caret-position="900">
+              <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+                <marker date="1541405062713" expanded="true" signature="596:601" ph="..." />
+                <marker date="1541405062713" expanded="true" signature="1248:1257" ph="..." />
+                <marker date="1541405062713" expanded="true" signature="1292:1306" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManager.py">
+        <entry file="file://$PROJECT_DIR$/Domain/course.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/UserManager/userManagerTests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1440">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Domain/section.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/StorageManager/myStorageManager.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UserManager/user_manager_tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1083">
-              <caret line="78" selection-end-line="85" />
+            <state relative-caret-position="244">
+              <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
               <folding>
-                <element signature="e#0#77#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AuthManager/auth_manager_tests.py">
+        <entry file="file://$PROJECT_DIR$/Domain/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="16" selection-start-line="5" selection-end-line="6" />
+            <state relative-caret-position="60">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/UserManager/userManager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-207">
+              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#84#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/AuthManager/auth_manager.py">
+        <entry file="file://$PROJECT_DIR$/AuthManager/authManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="677">
-              <caret line="35" column="8" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+            <state relative-caret-position="59">
+              <caret line="11" column="46" lean-forward="true" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="46" />
               <folding>
-                <element signature="e#1#85#0" expanded="true" />
-                <marker date="1541393361825" expanded="true" signature="239:245" ph="..." />
-                <marker date="1541393361825" expanded="true" signature="682:687" ph="..." />
+                <element signature="e#0#84#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UserManager/user_manager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="25" column="28" selection-start-line="25" selection-end-line="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/typing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3718">
-              <caret line="427" selection-start-line="427" selection-end-line="427" />
             </state>
           </provider>
         </entry>
@@ -199,11 +217,14 @@
         <option value="$PROJECT_DIR$/StorageManager/JSONStorageManager.py" />
         <option value="$PROJECT_DIR$/user_manager.py" />
         <option value="$PROJECT_DIR$/StorageManager/myStorageManager.py" />
-        <option value="$PROJECT_DIR$/UserManager/user_manager_tests.py" />
         <option value="$PROJECT_DIR$/Domain/user.py" />
-        <option value="$PROJECT_DIR$/AuthManager/auth_manager_tests.py" />
-        <option value="$PROJECT_DIR$/UserManager/user_manager.py" />
         <option value="$PROJECT_DIR$/AuthManager/auth_manager.py" />
+        <option value="$PROJECT_DIR$/UserManager/user_manager.py" />
+        <option value="$PROJECT_DIR$/UserManager/user_manager_tests.py" />
+        <option value="$PROJECT_DIR$/AuthManager/auth_manager_tests.py" />
+        <option value="$PROJECT_DIR$/UserManager/userManagerTests.py" />
+        <option value="$PROJECT_DIR$/AuthManager/authManager.py" />
+        <option value="$PROJECT_DIR$/AuthManager/authManagerTests.py" />
       </list>
     </option>
   </component>
@@ -214,7 +235,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="599" />
+    <option name="x" value="267" />
     <option name="y" value="23" />
     <option name="width" value="1081" />
     <option name="height" value="959" />
@@ -273,6 +294,9 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
+  <component name="PyCoverageOptionsProvider">
+    <option name="myUseBundledCoveragePy" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/AuthManager" />
@@ -291,60 +315,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for user_manager_tests.UserManagerTests">
-    <configuration name="user_manager" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UserManager/user_manager.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for AuthManager.auth_manager.TestAuth" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="TA-App" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/manager" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;AuthManager.auth_manager.TestAuth&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for JSONStorageManagerTests.JSONStorageManagerTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="TA-App" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/StorageManager" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;JSONStorageManagerTests.JSONStorageManagerTests&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for UserManager.user_manager.UserTest" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Unittests for authManagerTests.AuthManagerTests">
+    <configuration name="Unittests for UserManager.userManager" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="TA-App" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -356,11 +328,11 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_pattern" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;UserManager.user_manager.UserTest&quot;" />
+      <option name="_new_target" value="&quot;UserManager.userManager&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for user_manager_tests.UserManagerTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for UserManager.userManagerTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="TA-App" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -371,24 +343,69 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;user_manager_tests.UserManagerTests&quot;" />
+      <option name="_new_target" value="&quot;UserManager.userManagerTests&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for authManagerTests.AuthManagerTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="TA-App" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AuthManager" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;authManagerTests.AuthManagerTests&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for authManagerTests.AuthManagerTests.test_login" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="TA-App" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AuthManager" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;authManagerTests.AuthManagerTests.test_login&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for userManagerTests.UserManagerTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="TA-App" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UserManager" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;userManagerTests.UserManagerTests&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.user_manager" />
-      <item itemvalue="Python tests.Unittests for AuthManager.auth_manager.TestAuth" />
-      <item itemvalue="Python tests.Unittests for UserManager.user_manager.UserTest" />
-      <item itemvalue="Python tests.Unittests for JSONStorageManagerTests.JSONStorageManagerTests" />
-      <item itemvalue="Python tests.Unittests for user_manager_tests.UserManagerTests" />
+      <item itemvalue="Python tests.Unittests for UserManager.userManager" />
+      <item itemvalue="Python tests.Unittests for UserManager.userManagerTests" />
+      <item itemvalue="Python tests.Unittests for userManagerTests.UserManagerTests" />
+      <item itemvalue="Python tests.Unittests for authManagerTests.AuthManagerTests" />
+      <item itemvalue="Python tests.Unittests for authManagerTests.AuthManagerTests.test_login" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for user_manager_tests.UserManagerTests" />
-        <item itemvalue="Python tests.Unittests for UserManager.user_manager.UserTest" />
-        <item itemvalue="Python tests.Unittests for JSONStorageManagerTests.JSONStorageManagerTests" />
-        <item itemvalue="Python.user_manager" />
-        <item itemvalue="Python tests.Unittests for AuthManager.auth_manager.TestAuth" />
+        <item itemvalue="Python tests.Unittests for authManagerTests.AuthManagerTests" />
+        <item itemvalue="Python tests.Unittests for authManagerTests.AuthManagerTests.test_login" />
+        <item itemvalue="Python tests.Unittests for userManagerTests.UserManagerTests" />
+        <item itemvalue="Python tests.Unittests for UserManager.userManagerTests" />
+        <item itemvalue="Python tests.Unittests for UserManager.userManager" />
       </list>
     </recent_temporary>
   </component>
@@ -406,47 +423,47 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_for_JSONStorageManagerTests_JSONStorageManagerTests - 2018.11.03 at 18h 37m 01s.xml">
-      <configuration name="Unittests for JSONStorageManagerTests.JSONStorageManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 01h 59m 49s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_UserTest - 2018.11.03 at 18h 45m 42s.xml">
-      <configuration name="Unittests for user_manager.UserTest" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 00m 22s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 18h 57m 30s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 01m 08s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 18h 59m 08s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 01m 52s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 18h 59m 24s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 02m 36s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 18h 59m 39s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 03m 01s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 18h 59m 48s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 03m 16s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 18h 59m 56s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 04m 11s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 19h 02m 29s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 04m 24s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_user_manager_tests_UserManagerTests - 2018.11.03 at 19h 19m 46s.xml">
-      <configuration name="Unittests for user_manager_tests.UserManagerTests" configurationId="tests" />
+    <history-entry file="Unittests_for_authManagerTests_AuthManagerTests - 2018.11.05 at 02h 04m 30s.xml">
+      <configuration name="Unittests for authManagerTests.AuthManagerTests" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11660562" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11782662" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298731" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32959184" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29081634" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39907727" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -457,6 +474,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32857144" />
       <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info active="true" anchor="right" id="Coverage" side_tool="true" visible="true" weight="0.20879121" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -501,62 +519,84 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/StorageManager/example.json" />
-    <entry file="file://$PROJECT_DIR$/Domain/course.py" />
-    <entry file="file://$PROJECT_DIR$/Domain/section.py" />
     <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManagerTests.py" />
-    <entry file="file://$PROJECT_DIR$/Domain/user.py" />
+    <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManager.py" />
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.2/python_stubs/-1199943126/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12225">
+        <state>
           <caret line="815" column="8" selection-start-line="815" selection-start-column="8" selection-end-line="815" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManager.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StorageManager/myStorageManager.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file:///usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/typing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3718">
+        <state relative-caret-position="6255">
           <caret line="427" selection-start-line="427" selection-end-line="427" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AuthManager/auth_manager_tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="16" selection-start-line="5" selection-end-line="6" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/Domain/course.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/UserManager/user_manager_tests.py">
+    <entry file="file://$PROJECT_DIR$/Domain/section.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UserManager/userManagerTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1083">
-          <caret line="78" selection-end-line="85" />
+        <state relative-caret-position="-1440">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
-            <element signature="e#0#77#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UserManager/user_manager.py">
+    <entry file="file://$PROJECT_DIR$/UserManager/userManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="25" column="28" selection-start-line="25" selection-end-line="26" />
+        <state relative-caret-position="-207">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AuthManager/auth_manager.py">
+    <entry file="file://$PROJECT_DIR$/StorageManager/myStorageManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="677">
-          <caret line="35" column="8" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+        <state relative-caret-position="244">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
           <folding>
-            <element signature="e#1#85#0" expanded="true" />
-            <marker date="1541393361825" expanded="true" signature="239:245" ph="..." />
-            <marker date="1541393361825" expanded="true" signature="682:687" ph="..." />
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Domain/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AuthManager/authManagerTests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <marker date="1541405062713" expanded="true" signature="596:601" ph="..." />
+            <marker date="1541405062713" expanded="true" signature="1248:1257" ph="..." />
+            <marker date="1541405062713" expanded="true" signature="1292:1306" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AuthManager/authManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59">
+          <caret line="11" column="46" lean-forward="true" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
           </folding>
         </state>
       </provider>
