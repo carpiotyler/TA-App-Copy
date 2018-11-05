@@ -1,13 +1,14 @@
 import unittest
 from courseManager import CourseManager
 from sectionManager import mySectionManager
-from user_Manager import UserManager
+from user_manager import UserManager
 
 class sectionTest(unittest.TestCase):
 
     def setup(self):
         self.course = CourseManager()
         self.course.add(dept="CS", cnum="251")
+        self.user = UserManager()
         self.user.add("Bob", "Instructor")
         self.user.add("Rob", "supervisor")
         self.user.add("Randall Cobb", "Instructor")
@@ -16,7 +17,7 @@ class sectionTest(unittest.TestCase):
 
     def test_add(self):
         self.assertEquals(self.sec.add("CS", "251", "401"), "Section Added: CS-251-401")
-        self.assertEquals(self.sec.add("CS", "251", "401", "Bob"), "Section Added: CS-251-401 instructor= Bob")
+        self.assertEquals(self.sec.add("CS", "251", "401", "Bob"), "Section Added: CS-251-401 instructor=Bob")
 
     def test_addNoInfo(self):
         self.assertRaisesRegex(ValueError, "Could not complete addition, section is needed",
@@ -40,7 +41,6 @@ class sectionTest(unittest.TestCase):
         self.assertRaisesRegex(RuntimeError, "Section already exists", self.sec.add("CS", "251", "401"))
 
     # test "section view secNum" command output
-    """I don't know if the output is correct"""
     def test_view(self):
         self.assertEquals(self.sec.view("CS", "351", "401"), "CS-351-401 Instructor=Bob")
 

@@ -47,7 +47,7 @@ class mySectionManager(SectionManager):
                 raise ValueError("User can't instruct the course")
             sec = self.db.Section(dept, cnum, snum, ins)
             self.db.insert_section(sec)
-            return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor= " + ins
+            return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor=" + ins
 
     # validates and deletes from database
     def delete(self, dept=None, cnum=None, snum=None, ins=None):
