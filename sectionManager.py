@@ -45,13 +45,21 @@ class mySectionManager(SectionManager):
         if ins is None:
             sec = self.db.Section(dept, cnum, snum)
             self.db.insert_section(sec)
+            course = self.db.get_course(dept, cnum)
+            course.sections.append(snum)
+            self.db.insert_course(course)
             return "Section Added: " + dept + "-" + cnum + "-" + snum
         else:
             if not self.valUser(ins):
                 return "User can't instruct the course"
             sec = self.db.Section(dept, cnum, snum, ins)
             self.db.insert_section(sec)
+            course = self.db.get_course(dept, cnum)
+            course.sections.append(snum)
+            self.db.insert_course(course)
             return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor=" + ins
+
+
 
     # validates and deletes from database
     def delete(self, dept=None, cnum=None, snum=None, ins=None):
