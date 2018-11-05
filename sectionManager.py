@@ -45,7 +45,8 @@ class mySectionManager(SectionManager):
             sec = self.db.Section(dept, cnum, snum)
             self.db.insert_section(sec)
             course = self.db.get_course(dept, cnum)
-            course.sections.append(snum)
+            if snum not in course.sections:
+                course.sections.append(snum)
             self.db.insert_course(course)
             return "Section Added: " + dept + "-" + cnum + "-" + snum
         else:
@@ -54,7 +55,8 @@ class mySectionManager(SectionManager):
             sec = self.db.Section(dept, cnum, snum, ins)
             self.db.insert_section(sec)
             course = self.db.get_course(dept, cnum)
-            course.sections.append(snum)
+            if snum not in course.sections:
+                course.sections.append(snum)
             self.db.insert_course(course)
             return "Section Added: " + dept + "-" + cnum + "-" + snum + " instructor: " + ins
 
