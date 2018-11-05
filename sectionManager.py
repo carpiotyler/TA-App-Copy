@@ -36,9 +36,11 @@ class mySectionManager(SectionManager):
         if invalid != "okay":
             return invalid
 
+        """Make sure user exists if inst is to be added"""
         if ins is not None and not self.userExists(ins):
             return ins + " does not exist in the system"
 
+        """With and without instructor adding to course and sections db"""
         if ins is None:
             sec = self.db.Section(dept, cnum, snum)
             self.db.insert_section(sec)
@@ -91,14 +93,6 @@ class mySectionManager(SectionManager):
             snum: "Could not complete " + action + ", section number is needed"
         }
         return switch.get(None, "okay")
-
-    # return true if section already exists for this course
-    def exists(self, db, dept, cnum, snum):
-        retrieved = db.get_section(dept, cnum, snum)
-        if retrieved is None or retrieved.cnum != cnum or retrieved.snum !=snum or retrieved.dept != dept:
-            return False
-        else:
-            return True
 
     # Make sure user exists
     def userExists(self, ins):
