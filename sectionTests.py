@@ -13,6 +13,7 @@ class sectionTest(unittest.TestCase):
         self.user.add("Rob", "supervisor")
         self.user.add("Randall Cobb", "Instructor")
         self.course.add(dept="CS", cnum="351", ta="Bob", secton="401")
+        self.course.add(dept="CS", cnum="251")
         self.sec = mySectionManager()
 
     def test_add(self):

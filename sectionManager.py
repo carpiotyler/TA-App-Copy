@@ -1,5 +1,6 @@
 from JSONStorageManager import JSONStorageManager as jsm
 import abc
+from courseManager import CourseManager
 
 
 class SectionManager(abc.ABC):
@@ -24,7 +25,8 @@ class SectionManager(abc.ABC):
 class mySectionManager(SectionManager):
 
     def __init__(self):
-        self.db = jsm()
+        self.db = jsm("Section.json")
+        self.course = CourseManager()
 
     # validates and adds to database if okay
     def add(self, dept=None, cnum=None, snum=None, ins=None):
@@ -33,6 +35,8 @@ class mySectionManager(SectionManager):
         invalid = self.actionHelper(dept, cnum, snum, "addition")
         if invalid != "okay":
             raise ValueError(invalid)
+        if not self.courseExists(dept, cnum, snum):
+            raise RuntimeError("Course does not exist for section to add to")
         if self.exists(self.db, dept, cnum, snum):
             raise RuntimeError("Section already exists")
         if ins is not None and not self.userExists(ins):
@@ -41,12 +45,14 @@ class mySectionManager(SectionManager):
         if ins is None:
             sec = self.db.Section(dept, cnum, snum)
             self.db.insert_section(sec)
+            self.course.edit(dept=dept, cnum=cnum, section=snum)
             return "Section Added: " + dept + "-" + cnum + "-" + snum
         else:
             if not self.valUser(ins):
                 raise ValueError("User can't instruct the course")
             sec = self.db.Section(dept, cnum, snum, ins)
             self.db.insert_section(sec)
+            self.course.edit(dept=dept, cnum=cnum, instr=ins, section=snum)
             return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor=" + ins
 
     # validates and deletes from database
@@ -106,3 +112,8 @@ class mySectionManager(SectionManager):
             return False
         else:
             return True
+
+    def courseExists(self, dept, cnum):
+        cbd = jsm("Course.json")
+        if cbd.get_course(dept, cnum) is None:
+            return False
