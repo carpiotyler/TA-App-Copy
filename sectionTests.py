@@ -9,7 +9,6 @@ class sectionTest(unittest.TestCase):
     def setUp(self):
         self.course = CourseManager()
         self.course.add(dept="CS", cnum="251")
-        self.user = UserManager(StorageManager())
         self.db = StorageManager()
         Bob = self.db.User("Bob", "123", "Instructor")
         self.db.insert_user(Bob)
@@ -23,7 +22,6 @@ class sectionTest(unittest.TestCase):
 
     def tearDown(self):
         del self.course
-        del self.user
         del self.sec
 
     def test_add(self):
