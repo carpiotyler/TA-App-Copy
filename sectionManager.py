@@ -20,15 +20,16 @@ class SectionManager(abc.ABC):
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
         pass
 
+
 class mySectionManager(SectionManager):
 
     def __init__(self):
-        self.db = jsm("section.json")
+        self.db = jsm()
 
     # validates and adds to database if okay
     def add(self, dept=None, cnum=None, snum=None, ins=None):
 
-        # check if user inputs information needed for adding
+        """check if user inputs information needed for adding"""
         invalid = self.actionHelper(dept, cnum, snum, "addition")
         if invalid != "okay":
             raise ValueError(invalid)
@@ -65,7 +66,7 @@ class mySectionManager(SectionManager):
         if result is None:
             raise RuntimeError("Could not find" + dept + "-" + cnum + "-" + snum)
         else:
-            print(result.dept + "-" + result.cnum + "-" + result.snum + "instructor= " + result.instructor)
+            return result.dept + "-" + result.cnum + "-" + result.snum + " instructor=" + result.instructor
 
     # validates and takes given section and edits what is asked to edit
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
@@ -81,21 +82,6 @@ class mySectionManager(SectionManager):
         }
         return switch.get(None, "okay")
 
-    # check if number format is correct (e.g. labs should be 801, discussions 601, lectures 401)
-    """Specific requirements for section numbers aren't implemented yet"""
-    def valNum(self):
-        pass
-
-    # make sure lectures don't conflict with discussion/lab times
-    """Times aren't implemented yet"""
-    def valTime(self):
-        pass
-
-    # make sure the person being assigned to a section's time doesn't conflict when added or edited
-    """times aren't implemented yet"""
-    def valUserSchedule(self):
-        pass
-
     # return true if section already exists for this course
     def exists(self, db, dept, cnum, snum):
         retrieved = db.get_section(dept, cnum, snum)
@@ -104,7 +90,7 @@ class mySectionManager(SectionManager):
         else:
             return True
 
-    # Make sure user exists and is a TA or instructor
+    # Make sure user exists
     def userExists(self, ins):
         user = self.db.get_user(ins)
         if user is None:
@@ -112,6 +98,7 @@ class mySectionManager(SectionManager):
         else:
             return True
 
+    # Make sure user is a TA or instructor
     def valUser(self, ins):
         user = self.db.get_user(ins)
         if user.role.lower() != "ta" or user.role.lower() != "instructor":
