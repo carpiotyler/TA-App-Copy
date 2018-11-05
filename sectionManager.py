@@ -61,12 +61,13 @@ class mySectionManager(SectionManager):
         if invalid != "okay":
             raise ValueError(invalid)
 
-        """Check if Section exists in the database and return"""
+        """Check if Section exists in the database and return (e.g. Course: CS-251 Section: 401 Instructor: Bob)"""
         result = self.db.get_section(dept, cnum, snum)
         if result is None:
             raise RuntimeError("Could not find" + dept + "-" + cnum + "-" + snum)
         else:
-            return result.dept + "-" + result.cnum + "-" + result.snum + " instructor=" + result.instructor
+            return "Course: " + result.dept + "-" + result.cnum + "\nSection: " + result.snum \
+                   + "\nInstructor=" + result.instructor
 
     # validates and takes given section and edits what is asked to edit
     def edit(self, dept=None, cnum=None, snum=None, ins=None):

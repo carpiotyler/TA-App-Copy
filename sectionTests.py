@@ -42,7 +42,7 @@ class sectionTest(unittest.TestCase):
 
     # test "section view secNum" command output
     def test_view(self):
-        self.assertEquals(self.sec.view("CS", "351", "401"), "CS-351-401 Instructor=Bob")
+        self.assertEquals(self.sec.view("CS", "351", "401"), "Course: CS-351\nSection: 401\nInstructor: Bob")
 
     def test_viewNoInfo(self):
         self.assertRaisesRegex(ValueError, "Could not complete view, section is needed",
