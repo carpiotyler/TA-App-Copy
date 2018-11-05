@@ -1,0 +1,26 @@
+{
+    "courses": [
+        {
+            "dept" : "CS",
+            "cnum" : "351",
+            "sections" : ["401"],
+            "name" : "",
+            "description" : ""
+        }
+    ],
+    "users": [
+        {
+            "username" : "JTB",
+            "password" : "andrew",
+            "role" : ""
+        }
+    ],
+    "sections": [
+        {
+            "dept": "CS",
+            "cnum": "351",
+            "snum": "401",
+            "instructor" : ""
+        }
+    ]
+}
