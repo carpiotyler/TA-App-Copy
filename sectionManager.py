@@ -68,7 +68,7 @@ class mySectionManager(SectionManager):
         """Check if Section exists in the database and return (e.g. Course: CS-251 Section: 401 Instructor: Bob)"""
         result = self.db.get_section(dept, cnum, snum)
         if result is None:
-            return "Could not find" + dept + "-" + cnum + "-" + snum
+            return "Could not find " + dept + "-" + cnum + "-" + snum
         else:
             return "Course: " + result.dept + "-" + result.cnum + "\nSection: " + result.snum \
                    + "\nInstructor=" + result.instructor
