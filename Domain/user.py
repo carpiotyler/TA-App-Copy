@@ -7,4 +7,4 @@ class User:
         self.role = str_role
 
     def __str__(self):
-        return "\nUser: {\n\tusername: " + self.username + "\n\tpassword: " + self.password + "\n}"
+        return "username: " + self.username + ", password: " + self.password

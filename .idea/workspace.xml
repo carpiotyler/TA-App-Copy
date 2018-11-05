@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab503d09-7165-4892-bc5d-58c46c1de57b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/TA-App.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Domain/course.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Domain/section.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Domain/user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StorageManager/JSONStorageManager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StorageManager/JSONStorageManagerTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StorageManager/example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StorageManager/myStorageManager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserManager/user_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserManager/user_manager_tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserManager/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserManager/user_manager.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,9 +35,11 @@
     <session id="680177801">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.1" value="6" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.15" value="1" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -68,41 +59,41 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="20" />
-          <entry key="py" value="1638" />
+          <entry key="py" value="2792" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="20" />
-          <entry key="Python" value="1638" />
+          <entry key="Python" value="2792" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/UserManager/user_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="24" column="23" lean-forward="true" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+            <state relative-caret-position="527">
+              <caret line="52" column="34" selection-start-line="52" selection-start-column="34" selection-end-line="52" selection-end-column="34" />
               <folding>
-                <element signature="e#0#66#0" expanded="true" />
-                <marker date="1541290209444" expanded="true" signature="116:122" ph="..." />
+                <element signature="e#0#84#0" expanded="true" />
+                <marker date="1541377825645" expanded="true" signature="133:139" ph="..." />
+                <marker date="1541377825645" expanded="true" signature="687:692" ph="..." />
+                <marker date="1541377825645" expanded="true" signature="760:1176" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/UserManager/user_manager_tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="39" column="12" lean-forward="true" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
+            <state relative-caret-position="195">
+              <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
               <folding>
                 <element signature="e#0#77#0" expanded="true" />
-                <marker date="1541290786200" expanded="true" signature="956:1038" ph="..." />
-                <marker date="1541290786200" expanded="true" signature="1055:1074" ph="..." />
               </folding>
             </state>
           </provider>
@@ -129,7 +120,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2655">
+            <state relative-caret-position="2595">
               <caret line="177" column="21" selection-start-line="177" selection-start-column="21" selection-end-line="177" selection-end-column="21" />
               <folding>
                 <element signature="e#0#77#0" expanded="true" />
@@ -141,8 +132,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Domain/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+            <state relative-caret-position="297">
+              <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -150,8 +141,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/StorageManager/myStorageManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="58" column="177" selection-start-line="58" selection-start-column="177" selection-end-line="58" selection-end-column="177" />
+            <state relative-caret-position="664">
+              <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <marker date="1541290786188" expanded="true" signature="2001:2050" ph="..." />
@@ -172,8 +163,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManagerTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="3" selection-end-column="28" />
+            <state relative-caret-position="465">
+              <caret line="37" column="23" selection-start-line="37" selection-end-line="38" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -217,10 +211,10 @@
         <option value="$PROJECT_DIR$/StorageManager/JSONStorageManagerTests.py" />
         <option value="$PROJECT_DIR$/StorageManager/JSONStorageManager.py" />
         <option value="$PROJECT_DIR$/user_manager.py" />
-        <option value="$PROJECT_DIR$/Domain/user.py" />
-        <option value="$PROJECT_DIR$/UserManager/user_manager.py" />
         <option value="$PROJECT_DIR$/StorageManager/myStorageManager.py" />
         <option value="$PROJECT_DIR$/UserManager/user_manager_tests.py" />
+        <option value="$PROJECT_DIR$/Domain/user.py" />
+        <option value="$PROJECT_DIR$/UserManager/user_manager.py" />
       </list>
     </option>
   </component>
@@ -258,6 +252,11 @@
             <path>
               <item name="TA-App" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="TA-App" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="Domain" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="TA-App" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -445,7 +444,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18253969" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18620269" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -502,18 +501,22 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parserTests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/StorageManager/example.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UserManager/user_manager_tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -533,7 +536,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2655">
+        <state relative-caret-position="2595">
           <caret line="177" column="21" selection-start-line="177" selection-start-column="21" selection-end-line="177" selection-end-column="21" />
           <folding>
             <element signature="e#0#77#0" expanded="true" />
@@ -550,22 +553,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/StorageManager/JSONStorageManagerTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="3" selection-end-column="28" />
+        <state relative-caret-position="465">
+          <caret line="37" column="23" selection-start-line="37" selection-end-line="38" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Domain/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        <state relative-caret-position="297">
+          <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/StorageManager/myStorageManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="58" column="177" selection-start-line="58" selection-start-column="177" selection-end-line="58" selection-end-column="177" />
+        <state relative-caret-position="664">
+          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <marker date="1541290786188" expanded="true" signature="2001:2050" ph="..." />
@@ -575,23 +581,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/UserManager/user_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="24" column="23" lean-forward="true" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+        <state relative-caret-position="527">
+          <caret line="52" column="34" selection-start-line="52" selection-start-column="34" selection-end-line="52" selection-end-column="34" />
           <folding>
-            <element signature="e#0#66#0" expanded="true" />
-            <marker date="1541290209444" expanded="true" signature="116:122" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UserManager/user_manager_tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="39" column="12" lean-forward="true" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-            <marker date="1541290786200" expanded="true" signature="956:1038" ph="..." />
-            <marker date="1541290786200" expanded="true" signature="1055:1074" ph="..." />
+            <element signature="e#0#84#0" expanded="true" />
+            <marker date="1541377825645" expanded="true" signature="133:139" ph="..." />
+            <marker date="1541377825645" expanded="true" signature="687:692" ph="..." />
+            <marker date="1541377825645" expanded="true" signature="760:1176" ph="..." />
           </folding>
         </state>
       </provider>
