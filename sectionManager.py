@@ -112,6 +112,5 @@ class mySectionManager(SectionManager):
             return True
 
     def courseExists(self, dept, cnum):
-        cbd = jsm()
-        if cbd.get_course(dept, cnum) is None:
+        if self.db.get_course(dept, cnum) is None:
             return False
