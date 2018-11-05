@@ -34,6 +34,8 @@ class mySectionManager(SectionManager):
             return invalid
         if self.exists(self.db, dept, cnum, snum):
             return "Section already exists"
+        if not self.userExist(ins):
+            return ins + " does not exist in the system"
 
         sec = self.db.Section(dept, cnum, snum)
         self.db.insert_section(sec)
@@ -96,3 +98,7 @@ class mySectionManager(SectionManager):
             return False
         else:
             return True
+
+    def userExist(self, ins):
+        if self.db.get_user(ins) is None:
+            return False

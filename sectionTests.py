@@ -26,6 +26,11 @@ class sectionTest(unittest.TestCase):
         self.assertEquals(self.sec.add(cnum="251", snum="401", ins="Bob"), "Could not complete addition, "
                                                                            "department is needed")
 
+    # user does not exist and shouldn't be able to be added
+    def user_none(self):
+        self.assertEquals(self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"), "Nobody does not exist "
+                                                                                         "in the system ")
+
     def test_notQualified(self):
         self.assertEquals(self.sec.add(dept="CS", cnum="251", snum="401", ins="Rob"), "Rob can't teach lectures")
 
