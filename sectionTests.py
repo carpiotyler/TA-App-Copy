@@ -9,7 +9,7 @@ class sectionTest(unittest.TestCase):
         self.course = CourseManager()
         self.course.add(dept="CS", cnum="251")
         self.user.add("Bob", "Instructor")
-        self.user.add("Rob", "TA")
+        self.user.add("Rob", "supervisor")
         self.user.add("Randall Cobb", "Instructor")
         self.course.add(dept="CS", cnum="351", ta="Bob", secton="401")
         self.sec = mySectionManager()
@@ -33,7 +33,7 @@ class sectionTest(unittest.TestCase):
         self.assertRaisesRegex(RuntimeError, "Nobody does not exist in the system ", self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"))
 
     def test_notQualified(self):
-        self.assertEquals(self.sec.add(dept="CS", cnum="251", snum="401", ins="Rob"), "Rob can't teach lectures")
+        self.assertRaisesRegex(ValueError, "User can't instruct the course", self.sec.add(dept="CS", cnum="251", snum="401", ins="Rob"))
 
     def test_alreadyExists(self):
         self.sec.add("CS", "251", "401")

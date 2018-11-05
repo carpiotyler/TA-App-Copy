@@ -34,7 +34,7 @@ class mySectionManager(SectionManager):
             raise ValueError(invalid)
         if self.exists(self.db, dept, cnum, snum):
             raise RuntimeError("Section already exists")
-        if ins is not None and not self.userExist(ins):
+        if ins is not None and not self.userExists(ins):
             raise RuntimeError(ins + " does not exist in the system")
 
         if ins is None:
@@ -42,6 +42,8 @@ class mySectionManager(SectionManager):
             self.db.insert_section(sec)
             return "Section Added: " + dept + "-" + cnum + "-" + snum
         else:
+            if not self.valUser(ins):
+                raise ValueError("User can't instruct the course")
             sec = self.db.Section(dept, cnum, snum, ins)
             self.db.insert_section(sec)
             return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor= " + ins
@@ -102,8 +104,17 @@ class mySectionManager(SectionManager):
         else:
             return True
 
-    def userExist(self, ins):
-        if self.db.get_user(ins) is None:
+    # Make sure user exists and is a TA or instructor
+    def userExists(self, ins):
+        user = self.db.get_user(ins)
+        if user is None:
+            return False
+        else:
+            return True
+
+    def valUser(self, ins):
+        user = self.db.get_user(ins)
+        if user.role.lower() != "ta" or user.role.lower() != "instructor":
             return False
         else:
             return True
