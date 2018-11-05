@@ -1,8 +1,8 @@
 from user_manager import UserManager as UM
 from sectionManager import sectionManager as SM
-from courseManager import CourseManager  as CM
+from courseManager import CourseManager as CM
 from auth_manager import AuthManager as AM
-from user_manager   import User
+from JSONStorageManager import JSONStorageManager as JSM
 
 # This is the command parser class, used to bridge the gap between the CLI and our managers so the managers are able to
 # work with the website version (or whatever is next). This class has only static methods and only one public function,
@@ -15,11 +15,6 @@ from user_manager   import User
 # testing field is true, then the user field does not matter (because checking the auth would become partly integration
 # testing with the auth manager). Hopefully this does not break any scrum/agile stuff. The testing field could be a huge
 # security flaw if left in but for now it's my best solution.
-
-# TODO:
-# Implement rest of commands
-# Implement uting (so this can be actually tested)
-# Make sure the usage of managers is correct (or is that for code reviews)
 
 
 class CommandParser:
@@ -51,9 +46,10 @@ class CommandParser:
         self.uting = uting
         self.commandList = CommandParser.commandList
 
-        self.authmgr = AM() # Only these managers need to be initialized (for some reason)
-        self.usermgr = UM()
+        self.authmgr = AM()
+        self.usermgr = UM(JSM())
         self.coursemgr = CM()
+        self.sectionmgr = SM()
 
     def currentUser(self):
         return self.user
@@ -110,15 +106,27 @@ class CommandParser:
     # auth to insure that the user has perms to do what they're trying to do.
     def parseCourse(self, command:str)->str:
         reqFields = ['dept', 'cnum']
-        optFields = ['ta', 'snum']
+        optFields = ['snum', 'ins']
 
         cmdarr = command.split(" ")
-        if(len(cmdarr) < 3):
+        if(len(cmdarr) < 2):
             return "Invalid use"
 
         command = cmdarr[0].lower()
         action = cmdarr[1].lower()
         fields = CommandParser.fieldsToDict(cmdarr[2:])
+
+        if(not self.uting and not self.authmgr.isAuthorized(self.user, command, action)):
+            return "Not authorized"
+
+        if(action == 'view' and len(fields) == 0):
+            if(self.uting):
+                return "%s.view()" % CommandParser.namesdict['course']
+            return self.coursemgr.view()
+
+        for f in fields:
+            if f not in reqFields and f not in optFields:
+                return "Unknown field: %s" % f
 
         for f in reqFields: # If a required field is not in the given fields
             if f not in fields:
@@ -131,30 +139,138 @@ class CommandParser:
         if(not command == 'course'):
             return "Something went wrong!"
 
+        if(self.uting):
+            return '%s.%s(dept="%s", cnum="%s", section="%s", ins="%s")'%(CommandParser.namesdict['course'], action, fields['dept'], fields['cnum'], fields['snum'], fields['ins'])
+
         if(action == 'add'):
-            self.coursemgr.add(dept=fields['dept'], cnum=fields['cnum'], ta=fields['ta'], section=fields['snum'])
+            return self.coursemgr.add(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         elif(action == 'edit'):
-            self.coursemgr.edit(dept=fields['dept'], cnum=fields['cnum'], ta=fields['ta'], section=fields['snum'])
+            return self.coursemgr.edit(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         elif(action == 'view'):
-            self.coursemgr.view(dept=fields['dept'], cnum=fields['cnum'], ta=fields['ta'], section=fields['snum'])
+            return self.coursemgr.view(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         elif(action == 'delete' or action == 'remove'):
-            self.coursemgr.delete(dept=fields['dept'], cnum=fields['cnum'], ta=fields['ta'], section=fields['snum'])
+            return self.coursemgr.delete(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         else:
-            return "Incorrect use"
-
-    # A helper method to just be used inside this class to parse one of the major commands, user. This also checks
-    # auth to insure that the user has perms to do what they're trying to do.
-    def parseUser(self, command:str)->str:
-        return ""
+            return "Unknown action: %s" % action
 
     # A helper method to just be used inside this class to parse one of the major commands, section. This also checks
     # auth to insure that the user has perms to do what they're trying to do.
     def parseSection(self, command:str)->str:
-        return ""
+        reqFields = ['dept', 'cnum', 'snum']
+        optFields = ['ins']
+
+        cmdarr = command.split(" ")
+        if(len(cmdarr) < 2):
+            return "Invalid use"
+
+        command = cmdarr[0].lower()
+        action = cmdarr[1].lower()
+        fields = CommandParser.fieldsToDict(cmdarr[2:])
+
+        if(not self.uting and not self.authmgr.isAuthorized(self.user, command, action)):
+            return "Not authorized"
+
+        if(action == 'view' and len(fields) == 0):
+            if(self.uting):
+                return "%s.view()" % CommandParser.namesdict['section']
+            return self.sectionmgr.view()
+
+        for f in fields:
+            if f not in reqFields and f not in optFields:
+                return "Unknown field: %s" % f
+
+        for f in reqFields: # If a required field is not in the given fields
+            if f not in fields:
+                return "Missing field: %s" % f
+
+        for f in optFields: # Replacing optional fields with a None so that function can be called without error
+            if f not in fields:
+                fields[f] = None
+
+        if(not command == 'section'):
+            return "Something went wrong!"
+
+        if(self.uting):
+            return '%s.%s(dept="%s", cnum="%s", snum="%s", ins="%s")' % (CommandParser.namesdict['section'], action, fields['dept'], fields['cnum'], fields['snum'], fields['ins'])
+
+        if(action == 'add'):
+            return self.sectionmgr.add(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+
+        elif(action == 'edit'):
+            return self.sectionmgr.edit(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+
+        elif(action == 'view'):
+            return self.sectionmgr.view(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+
+        elif(action == 'delete' or action == 'remove'):
+            return self.sectionmgr.delete(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+
+        else:
+            return "Unknown action: %s" % action
+
+    # A helper method to just be used inside this class to parse one of the major commands, user. This also checks
+    # auth to insure that the user has perms to do what they're trying to do.
+    def parseUser(self, command:str)->str:
+        reqFields = ['user']
+        optFields = ['pass', 'role']
+
+        cmdarr = command.split(" ")
+        if(len(cmdarr) < 2):
+            return "Invalid use"
+
+        command = cmdarr[0].lower()
+        action = cmdarr[1].lower()
+        fields = CommandParser.fieldsToDict(cmdarr[2:])
+
+        if (not self.uting and not self.authmgr.isAuthorized(self.user, command, action)):
+            return "Not authorized"
+
+        if(action == 'view' and len(fields) == 0):
+            if(self.uting):
+                return '%s.view()' % CommandParser.namesdict['user']
+            return self.usermgr.view()
+
+        for f in fields:
+            if f not in reqFields and f not in optFields:
+                return "Unknown field: %s" % f
+
+        for f in reqFields: # If a required field is not in the given fields
+            if f not in fields:
+                return "Missing field: %s" % f
+
+        for f in optFields: # Replacing optional fields with a None so that function can be called without error
+            if f not in fields:
+                fields[f] = None
+
+        if(not command == 'user'):
+            return "Something went wrong!"
+
+        if(action == 'add'):
+            if(self.uting):
+                return '%s.add("%s", password="%s", role="%s")' % (CommandParser.namesdict['user'], fields['user'], fields['pass'], fields['role'])
+            return self.usermgr.add(fields['user'], password=fields['pass'], role=fields['role'])
+
+        elif(action == 'edit'):
+            if(self.uting):
+                return '%s.edit("%s", password="%s", role="%s")' % (CommandParser.namesdict['user'], fields['user'], fields['pass'], fields['role'])
+            return self.usermgr.edit(fields['user'], password=fields['pass'], role=fields['role'])
+
+        elif(action == 'view'):
+            if(self.uting):
+                return '%s.view("%s")' % (CommandParser.namesdict['user'], fields['user'])
+            return self.usermgr.view(fields['user'])
+
+        elif(action == 'delete' or action == 'remove'):
+            if(self.uting):
+                return '%s.delete("%s")' % (CommandParser.namesdict['user'], fields['user'])
+            return self.usermgr.delete(fields['user'])
+
+        else:
+            return "Unknown action: %s" % action
 
     # Another helper method to convert to help convert the fields to be passed to the managers. If the given list would
     # have two different values for one key only the last one will be saved. If the given array contains a code it must
@@ -163,8 +279,11 @@ class CommandParser:
     def fieldsToDict(arr: list, delimiter: str = '=')->dict:
         rtr = {}
 
+        if(len(arr) == 0):
+            return rtr
+
         if(("code%s"%delimiter) in arr[0]):
-            rtr = CommandParser.codeToDict(arr[0]);
+            rtr = CommandParser.codeToDict(arr[0])
 
         for entry in arr:
             if(not ("code%s"%delimiter) in entry):
@@ -176,7 +295,7 @@ class CommandParser:
         return rtr
 
     # Hopefully the last helper method, used to convert a code to a dictionary of it's parts
-    # EX: "code=CS-351-601" -> {'dnum': 'CS', 'cnum': '351', 'snum': '601'}
+    # EX: "code=CS-351-601" -> {'dept': 'CS', 'cnum': '351', 'snum': '601'}
     @staticmethod
     def codeToDict(code: str)->dict:
         cArr = code.split("-")
