@@ -5,11 +5,11 @@ class AuthManager:
     def __index__(self):
         pass
 
-    def login(self, username: str, password: str):
+    def login(self, username: str, password: str)->User:
         return User(username)
 
     def logout(self, username: str):
         pass
 
-    def auth(self, user: User):
-        return True # Placeholder
+    def isAuthorized(self, user: User, command: str, action: str)->bool:
+        return True # Just so I can test everything
