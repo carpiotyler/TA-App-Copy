@@ -41,7 +41,7 @@ class sectionTest(unittest.TestCase):
                                self.sec.add(cnum="251", snum="401", ins="Bob"))
 
     # user does not exist and shouldn't be able to be added
-    def user_none(self):
+    def test_userNone(self):
         self.assertEqual("Nobody does not exist in the system", self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"))
 
     def test_notQualified(self):
