@@ -2,7 +2,7 @@ from typing import Optional
 
 from StorageManager.myStorageManager import AbstractStorageManager as storage
 
-from UserManager.user_manager import UserManager
+from UserManager.userManager import UserManager
 from Domain.section import Section
 from Domain.course import Course
 from Domain.user import User
