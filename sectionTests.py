@@ -1,6 +1,6 @@
 import unittest
 from courseManager import CourseManager
-from sectionManager import mySectionManager, Section
+from sectionManager import mySectionManager
 from user_Manager import UserManager
 
 class sectionTest(unittest.TestCase):
