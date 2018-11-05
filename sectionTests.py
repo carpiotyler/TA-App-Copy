@@ -10,16 +10,25 @@ class sectionTest(unittest.TestCase):
         self.course = CourseManager()
         self.course.add(dept="CS", cnum="251")
         self.user = UserManager(StorageManager())
-        self.user.add("Bob", "Instructor")
-        self.user.add("Rob", "supervisor")
-        self.user.add("Randall Cobb", "Instructor")
+        self.db = StorageManager()
+        Bob = self.db.User("Bob", "123", "Instructor")
+        self.db.insert_user(Bob)
+        Rob = self.db.User("Rob", "123")
+        self.db.insert_user(Rob)
+        Cobb = self.db.User("Randall Cobb", "123",  "Instructor")
+        self.db.insert_user(Cobb)
         self.course.add(dept="CS", cnum="351", instr="Bob", section="401")
-        self.course.add(dept="CS", cnum="251")
+        self.course.add(dept="CS", cnum="337")
         self.sec = mySectionManager()
+
+    def tearDown(self):
+        del self.course
+        del self.user
+        del self.sec
 
     def test_add(self):
         self.assertEqual(self.sec.add("CS", "251", "401"), "Section Added: CS-251-401")
-        self.assertEqual(self.sec.add("CS", "251", "401", "Bob"), "Section Added: CS-251-401 instructor=Bob")
+        self.assertEqual(self.sec.add("CS", "251", "401", "Bob"), "Section Added: CS-251-401 instructor: Bob")
 
     def test_addNoInfo(self):
         self.assertEqual("Could not complete addition, section number is needed",
@@ -33,14 +42,10 @@ class sectionTest(unittest.TestCase):
 
     # user does not exist and shouldn't be able to be added
     def user_none(self):
-        self.assertEqual("Nobody does not exist in the system ", self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"))
+        self.assertEqual("Nobody does not exist in the system", self.sec.add(dept="CS", cnum="251", snum="401", ins="Nobody"))
 
     def test_notQualified(self):
-        self.assertEqual("User can't instruct the course", self.sec.add(dept="CS", cnum="251", snum="401", ins="Rob"))
-
-    def test_alreadyExists(self):
-        self.sec.add("CS", "251", "401")
-        self.assertEqual("Section already exists", self.sec.add("CS", "251", "401"))
+        self.assertEqual("User can't instruct the course", self.sec.add(dept="CS", cnum="337", snum="401", ins="Rob"))
 
     # test "section view secNum" command output
     def test_view(self):

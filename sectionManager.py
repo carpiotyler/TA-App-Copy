@@ -35,8 +35,7 @@ class mySectionManager(SectionManager):
         invalid = self.actionHelper(dept, cnum, snum, "addition")
         if invalid != "okay":
             return invalid
-        if self.exists(self.db, dept, cnum, snum):
-            return "Section already exists"
+
         if ins is not None and not self.userExists(ins):
             return ins + " does not exist in the system"
 
@@ -55,7 +54,7 @@ class mySectionManager(SectionManager):
             course = self.db.get_course(dept, cnum)
             course.sections.append(snum)
             self.db.insert_course(course)
-            return "Section Added: " + dept + "-" + cnum + "-" + snum + "instructor=" + ins
+            return "Section Added: " + dept + "-" + cnum + "-" + snum + " instructor: " + ins
 
 
 
@@ -77,7 +76,7 @@ class mySectionManager(SectionManager):
             return "Could not find " + dept + "-" + cnum + "-" + snum
         else:
             return "Course: " + result.dept + "-" + result.cnum + "\nSection: " + result.snum \
-                   + "\nInstructor=" + result.instructor
+                   + "\nInstructor: " + result.instructor
 
     # validates and takes given section and edits what is asked to edit
     def edit(self, dept=None, cnum=None, snum=None, ins=None):
@@ -96,7 +95,7 @@ class mySectionManager(SectionManager):
     # return true if section already exists for this course
     def exists(self, db, dept, cnum, snum):
         retrieved = db.get_section(dept, cnum, snum)
-        if retrieved is None:
+        if retrieved is None or retrieved.cnum != cnum or retrieved.snum !=snum or retrieved.dept != dept:
             return False
         else:
             return True
@@ -112,7 +111,7 @@ class mySectionManager(SectionManager):
     # Make sure user is a TA or instructor
     def valUser(self, ins):
         user = self.db.get_user(ins)
-        if user.role.lower() != "ta" or user.role.lower() != "instructor":
+        if user.role.lower() != "ta" and user.role.lower() != "instructor":
             return False
         else:
             return True
