@@ -35,9 +35,7 @@ class CourseManager:
         else: 
 #            print("Invalid dept.")
             return False
-        # If parser provides section, call the section manager to add it.
-        if section!=None:
-            self.sec.add(dept,cnum,section,instr)
+
     
     # Get course from database manager to pass back to the parser in order to print
     def view(self, dept=None, cnum=None, instr=None, section=None):
