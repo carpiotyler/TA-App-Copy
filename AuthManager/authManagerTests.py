@@ -13,7 +13,7 @@ import unittest
 class AuthManagerTests(unittest.TestCase):
 
     def setUp(self):
-        self.user = User("foo", "abc123")
+        self.user = User("foo", "abc123", "ta")
         self.storage_manager = MockStorageManager()
         self.auth_manager = AuthManager(self.storage_manager)
 
@@ -106,11 +106,42 @@ class AuthManagerTests(unittest.TestCase):
         # when adding a non-existing user
         self.storage_manager.insert_user(user)
 
-        # and validating existing user
+        # and validating non-logged-in existing user
         b = auth_manager.validate(user.username, "someCmd", "someAction")
 
+        # then validate result contains false
+        self.assertFalse(b)
+
+        # when logging in existing-user
+        c = auth_manager.login(user.username, user.password)
+
         # then validate result contains true
-        self.assertTrue(b)
+        self.assertEqual((user, "Success User Logged In"), c)
+
+        # and validating logged-in existing user
+        d = auth_manager.validate(user.username, "Course", "view")
+
+        # then validate result contains true
+        self.assertTrue(d)
+
+        # and validating logged-in existing user
+        e = auth_manager.validate(user.username, "Section", "view")
+
+        # then validate result contains true
+        self.assertTrue(e)
+
+        # and validating logged-in existing user
+        f = auth_manager.validate(user.username, "User", "view")
+
+        # then validate result contains true
+        self.assertTrue(f)
+
+        # and validating logged-in existing user
+        g = auth_manager.validate(user.username, "User", "edit")
+
+        # then validate result contains true
+        self.assertFalse(g)
+
 
 
 class MockStorageManager(storage):
