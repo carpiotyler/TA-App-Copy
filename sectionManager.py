@@ -42,22 +42,12 @@ class mySectionManager(SectionManager):
 
         """With and without instructor adding to course and sections db"""
         if ins is None:
-            sec = self.db.Section(dept, cnum, snum)
-            self.db.insert_section(sec)
-            course = self.db.get_course(dept, cnum)
-            if snum not in course.sections:
-                course.sections.append(snum)
-            self.db.insert_course(course)
+            self.addHelper(dept, cnum, snum, ins)
             return "Section Added: " + dept + "-" + cnum + "-" + snum
         else:
             if not self.valUser(ins):
                 return "User can't instruct the course"
-            sec = self.db.Section(dept, cnum, snum, ins)
-            self.db.insert_section(sec)
-            course = self.db.get_course(dept, cnum)
-            if snum not in course.sections:
-                course.sections.append(snum)
-            self.db.insert_course(course)
+            self.addHelper(dept, cnum, snum, ins)
             return "Section Added: " + dept + "-" + cnum + "-" + snum + " instructor: " + ins
 
 
@@ -111,3 +101,11 @@ class mySectionManager(SectionManager):
             return False
         else:
             return True
+
+    def addHelper(self, dept, cnum, snum, ins):
+        sec = self.db.Section(dept, cnum, snum, ins)
+        self.db.insert_section(sec)
+        course = self.db.get_course(dept, cnum)
+        if snum not in course.sections:
+            course.sections.append(snum)
+        self.db.insert_course(course)
