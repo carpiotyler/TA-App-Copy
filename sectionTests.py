@@ -1,7 +1,7 @@
 import unittest
-from courseManager import CourseManager
-from sectionManager import mySectionManager
-from JSONStorageManager import JSONStorageManager as StorageManager
+from Managers.courseManager import CourseManager
+from Managers.sectionManager import mySectionManager
+from Managers.JSONStorageManager import JSONStorageManager as StorageManager
 
 class sectionTest(unittest.TestCase):
 
