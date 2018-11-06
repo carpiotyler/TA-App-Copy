@@ -31,3 +31,7 @@ Software Engineering Fall 2018 Project
     $ Course add dept=CS cnum=351 snum=802 ins=Rock
     $ Course add code=CS-351-802 ins=Rock
     
+    $ User add user=Foo 
+    $ User add user=Foo password=abc123 
+    $ User add user=Foo password=abc123 role=TA
+
