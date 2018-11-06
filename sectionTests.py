@@ -48,6 +48,10 @@ class sectionTest(unittest.TestCase):
     def test_view(self):
         self.assertEqual(self.sec.view(dept="CS", cnum="351", snum="401"), "Course: CS-351\nSection: 401\nInstructor: Bob")
 
+    # Test to make sure a course without a section will not be found
+    def test_viewNot(self):
+        self.assertEqual("Could not find CS-337-401", self.sec.view(dept="CS", cnum="337", snum="401"))
+
     def test_viewNoInfo(self):
         self.assertEqual("Could not complete view, section number is needed",
                                self.sec.view(dept="CS", cnum="251"))
