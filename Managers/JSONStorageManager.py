@@ -60,7 +60,7 @@ class JSONStorageManager(storage):
             # Getting all courses and returning as list
             ret_vals = []
             for dict_course in json_database["courses"]:
-                course_course = storage.Course(dept, cnum)
+                course_course = storage.Course(dict_course["dept"], dict_course["cnum"])
                 course_course.sections = dict_course["sections"].copy()
                 course_course.description = dict_course["description"]
                 course_course.name = dict_course["name"]
@@ -73,7 +73,7 @@ class JSONStorageManager(storage):
             ret_vals = []
             for dict_course in json_database["courses"]:
                 if dict_course["dept"] == dept:
-                    course_course = storage.Course(dept, cnum)
+                    course_course = storage.Course(dict_course["dept"], dict_course["cnum"])
                     course_course.sections = dict_course["sections"].copy()
                     course_course.description = dict_course["description"]
                     course_course.name = dict_course["name"]
