@@ -89,10 +89,7 @@ class mySectionManager(SectionManager):
     # Make sure user exists
     def userExists(self, ins):
         user = self.db.get_user(ins)
-        if user is None:
-            return False
-        else:
-            return True
+        return user is not None
 
     # Make sure user is a TA or instructor
     def valUser(self, ins):

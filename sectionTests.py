@@ -22,6 +22,7 @@ class sectionTest(unittest.TestCase):
     def tearDown(self):
         del self.course
         del self.sec
+        del self.db
 
     def test_add(self):
         self.assertEqual(self.sec.add("CS", "251", "401"), "Section Added: CS-251-401")
