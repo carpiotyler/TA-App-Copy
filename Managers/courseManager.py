@@ -41,8 +41,16 @@ class CourseManager:
     
     # Get course from database manager to pass back to the parser in order to print
     def view(self, dept=None, cnum=None, instr=None, section=None):
-       if self._check_params(dept,cnum):
-           return self.s.get_course(dept,cnum)
+        if not dept and not cnum:
+            courselist = self.s.get_course('','')
+            print(courselist)
+            coursestring = ''
+            for c in courselist:
+                coursestring = coursestring + str(c)+ '\n'
+            return coursestring
+
+        else:
+            return self.s.get_course(dept,cnum)
 
     def delete(self,dept=None, cnum=None, instr=None, section=None ):
         pass
