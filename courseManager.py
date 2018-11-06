@@ -65,4 +65,4 @@ class CourseManager:
         if instr and not section: 
 #            print("Instructor must have section") 
             return False
-       
+        else: return True
