@@ -1,31 +1,19 @@
 from abc import ABC, abstractmethod
+from Domain.course import Course
+from Domain.section import Section
+from Domain.user import User
 
 
 class AbstractStorageManager(ABC):
-    # ################################################################################# #
-    # The following classes are used for interacting with AbstractStorageManager        #
-    # ################################################################################# #
-    class Course:
+    # Type conversions so legacy code works with Domain folder
+    class Course(Course):
+        pass
 
-        def __init__(self, str_dept, str_cnum, strarray_sections=[], str_name="", str_description=""):
-            self.dept = str_dept
-            self.cnum = str_cnum
-            self.sections = strarray_sections
-            self.name = str_name
-            self.description = str_description
+    class Section(Section):
+        pass
 
-    class User:
-        def __init__(self, str_username, str_password="", str_role=""):
-            self.username = str_username
-            self.password = str_password
-            self.role = str_role
-
-    class Section:
-        def __init__(self, str_dept, str_cnum, str_snum, str_instructor = ""):
-            self.dept = str_dept
-            self.cnum = str_cnum
-            self.snum = str_snum
-            self.instructor = str_instructor
+    class User(User):
+        pass
 
     # ################################################################################# #
     # List of functional storage methods to be implemented by a data system             #

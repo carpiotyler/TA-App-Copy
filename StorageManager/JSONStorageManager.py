@@ -2,7 +2,6 @@ from StorageManager.myStorageManager import AbstractStorageManager as storage
 
 import json, os
 
-
 class JSONStorageManager(storage):
 
     def __init__(self, str_file_name="database.json"):
