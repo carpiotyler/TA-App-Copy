@@ -1,0 +1,26 @@
+{
+    "courses": [
+        {
+            "dept": "CS",
+            "cnum": "351",
+            "sections": [],
+            "name": "",
+            "description": ""
+        },
+        {
+            "dept": "CS",
+            "cnum": "361",
+            "sections": [],
+            "name": "",
+            "description": ""
+        }
+    ],
+    "users": [
+        {
+            "username": "supervisor",
+            "password": "123",
+            "role": "supervisor"
+        }
+    ],
+    "sections": []
+}
