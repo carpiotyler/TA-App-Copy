@@ -13,6 +13,13 @@
             "sections": [],
             "name": "",
             "description": ""
+        },
+        {
+            "dept": "CS",
+            "cnum": "317",
+            "sections": [],
+            "name": "",
+            "description": ""
         }
     ],
     "users": [
@@ -22,5 +29,12 @@
             "role": "supervisor"
         }
     ],
-    "sections": []
+    "sections": [
+        {
+            "dept": "CS",
+            "cnum": "351",
+            "snum": "401",
+            "instructor": null
+        }
+    ]
 }

@@ -1,5 +1,5 @@
 from Managers.userManager import UserManager as UM
-from Managers.sectionManager import SectionManager as SM
+from Managers.sectionManager import mySectionManager as SM
 from Managers.courseManager import CourseManager as CM
 from Managers.authManager import AuthManager as AM
 from Managers.JSONStorageManager import JSONStorageManager as JSM
