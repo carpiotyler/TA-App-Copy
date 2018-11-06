@@ -1,15 +1,15 @@
 import unittest
 from skeleton import Project
 
-#Tested against new database
+# Tested against new database
 class CarpioTests(unittest.TestCase):
 
-    #User Story #16: Admins may create classes
+    # User Story #16: Admins may create classes
     def test_admin_create_classes(self):
         p = Project()
         p.command("login admin1 password")
-        #Using code and fields should both work!
-        #Adding courses
+        # Using code and fields should both work!
+        # Adding courses
         self.assertEqual("Course Added: CS-351", p.command("course add CS-351"))
         self.assertEqual("Course Added: CS-317", p.command("course add dept=CS cnum=317"))
 
