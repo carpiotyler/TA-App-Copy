@@ -1,19 +1,38 @@
-
-            {
-                "courses":[
-                
-                ],
-                
-                "users":[
-                    {
-                        "username":"supervisor",
-                        "password":"123",
-                        "role":"supervisor"
-                    }
-                ],
-                
-                "sections":[
-                
-                ]
-            }
-        
+{
+    "courses": [
+        {
+            "dept": "CS",
+            "cnum": "351",
+            "sections": [
+                "401"
+            ],
+            "name": "",
+            "description": ""
+        }
+    ],
+    "users": [
+        {
+            "username": "supervisor",
+            "password": "123",
+            "role": "supervisor"
+        },
+        {
+            "username": "Rock",
+            "password": "",
+            "role": ""
+        },
+        {
+            "username": "Boyland",
+            "password": "",
+            "role": "instructor"
+        }
+    ],
+    "sections": [
+        {
+            "dept": "CS",
+            "cnum": "351",
+            "snum": "401",
+            "instructor": "Boyland"
+        }
+    ]
+}

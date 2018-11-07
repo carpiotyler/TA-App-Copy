@@ -1,4 +1,7 @@
 from Managers.myStorageManager import AbstractStorageManager as storage
+from Domain import user as DomainUser
+from Domain import section as DomainSection
+from Domain import course as DomainCourse
 
 import json, os
 
@@ -122,7 +125,7 @@ class JSONStorageManager(storage):
 
     def insert_course(self, course):
         # Inserting a course objects data into JSON
-        if isinstance(course, storage.Course):
+        if isinstance(course, storage.Course) or isinstance(course, DomainCourse.Course):
             file = open(self.file_name)
             json_database = json.load(file)
             file.close()
@@ -148,7 +151,7 @@ class JSONStorageManager(storage):
 
     def insert_section(self, section):
         # Inserting a section objects data into JSON
-        if isinstance(section, storage.Section):
+        if isinstance(section, storage.Section) or isinstance(section, DomainSection.Section):
             file = open(self.file_name)
             json_database = json.load(file)
             file.close()
@@ -172,7 +175,7 @@ class JSONStorageManager(storage):
 
     def insert_user(self, user):
         # Inserting a user objects data into JSON
-        if isinstance(user, storage.User):
+        if isinstance(user, storage.User) or isinstance(user, DomainUser.User):
             file = open(self.file_name)
             json_database = json.load(file)
             file.close()
