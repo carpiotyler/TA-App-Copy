@@ -39,7 +39,7 @@ class AuthManager:
             self.allowed[username] = False
             return "Success User Logged Out"
 
-     def validate(self, username: str, cmd: str = "", action: str = "") -> bool:
+    def validate(self, username: str, cmd: str = "", action: str = "") -> bool:
         user = self.storage.get_user(username)
 
         if user is None:  # user dne
