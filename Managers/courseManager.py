@@ -1,6 +1,6 @@
-from Managers.JSONStorageManager import JSONStorageManager
-from Managers.myStorageManager import AbstractStorageManager as storage
-from Managers.sectionManager import SectionManager
+from JSONStorageManager import JSONStorageManager
+from myStorageManager import AbstractStorageManager as storage
+from sectionManager import SectionManager
 
 # Course obj used for CourseManger, might place in seperate file once we finalize everything
 

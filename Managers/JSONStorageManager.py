@@ -1,4 +1,4 @@
-from StorageManager.myStorageManager import AbstractStorageManager as storage
+from myStorageManager import AbstractStorageManager as storage
 
 import json, os
 
