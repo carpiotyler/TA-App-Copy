@@ -6,3 +6,6 @@ class Course:
         self.sections = strarray_sections
         self.name = str_name
         self.description = str_description
+
+    def __str__(self):
+        return "Department: %s\nCourse Number: %s\nSections: %s\nCourse Name: %s\nDescription: %s\n" % (self.dept, self.cnum, self.sections, self. name, self.description)

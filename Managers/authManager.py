@@ -40,25 +40,27 @@ class AuthManager:
             return "Success User Logged Out"
 
     def validate(self, username: str, cmd: str = "", action: str = "") -> bool:
-        user = self.storage.get_user(username)
 
-        if user is None:  # user dne
-            return False
-
-        elif not self.allowed.__contains__(username):  # user not logged in
-            return False
-
-        else:  # user exists
-
-            role = user.role.lower()
-
-            if role == "ta":
-
-                if cmd == "Course":
-                    return action == "view"
-
-                elif cmd == "Section":
-                    return action == "view"
-
-                elif cmd == "User":
-                    return action == "view"
+        return True
+        # user = self.storage.get_user(username)
+        #
+        # if user is None:  # user dne
+        #     return False
+        #
+        # elif not self.allowed.__contains__(username):  # user not logged in
+        #     return False
+        #
+        # else:  # user exists
+        #
+        #     role = user.role.lower()
+        #
+        #     if role == "ta":
+        #
+        #         if cmd == "Course":
+        #             return action == "view"
+        #
+        #         elif cmd == "Section":
+        #             return action == "view"
+        #
+        #         elif cmd == "User":
+        #             return action == "view"
