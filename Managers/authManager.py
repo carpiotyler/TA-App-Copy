@@ -39,28 +39,31 @@ class AuthManager:
             self.allowed[username] = False
             return "Success User Logged Out"
 
-    def validate(self, username: str, cmd: str = "", action: str = "") -> bool:
+     def validate(self, username: str, cmd: str = "", action: str = "") -> bool:
+        user = self.storage.get_user(username)
 
-        return True
-        # user = self.storage.get_user(username)
-        #
-        # if user is None:  # user dne
-        #     return False
-        #
-        # elif not self.allowed.__contains__(username):  # user not logged in
-        #     return False
-        #
-        # else:  # user exists
-        #
-        #     role = user.role.lower()
-        #
-        #     if role == "ta":
-        #
-        #         if cmd == "Course":
-        #             return action == "view"
-        #
-        #         elif cmd == "Section":
-        #             return action == "view"
-        #
-        #         elif cmd == "User":
-        #             return action == "view"
+        if user is None:  # user dne
+            return False
+
+        elif not self.allowed.__contains__(username):  # user not logged in
+            return False
+
+        else:  # user exists
+            role = user.role.lower()
+
+            # supervisor | instructor have access to all commands
+            if role == "supervisor" or "instructor":
+                return True
+
+            # ta's are allowed to view; Course | Section | User 
+            elif role == "ta":
+
+                if cmd == "Course":
+                    return action == "view"
+
+                elif cmd == "Section":
+                    return action == "view"
+
+                elif cmd == "User":
+                    return action == "view"
+                
