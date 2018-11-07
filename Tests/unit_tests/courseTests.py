@@ -1,8 +1,10 @@
-import unittest
 from Managers.courseManager import CourseManager
-from Managers import JSONStorageManager as jsm
 import os,json
-class CourseTest(unittest.TestCase):
+
+import unittest
+
+
+class CourseTests(unittest.TestCase):
 
     def setUp(self):
         # In case before testing a tes.json somehow exists
@@ -15,8 +17,8 @@ class CourseTest(unittest.TestCase):
         cm = CourseManager("coursetest.json")
         self.file = None
 
-        self.c.add(dept='CS',cnum='351',instr='Joe')
-        self.c.add(dept='CS',cnum='341',instr='Alice')
+        self.cm.add(dept='CS',cnum='351',instr='Joe')
+        self.cm.add(dept='CS',cnum='341',instr='Alice')
 
     def tearDown(self):
         # To remove file (in case of crashes and such during runs before tests do it

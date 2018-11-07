@@ -46,7 +46,7 @@ class AuthManager:
             return False
 
         elif not self.allowed.__contains__(username):  # user not logged in
-            return False
+            return cmd == "Course" and action == "view"
 
         else:  # user exists
             role = user.role.lower()

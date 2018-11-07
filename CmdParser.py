@@ -122,13 +122,13 @@ class CommandParser:
         if(self.user is not None):
             check = self.user.username
 
-        if (not self.uting and not self.authmgr.validate(check, command, action)):
-            return "Not authorized"
-
         if(action == 'view' and len(fields) == 0):
             if(self.uting):
                 return "%s.view()" % CommandParser.namesdict['course']
             return self.coursemgr.view()
+
+        if (not self.uting and not self.authmgr.validate(check, command, action)):
+            return "Not authorized"
 
         for f in fields:
             if f not in reqFields and f not in optFields:
