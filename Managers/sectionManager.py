@@ -1,4 +1,4 @@
-from JSONStorageManager import JSONStorageManager as jsm
+from Managers.JSONStorageManager import JSONStorageManager as jsm
 import abc
 
 

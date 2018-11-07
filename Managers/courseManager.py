@@ -1,6 +1,6 @@
-from JSONStorageManager import JSONStorageManager
-from myStorageManager import AbstractStorageManager as storage
-from sectionManager import SectionManager
+from Managers.JSONStorageManager import JSONStorageManager
+from Managers.myStorageManager import AbstractStorageManager as storage
+from Managers.sectionManager import SectionManager
 
 # Course obj used for CourseManger, might place in seperate file once we finalize everything
 
@@ -12,7 +12,6 @@ class CourseManager:
     depts = ['CS']
     c = None    
     s = JSONStorageManager()
-    s.set_up()
     sec = SectionManager()
     
 

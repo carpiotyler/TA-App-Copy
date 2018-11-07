@@ -1,8 +1,8 @@
-from user_manager import UserManager as UM
-from sectionManager import sectionManager as SM
-from courseManager import CourseManager as CM
-from auth_manager import AuthManager as AM
-from JSONStorageManager import JSONStorageManager as JSM
+from Managers.userManager import UserManager as UM
+from Managers.sectionManager import mySectionManager as SM
+from Managers.courseManager import CourseManager as CM
+from Managers.authManager import AuthManager as AM
+from Managers.JSONStorageManager import JSONStorageManager as JSM
 
 # This is the command parser class, used to bridge the gap between the CLI and our managers so the managers are able to
 # work with the website version (or whatever is next). This class has only static methods and only one public function,
@@ -46,8 +46,10 @@ class CommandParser:
         self.uting = uting
         self.commandList = CommandParser.commandList
 
-        self.authmgr = AM()
-        self.usermgr = UM(JSM())
+        self.storage = JSM()
+
+        self.authmgr = AM(self.storage)
+        self.usermgr = UM(self.storage)
         self.coursemgr = CM()
         self.sectionmgr = SM()
 
@@ -80,7 +82,7 @@ class CommandParser:
             if(len(cmdarr) < 3):
                 return "Not enough fields to login"
 
-            self.user = self.authmgr.login(cmdarr[1], cmdarr[2])
+            self.user = self.authmgr.login(cmdarr[1], cmdarr[2])[0]
 
             return "Success"
 
@@ -116,7 +118,11 @@ class CommandParser:
         action = cmdarr[1].lower()
         fields = CommandParser.fieldsToDict(cmdarr[2:])
 
-        if(not self.uting and not self.authmgr.isAuthorized(self.user, command, action)):
+        check = None
+        if(self.user is not None):
+            check = self.user.username
+
+        if (not self.uting and not self.authmgr.validate(check, command, action)):
             return "Not authorized"
 
         if(action == 'view' and len(fields) == 0):
@@ -136,26 +142,33 @@ class CommandParser:
             if f not in fields:
                 fields[f] = None
 
+        rtr = "Could not be found"
+
         if(not command == 'course'):
-            return "Something went wrong!"
+            rtr="Something went wrong!"
 
         if(self.uting):
-            return '%s.%s(dept="%s", cnum="%s", section="%s", ins="%s")'%(CommandParser.namesdict['course'], action, fields['dept'], fields['cnum'], fields['snum'], fields['ins'])
+            rtr='%s.%s(dept="%s", cnum="%s", section="%s", ins="%s")'%(CommandParser.namesdict['course'], action, fields['dept'], fields['cnum'], fields['snum'], fields['ins'])
 
         if(action == 'add'):
-            return self.coursemgr.add(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
+            rtr=self.coursemgr.add(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         elif(action == 'edit'):
-            return self.coursemgr.edit(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
+            rtr=self.coursemgr.edit(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         elif(action == 'view'):
-            return self.coursemgr.view(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
+            rtr=self.coursemgr.view(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         elif(action == 'delete' or action == 'remove'):
-            return self.coursemgr.delete(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
+            rtr=self.coursemgr.delete(dept=fields['dept'], cnum=fields['cnum'], section=fields['snum'], instr=fields['ins'])
 
         else:
-            return "Unknown action: %s" % action
+            rtr="Unknown action: %s" % action
+
+        if(rtr is None):
+            return "Could not be found"
+            
+        return rtr
 
     # A helper method to just be used inside this class to parse one of the major commands, section. This also checks
     # auth to insure that the user has perms to do what they're trying to do.
@@ -171,7 +184,11 @@ class CommandParser:
         action = cmdarr[1].lower()
         fields = CommandParser.fieldsToDict(cmdarr[2:])
 
-        if(not self.uting and not self.authmgr.isAuthorized(self.user, command, action)):
+        check = None
+        if(self.user is not None):
+            check = self.user.username
+
+        if (not self.uting and not self.authmgr.validate(check, command, action)):
             return "Not authorized"
 
         if(action == 'view' and len(fields) == 0):
@@ -191,26 +208,33 @@ class CommandParser:
             if f not in fields:
                 fields[f] = None
 
+        rtr = None
+
         if(not command == 'section'):
-            return "Something went wrong!"
+            rtr="Something went wrong!"
 
         if(self.uting):
-            return '%s.%s(dept="%s", cnum="%s", snum="%s", ins="%s")' % (CommandParser.namesdict['section'], action, fields['dept'], fields['cnum'], fields['snum'], fields['ins'])
+            rtr='%s.%s(dept="%s", cnum="%s", snum="%s", ins="%s")' % (CommandParser.namesdict['section'], action, fields['dept'], fields['cnum'], fields['snum'], fields['ins'])
 
         if(action == 'add'):
-            return self.sectionmgr.add(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+            rtr=self.sectionmgr.add(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
 
         elif(action == 'edit'):
-            return self.sectionmgr.edit(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+            rtr=self.sectionmgr.edit(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
 
         elif(action == 'view'):
-            return self.sectionmgr.view(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+            rtr=self.sectionmgr.view(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
 
         elif(action == 'delete' or action == 'remove'):
-            return self.sectionmgr.delete(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
+            rtr=self.sectionmgr.delete(dept=fields['dept'], cnum=fields['cnum'], snum=fields['snum'], ins=fields['ins'])
 
         else:
-            return "Unknown action: %s" % action
+            rtr="Unknown action: %s" % action
+
+        if(rtr is None):
+            return "Could not be found"
+            
+        return rtr
 
     # A helper method to just be used inside this class to parse one of the major commands, user. This also checks
     # auth to insure that the user has perms to do what they're trying to do.
@@ -226,7 +250,11 @@ class CommandParser:
         action = cmdarr[1].lower()
         fields = CommandParser.fieldsToDict(cmdarr[2:])
 
-        if (not self.uting and not self.authmgr.isAuthorized(self.user, command, action)):
+        check = None
+        if(self.user is not None):
+            check = self.user.username
+
+        if (not self.uting and not self.authmgr.validate(check, command, action)):
             return "Not authorized"
 
         if(action == 'view' and len(fields) == 0):
@@ -246,31 +274,46 @@ class CommandParser:
             if f not in fields:
                 fields[f] = None
 
+        rtr = "Could not be found"
+
         if(not command == 'user'):
-            return "Something went wrong!"
+            rtr="Something went wrong!"
 
         if(action == 'add'):
             if(self.uting):
-                return '%s.add("%s", password="%s", role="%s")' % (CommandParser.namesdict['user'], fields['user'], fields['pass'], fields['role'])
-            return self.usermgr.add(fields['user'], password=fields['pass'], role=fields['role'])
+                rtr='%s.add("%s", password="%s", role="%s")' % (CommandParser.namesdict['user'], fields['user'], fields['pass'], fields['role'])
+
+            else:
+                rtr=self.usermgr.add(fields['user'], password=fields['pass'], role=fields['role'])
 
         elif(action == 'edit'):
             if(self.uting):
-                return '%s.edit("%s", password="%s", role="%s")' % (CommandParser.namesdict['user'], fields['user'], fields['pass'], fields['role'])
-            return self.usermgr.edit(fields['user'], password=fields['pass'], role=fields['role'])
+                rtr='%s.edit("%s", password="%s", role="%s")' % (CommandParser.namesdict['user'], fields['user'], fields['pass'], fields['role'])
+
+            else:
+                rtr=self.usermgr.edit(fields['user'], password=fields['pass'], role=fields['role'])
 
         elif(action == 'view'):
             if(self.uting):
-                return '%s.view("%s")' % (CommandParser.namesdict['user'], fields['user'])
-            return self.usermgr.view(fields['user'])
+                rtr='%s.view("%s")' % (CommandParser.namesdict['user'], fields['user'])
+
+            else:
+                rtr=self.usermgr.view(fields['user'])
 
         elif(action == 'delete' or action == 'remove'):
             if(self.uting):
-                return '%s.delete("%s")' % (CommandParser.namesdict['user'], fields['user'])
-            return self.usermgr.delete(fields['user'])
+                rtr='%s.delete("%s")' % (CommandParser.namesdict['user'], fields['user'])
+
+            else:
+                rtr=self.usermgr.delete(fields['user'])
 
         else:
-            return "Unknown action: %s" % action
+            rtr="Unknown action: %s" % action
+
+        if(rtr is None):
+            return "Could not be found"
+            
+        return rtr
 
     # Another helper method to convert to help convert the fields to be passed to the managers. If the given list would
     # have two different values for one key only the last one will be saved. If the given array contains a code it must

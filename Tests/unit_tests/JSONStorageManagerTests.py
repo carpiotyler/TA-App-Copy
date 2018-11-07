@@ -1,4 +1,4 @@
-from StorageManager import JSONStorageManager as jsm
+from Managers import JSONStorageManager as jsm
 
 import os, json
 from pathlib import Path

@@ -1,0 +1,19 @@
+
+            {
+                "courses":[
+                
+                ],
+                
+                "users":[
+                    {
+                        "username":"supervisor",
+                        "password":"123",
+                        "role":"supervisor"
+                    }
+                ],
+                
+                "sections":[
+                
+                ]
+            }
+        
