@@ -8,12 +8,16 @@ from Managers.sectionManager import SectionManager
 # Handles adding,viewing,editing and deleting of all courses.
 class CourseManager:
 
-    # Right now only CS dept courses can be added with manager. Dept list can be changed to support more departments
-    depts = ['CS']
-    c = None    
-    s = JSONStorageManager()
-    s.set_up()
-    sec = SectionManager()
+
+
+    def __init__(self,db='database.json'):
+
+        # Right now only CS dept courses can be added with manager. Dept list can be changed to support more departments
+        self.depts = ['CS']
+        self.c = None
+        self.s = JSONStorageManager(db)
+        self.s.set_up()
+        self.sec = SectionManager()
     
 
     # Adds course to database using database manager and section manager
@@ -34,8 +38,7 @@ class CourseManager:
 
             return True
 
-        else: 
-#            print("Invalid dept.")
+        else:
             return False
 
     
@@ -62,22 +65,23 @@ class CourseManager:
 
     # Check for invalid parameters    
     def _check_params(self=None,dept=None,cnum=None,instr=None,section=None):
-        if not dept: 
-#            print( "Dept not specified.") 
+
+        if not dept:
             return False
-        if not cnum: 
-#            print("Cnum not specified.") 
+
+        if not cnum:
             return False
-        if not cnum.isdigit(): 
-#            print("Invalid Cnum.") 
+
+        if not cnum.isdigit():
             return False
+
         if instr:
             if not all(x.isalpha() or x.isspace() for x in instr):
-#               print("Instructor name should only contain letters.")
                 return False
-        if instr and not section: 
-#            print("Instructor must have section") 
+
+        if instr and not section:
             return False
+
         else: return True
     
     # Converts list of courses into a printable string

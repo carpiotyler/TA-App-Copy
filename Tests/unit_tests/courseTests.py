@@ -1,62 +1,60 @@
 import unittest
 from Managers.courseManager import CourseManager
-
+from Managers import JSONStorageManager as jsm
+import os,json
 class CourseTest(unittest.TestCase):
+
     def setUp(self):
-        self.c = CourseManager()
+        # In case before testing a tes.json somehow exists
+        try:
+            self.file = open("coursetest.json", "w")
+        except FileNotFoundError:
+            pass
+        self.file.close()
+        os.remove("coursetest.json")
+        cm = CourseManager("coursetest.json")
+        self.file = None
 
         self.c.add(dept='CS',cnum='351',instr='Joe')
         self.c.add(dept='CS',cnum='341',instr='Alice')
-        self.c.add(dept='CS',cnum='331',instr='Yang')
 
     def tearDown(self):
-        pass
+        # To remove file (in case of crashes and such during runs before tests do it
+        try:
+            self.file = open("coursetest.json", "w")
+        except FileNotFoundError:
+            pass
+        self.file.close()
+        os.remove("coursetest.json")
 
     def test_course_add(self):
 
-        self.assertEqual(False,self.c.add(dept='CS',cnum='359',instr='Jason'),"Cannot add Intructor with no section")
-        self.assertEqual(True,self.c.add(dept='CS',cnum='359'),"Added Successfully")
+
+        self.assertEqual(True,self.cm.add(dept='CS',cnum='359'),"Added Successfully")
+        self.assertEqual(True,self.cm.add(dept='CS',cnum='359',instr='Rock',section='901'),"Added Successfully")
 
     def test_course_add_fail(self):
 
-        self.assertEquals("Cnum not specified, course not added.",self.c.add(dept='CS'))
-        self.assertEquals("Dept not specified, course not added.",self.c.add(cnum='351'))
+        self.assertEquals(False,self.cm.add(dept=None, cnum=None))
+        self.assertEqual(False,self.cm.add(cnum='351'),"Dept not specified")
+        self.assertEqual(False,self.cm.add(cnum='351'),"Dept not specified")
+        self.assertEqual(False,self.cm.add(dept='CS'),"Cnum not specified")
+        self.assertEqual(False,self.cm.add(dept='CS',cnum='359',instr='Jason'),"Cannot add Intructor with no section")
+
 
     def test_course_view(self):
 
-        self.assertEquals("CS-351, Instructor: Joe",self.c.view(dept='CS',cnum='351'))
-        self.assertEquals("CS-331, Instructor: Yang",self.c.view(dept='CS',cnum='331'))
-        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.c.view(dept='CS'))
+        self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS',cnum='351'))
+        self.assertEquals("CS-331, Instructor: Yang",self.cm.view(dept='CS',cnum='331'))
+        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.cm.view(dept='CS'))
 
     def test_course_view_no_course(self):
 
-        self.assertEquals("No course available",self.c.view(cnum='352'))
-        self.assertEquals("No course available",self.c.view(dept='CS',cnum='352'))
+        self.assertEqual("Missing field: dept",self.cm.view(cnum='352'),"Dept is not specified")
+
+        self.assertEquals("Could not be found",self.cm.view(dept='CS',cnum='352'))
 
     def test_course_view_all(self):
   
-        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.c.view())
-
-    def test_course_edit(self):
-        
-        self.assertEquals("Edit Successful",self.c.edit(dept='CS',cnum='351',instr='None'))
-
-        self.assertEquals("CS-351, Instructor: None \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.c.view())
-
-    def test_course_edit_unsuccessful(self):
-        
-        self.assertEquals("Edit Unsuccessful, course not found",self.c.edit(dept='CS',cnum='361',instr='None'))
-        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.c.view())
-
-    def test_course_delete(self):
-
-        self.c.delete(dept='CS',cnum='341')
-
-        self.assertEquals("CS-351, Instructor: Joe \nCS-331, Instructor: Yang",self.c.view())
-
-    def test_course_delete_unsuccessful(self):
-
-        self.c.delete(dept='CS',cnum='311')
-
-        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.c.view())
+        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.cm.view())
 
