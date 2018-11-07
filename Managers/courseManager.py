@@ -12,6 +12,7 @@ class CourseManager:
     depts = ['CS']
     c = None    
     s = JSONStorageManager()
+    s.set_up()
     sec = SectionManager()
     
 
@@ -81,6 +82,9 @@ class CourseManager:
     
     # Converts list of courses into a printable string
     def _courselist_string(self, courselist):
+
+        if not courselist:
+            return 'No course found in database.'
 
         coursestring = ''
         for c in courselist:
