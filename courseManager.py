@@ -1,6 +1,6 @@
-from StorageManager.JSONStorageManager import JSONStorageManager
-from StorageManager.myStorageManager import AbstractStorageManager as storage
-from sectionManager import mySectionManager
+from Managers.JSONStorageManager import JSONStorageManager
+from Managers.myStorageManager import AbstractStorageManager as storage
+from Managers.sectionManager import SectionManager
 
 # Course obj used for CourseManger, might place in seperate file once we finalize everything
 
@@ -13,7 +13,7 @@ class CourseManager:
     c = None    
     s = JSONStorageManager()
     s.set_up()
-    sec = mySectionManager()
+    sec = SectionManager()
     
 
     # Adds course to database using database manager and section manager
@@ -32,27 +32,40 @@ class CourseManager:
                 self.s.insert_course(c)
                 self.sec.add(dept,cnum,section,instr)
 
+            return True
+
         else: 
 #            print("Invalid dept.")
             return False
 
     
-    # Get course from database manager to pass back to the parser in order to print
+    # Get courselist from db manager, convert to string and pass back to parser
     def view(self, dept=None, cnum=None, instr=None, section=None):
-       if self._check_params(dept,cnum):
-           return self.s.get_course(dept,cnum)
+
+        if not dept and not cnum:
+            courselist = self.s.get_course('','')
+            return self._courselist_string(courselist)
+
+        elif dept and not cnum:
+            courselist = self.s.get_course(dept,'')
+            return self._courselist_string(courselist)
+            
+        else:
+            return self.s.get_course(dept,cnum)
 
     def delete(self,dept=None, cnum=None, instr=None, section=None ):
         pass
 
     def edit(self,dept=None, cnum=None, instr=None, section=None ):
         pass
-        
+
+
+    # Check for invalid parameters    
     def _check_params(self=None,dept=None,cnum=None,instr=None,section=None):
-        if not dept or None: 
+        if not dept: 
 #            print( "Dept not specified.") 
             return False
-        if not cnum or None: 
+        if not cnum: 
 #            print("Cnum not specified.") 
             return False
         if not cnum.isdigit(): 
@@ -66,3 +79,11 @@ class CourseManager:
 #            print("Instructor must have section") 
             return False
         else: return True
+    
+    # Converts list of courses into a printable string
+    def _courselist_string(self, courselist):
+
+        coursestring = ''
+        for c in courselist:
+            coursestring = coursestring + str(c)+ '\n'
+        return coursestring
