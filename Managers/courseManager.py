@@ -27,7 +27,10 @@ class CourseManager:
         if not self._check_params(dept,cnum,instr,section): return
         dept = dept.upper()
 
+        # Checks if dept isvalid
         if dept in self.depts:
+
+            # If sections is passed, call section manager to add section
             if section is None:
                 c = storage.Course(dept,cnum,[],'','')
                 self.s.insert_course(c)
@@ -45,14 +48,16 @@ class CourseManager:
     # Get courselist from db manager, convert to string and pass back to parser
     def view(self, dept=None, cnum=None, instr=None, section=None):
 
+        # View all courses
         if not dept and not cnum:
             courselist = self.s.get_course('','')
             return self._courselist_string(courselist)
-
+        # View by dept
         elif dept and not cnum:
             courselist = self.s.get_course(dept,'')
             return self._courselist_string(courselist)
-            
+
+        # View single course
         else:
             return self.s.get_course(dept,cnum)
 

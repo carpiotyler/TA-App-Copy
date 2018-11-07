@@ -1,7 +1,8 @@
 from Managers.courseManager import CourseManager
+import unittest
 import os,json
 
-import unittest
+
 
 
 class CourseTests(unittest.TestCase):
@@ -31,7 +32,6 @@ class CourseTests(unittest.TestCase):
 
     def test_course_add(self):
 
-
         self.assertEqual(True,self.cm.add(dept='CS',cnum='359'),"Added Successfully")
         self.assertEqual(True,self.cm.add(dept='CS',cnum='359',instr='Rock',section='901'),"Added Successfully")
 
@@ -47,8 +47,8 @@ class CourseTests(unittest.TestCase):
     def test_course_view(self):
 
         self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS',cnum='351'))
-        self.assertEquals("CS-331, Instructor: Yang",self.cm.view(dept='CS',cnum='331'))
-        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.cm.view(dept='CS'))
+        self.assertEquals("Department: CS\nCourse Number: 331\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS',cnum='331'))
+        self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n\nDepartment: CS\nCourse Number: 341\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS'))
 
     def test_course_view_no_course(self):
 
@@ -58,5 +58,4 @@ class CourseTests(unittest.TestCase):
 
     def test_course_view_all(self):
   
-        self.assertEquals("CS-351, Instructor: Joe \nCS-341, Instructor: Alice \nCS-331, Instructor: Yang",self.cm.view())
-
+        self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n\nDepartment: CS\nCourse Number: 341\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS'))
