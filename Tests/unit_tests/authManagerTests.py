@@ -1,8 +1,8 @@
 from typing import Optional
 
-from StorageManager.myStorageManager import AbstractStorageManager as storage
+from Managers.myStorageManager import AbstractStorageManager as storage
 
-from AuthManager.authManager import AuthManager
+from Managers.authManager import AuthManager
 from Domain.section import Section
 from Domain.course import Course
 from Domain.user import User

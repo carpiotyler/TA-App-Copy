@@ -1,4 +1,4 @@
-from StorageManager.myStorageManager import AbstractStorageManager
+from Managers.myStorageManager import AbstractStorageManager
 from Domain.user import User
 
 
@@ -46,13 +46,17 @@ class AuthManager:
             return False
 
         elif not self.allowed.__contains__(username):  # user not logged in
-            return False
+            return cmd == "Course" and action == "view"
 
         else:  # user exists
-
             role = user.role.lower()
 
-            if role == "ta":
+            # supervisor | instructor have access to all commands
+            if role == "supervisor" or "instructor":
+                return True
+
+            # ta's are allowed to view; Course | Section | User 
+            elif role == "ta":
 
                 if cmd == "Course":
                     return action == "view"
@@ -62,3 +66,4 @@ class AuthManager:
 
                 elif cmd == "User":
                     return action == "view"
+                
