@@ -1,4 +1,4 @@
-from Managers.JSONStorageManager import JSONStorageManager as jsm
+from Managers.DjangoStorageManager import DjangoStorageManager as dsm
 from Managers.managerInterface import ManagerInterface
 from TAServer.models import Section
 import abc

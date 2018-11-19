@@ -6,11 +6,7 @@ from django.db import models
 
 
 class Section(models.Model):
-    # only two types of users can possibly teach a section
-    INS_TYPE = (
-        'TA',
-        'instructor',
-    )
+
     # section type
     SEC_TYPE = (
         'lab'
@@ -34,9 +30,9 @@ class Section(models.Model):
     # course points to course model
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # room Number
-    roomNum = models.IntegerField()
+    room = models.IntegerField()
     # instructor or ta
-    instructor = models.CharField(max_length=10, choices=INS_TYPE)
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
     # days of week meeting
     days = models.CharField(max_length=5, choices=DAYS)
     # time of meeting ("05:45 AM" or "5:45 PM")
