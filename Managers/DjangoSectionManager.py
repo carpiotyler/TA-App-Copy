@@ -6,8 +6,8 @@ import abc
 
 class SectionManager(ManagerInterface):
 
-    def __init__(self, database: StorageManager):
-        pass
+    def __init__(self, dsm):
+        self.db = dsm
 
     def add(self, fields: dict)->bool:
         pass
