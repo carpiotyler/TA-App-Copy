@@ -1,4 +1,4 @@
-from StorageManager.myStorageManager import AbstractStorageManager as StorageManager
+from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Domain.user import User
 
 
