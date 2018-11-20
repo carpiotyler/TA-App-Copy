@@ -15,6 +15,9 @@ class SectionManager(ManagerInterface):
     def view(self, fields: dict)->str:
         pass
 
+    # Edit will need cnum, snum and dept (like all other commands)
+    # Any other fields specified that aren't above(e.g. room, instructor, ect.) will replace what is already in the section
+    # You can not change cnum and dept, but if you want to change snum use key "snumNew" as a replacement
     def edit(self, fields: dict)->bool:
         pass
 

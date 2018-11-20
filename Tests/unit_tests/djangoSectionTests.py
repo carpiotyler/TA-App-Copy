@@ -15,6 +15,12 @@ class sectionTest(unittest.TestCase):
         self.s1 = Section(snum=401, stype="lecture", course=self.c1, room=395, instructor=self.u1,
                      days="MW", time="12:30 PM")
         self.s1.save()
+        self.u2 = User(username="Rock", first_name="Jayson", last_name="Rock",
+                 email="jRock@gmail.com", password="123", role="instructor")
+        self.u2.save()
+        self.u3 = User(username="Crunchy", first_name="Ron", last_name="Skimpy",
+                 email="BubbaGump@gmail.com", password="shrimp", role="administrator")
+        self.u3.save()
         self.sec = SM()
 
     def tearDown(self):
@@ -22,58 +28,136 @@ class sectionTest(unittest.TestCase):
 
     # Test correct adding
     def test_add(self):
-        newSec = {"snum" : 801, "stype": "lab", "course": self.c1, "room": 901, "instructor": self.u1, days: "T", time: "4:00 PM"}
+        newSec = {"snum" : 801, "stype": "lab", "cnum": 351, "dept": "CS", "room": 901, "instructor": "Gumby",
+                  "days": "T", "time": "4:00 PM"}
         self.assertTrue(self.sec.add(newSec), "New section was not added")
 
-    # Test adding without requirements (course, instructor, snum)
+    # Test add when given various invalid field inputs
+    def test_addInvalid(self):
+        addDays = {"cnum": 351, "dept": "CS", "snum": 401, "days": "Wrong", "instructor": "Rock", "room": 400,
+                  "time": "1:00 PM", "snumNew": 402}
+        addIns = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Crunchy", "room": 400,
+                  "time": "1:00 PM", "snumNew": 402}
+        addRoom = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": "Wrong",
+                  "time": "1:00 PM", "snumNew": 402}
+        addTime = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                  "time": "Wrong", "snumNew": 402}
+        addsnum = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                  "time": "1:00 PM", "snumNew": "Wrong"}
+        self.assertFalse(self.sec.add(addDays), "Should return false due to invalid days input")
+        self.assertFalse(self.sec.add(addIns), "Should return false due to invalid instructor")
+        self.assertFalse(self.sec.add(addRoom), "Should return false due to invalid room number")
+        self.assertFalse(self.sec.add(addTime), "Should return false due to invalid time")
+        self.assertFalse(self.sec.add(addsnum), "Should return false due to invalid section number")
+
+    # Test adding without requirements (cnum, dept, snum)
     def test_addNoInfo(self):
-        secNoCourse= {"snum": 401, "instructor": self.u1}
-        secNoSnum= {"course": self.c1, "instructor": self.u1}
-        secNoIns= {"snum": 401, "course": self.c1}
-        self.assertFalse(self.sec.add(secNoCourse), "Should return false when no course is specified")
+        secNocnum= {"snum": 401, "dept": "CS"}
+        secNoSnum= {"cnum": 351, "dept": "CS"}
+        secNodept= {"snum": 401, "cnum": 351}
+        self.assertFalse(self.sec.add(secNocnum), "Should return false when no course number is specified")
         self.assertFalse(self.sec.add(secNoSnum), "Should return false when no section number is specified")
-        self.assertFalse(self.sec.add(secNoIns), "Should return false when no instructor is specified")
+        self.assertFalse(self.sec.add(secNodept), "Should return false when no department is specified")
 
     # user does not exist and shouldn't be able to be added
     def test_userNone(self):
-        u2 = User(username="Bubba", first_name="Bubba", last_name="Gump",
-                 email="BubbaGump@gmail.com", password="shrimp", role="TA")
-        secUserInv= {"snum": 801, "instructor": u2, "course":self.c1}
+        secUserInv= {"snum": 801, "instructor": "Bubba", "cnum":351, "dept":"CS"}
         self.assertFalse(self.sec.add(secUserInv), "User Bubba does not exist in the system")
 
-    # user is not a ta or instructor
-    def test_notQualified(self):
-        u2 = User(username="Bubba", first_name="Bubba", last_name="Gump",
-                 email="BubbaGump@gmail.com", password="shrimp", role="administrator")
-        secUserInv = {"snum": 801, "instructor": u2, "course": self.c1}
-        self.assertFalse(self.sec.add(secUserInv), "User is not qualified to instruct a class")
+    # test that adding fails when adding a new Section whose time and room conflict with another currently existing one
+    def test_addRoomTimeConflict(self):
+        secConflict= {"snum" : 801, "stype": "lab", "cnum": 351, "dept": "CS", "room": 395, "instructor": "Gumby",
+                  "days": "W", "time": "12:30 PM"}
+        self.assertFalse(self.sec.add(secConflict), "Section added conflicts with already created section")
 
     # test "section view secNum" command output
     def test_view(self):
-        toView= {"snum":401, "course":self.c1}
+        toView= {"snum":401, "cnum":351, "dept":"CS"}
         self.assertEqual(self.sec.view(toView),
-                         "Course: CS-351\nSection: 401\nInstructor: Bob")
+                         "Course: CS-351\nSection: 401\nInstructor: Gimpy McGoo\nMeeting times: MW 12:30PM"
+                         "\nRoom: 395")
 
     # Test to make sure a course without a section will not be found
     def test_viewNot(self):
         self.courseT = Course(cnum=337, name="Systems Programming",
                     description="N/A", dept="CS")
         self.courseT.save()
-        toView = {"snum":401, "instructor": self.u1, "course":self.courseT}
+        toView = {"snum":401, "dept": "CS", "cnum": 337}
         self.assertEqual("Could not find CS-337-401", self.sec.view(toView))
 
     # Test view without enough information
     def test_viewNoInfo(self):
-        secNoCourse= {"snum": 401, "instructor": self.u1}
-        secNoSnum= {"course": self.c1, "instructor": self.u1}
-        self.assertEqual(self.sec.view(secNoCourse), "Could not view, no course specified",
+        secNocnum= {"snum": 401, "dept": "CS"}
+        secNoSnum= {"cnum": 351, "dept": "CS"}
+        secNodept= {"snum": 401, "cnum": 351}
+        self.assertEqual(self.sec.view(secNocnum), "Could not view, no course specified",
                          "Should not be able to view without course specified")
         self.assertEqual(self.sec.view(secNoSnum), "Could not view, no section number specified",
                          "Should not be able to view without section number specified")
+        self.assertEqual(self.sec.view(secNodept), "Could not view, no department specified",
+                         "Should not be able to view without department specified")
 
     def test_delete(self):
-        toDel= {"snum": 401, "course": self.c1}
+        toDel= {"snum": 401, "cnum": 351, "dept": "CS"}
         self.assertTrue(self.sec.delete(toDel), "Delete was not successful")
 
-    # make sure reqired information is there to delete
+    # make sure required information is there to delete
     def test_delNoInfo(self):
+        secNoSnum = {"cnum": 351, "dept": "CS"}
+        secNocnum = {"snum": 401, "dept": "CS"}
+        secNodept= {"snum": 401, "cnum": 351}
+        self.assertFalse(self.sec.delete(secNocnum), "Should return false when no course number is specified")
+        self.assertFalse(self.sec.delete(secNoSnum), "Should return false when no section number is specified")
+        self.assertFalse(self.sec.delete(secNodept), "Should return false when no department is specified")
+
+    def test_edit(self):
+        toEdit= {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400, "time": "1:00 PM", "snumNew": 402}
+        self.assertTrue(self.sec.edit(toEdit), "Edit was not successful")
+
+    # Test edit without enough info
+    def test_editNoInfo(self):
+        secNocnum= {"snum": 401, "dept": "CS"}
+        secNoSnum= {"cnum": 351, "dept": "CS"}
+        secNodept= {"snum": 401, "cnum": 351}
+        self.assertFalse(self.sec.delete(secNocnum), "Should return false when no course number is specified")
+        self.assertFalse(self.sec.delete(secNoSnum), "Should return false when no section number is specified")
+        self.assertFalse(self.sec.delete(secNodept), "Should return false when no department is specified")
+
+    # Test edit when given various invalid field inputs
+    def test_editInvalid(self):
+        editDays = {"cnum": 351, "dept": "CS", "snum": 401, "days": "Wrong", "instructor": "Rock", "room": 400,
+                  "time": "1:00 PM", "snumNew": 402}
+        editIns = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Crunchy", "room": 400,
+                  "time": "1:00 PM", "snumNew": 402}
+        editRoom = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": "Wrong",
+                  "time": "1:00 PM", "snumNew": 402}
+        editTime = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                  "time": "Wrong", "snumNew": 402}
+        editsnum = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                  "time": "1:00 PM", "snumNew": "Wrong"}
+        self.assertFalse(self.sec.delete(editDays), "Should return false due to invalid days input")
+        self.assertFalse(self.sec.delete(editIns), "Should return false due to invalid instructor")
+        self.assertFalse(self.sec.delete(editRoom), "Should return false due to invalid room number")
+        self.assertFalse(self.sec.delete(editTime), "Should return false due to invalid time")
+        self.assertFalse(self.sec.delete(editsnum), "Should return false due to invalid section number")
+
+    # Need to make sure that the "time" field accepts multiple ways of inputting (e.g "01:30 PM", "1:30 PM", "1:30PM"
+    def test_editTimes(self):
+        timeOne = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                    "time": "01:30 PM", "snumNew": 402}
+        timeTwo = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                    "time": "1:30 PM", "snumNew": 402}
+        timeThree = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
+                    "time": "1:30PM", "snumNew": 402}
+        self.assertTrue(self.sec.edit(timeOne), "Editing time was not successful")
+        self.assertTrue(self.sec.edit(timeTwo), "Editing time was not successful")
+        self.assertTrue(self.sec.edit(timeThree), "Editing time was not successful")
+
+    # Test that if, upon editing, the if the new room and time conflict with a previously added section, it fails.
+    def test_editRoomTimeConflict(self):
+        newSec = {"snum" : 801, "stype": "lab", "cnum": 351, "dept": "CS", "room": 901, "instructor": "Gumby",
+                  "days": "T", "time": "4:00 PM"}
+        self.sec.add(newSec)
+        secConflict= {"snum" : 801, "stype": "lab", "cnum": 351, "dept": "CS", "room": 395, "instructor": "Gumby",
+                  "days": "W", "time": "12:30 PM"}
+        self.assertFalse(self.sec.edit(secConflict), "Section added conflicts with already created section")
