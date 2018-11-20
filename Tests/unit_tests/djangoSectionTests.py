@@ -1,24 +1,24 @@
-import unittest
+from django.test import TestCase
 from TAServer.models import Section, Course, User
 from Managers.DjangoSectionManager import SectionManager as SM
 
-class sectionTest(unittest.TestCase):
+class sectionTest(TestCase):
 
     def setUp(self):
 
-        self.u1 = User(username="Gumby", first_name="Gimpy", last_name="McGoo",
+        self.u1 = User.objects.create(username="Gumby", first_name="Gimpy", last_name="McGoo",
                  email="Gumby@gmail.com", password="123", role="instructor")
         self.u1.save()
-        self.c1 = Course(cnum=351, name="Data Structures and Algorithms",
+        self.c1 = Course.objects.create(cnum=351, name="Data Structures and Algorithms",
                     description="N/A", dept="CS")
         self.c1.save()
-        self.s1 = Section(snum=401, stype="lecture", course=self.c1, room=395, instructor=self.u1,
+        self.s1 = Section.objects.create(snum=401, stype="lecture", course=self.c1, room=395, instructor=self.u1,
                      days="MW", time="12:30 PM")
         self.s1.save()
-        self.u2 = User(username="Rock", first_name="Jayson", last_name="Rock",
+        self.u2 = User.objects.create(username="Rock", first_name="Jayson", last_name="Rock",
                  email="jRock@gmail.com", password="123", role="instructor")
         self.u2.save()
-        self.u3 = User(username="Crunchy", first_name="Ron", last_name="Skimpy",
+        self.u3 = User.objects.create(username="Crunchy", first_name="Ron", last_name="Skimpy",
                  email="BubbaGump@gmail.com", password="shrimp", role="administrator")
         self.u3.save()
         self.sec = SM()
