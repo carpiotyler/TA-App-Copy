@@ -53,10 +53,42 @@ class DjangoStorageManagerTests(TestCase):
     # Testing inserting a Course model
     def test_insert_course(self):
         c = Course(dept = "CS", cnum = "351")
-        c.save()
-    def test_insert_section(self): pass
+        self.assertFalse(self.storage.insert_course(self, c), "Should return false, not overwriting!")
+        retval = Course.objects.get(dept="CS", cnum="351")
+        self.assertIsNotNone(retval)
+        c.name = "Data Structures and Algorithms"
+        self.assertTrue(self.storage.insert_course(c), "Should return true, overwriting!")
+        retval = Course.objects.get(dept="CS", cnum="351")
+        self.assertIsNotNone(retval)
+        self.assertEqual(len(Course.objects.all()), 1, "Should only be 1 course in Courses during this test!")
+        self.assertEqual(retval.name, "Data Structures and Algorithms", "Insert didn't properly update the db!")
 
-    def test_insert_user(self): pass
+    # Testing inserting a Section model
+    def test_insert_section(self):
+        c = Course(dept="CS", cnum="351")
+        c.save()
+        s = Section(snum="801", course=c)
+        self.assertFalse(self.storage.insert_section(self, s), "Should return false, not overwriting!")
+        retval = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
+        self.assertIsNotNone(retval)
+        s.time = "11:00AM"
+        self.assertTrue(self.storage.insert_section(s), "Should return true, overwriting!")
+        retval = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
+        self.assertIsNotNone(retval)
+        self.assertEqual(len(Section.objects.all()), 1, "Should only be 1 section in Sections during this test!")
+        self.assertEqual(retval.time, "11:00AM", "Insert didn't properly update the db!")
+
+    def test_insert_user(self):
+        u = User(username="Rock", password="123")
+        self.assertFalse(self.storage.insert_user(self, u), "Should return false, not overwriting!")
+        retval = User.objects.get(username="Rock")
+        self.assertIsNotNone(retval)
+        u.password = "password"
+        self.assertTrue(self.storage.insert_user(u), "Should return true, overwriting!")
+        retval = User.objects.get(username="Rock")
+        self.assertIsNotNone(retval)
+        self.assertEqual(len(User.objects.all()), 2, "Should only be 2 users in Users during this test!")
+        self.assertEqual(retval.password, "password", "Insert didn't properly update the db!")
 
     def test_get_course(self): pass
 

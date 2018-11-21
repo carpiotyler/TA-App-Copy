@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac65fbc6-2fa9-46fd-b343-929385a69025" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/DjangoStorageManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/DjangoStorageManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/myStorageManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/myStorageManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TAServer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/TAServer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,14 +78,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="5154" />
-          <entry key="txt" value="413" />
+          <entry key="py" value="6037" />
+          <entry key="txt" value="437" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="413" />
-          <entry key="Python" value="5154" />
+          <entry key="PLAIN_TEXT" value="437" />
+          <entry key="Python" value="6037" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -120,7 +117,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Managers/myStorageManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
+            <state relative-caret-position="617">
               <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -132,12 +129,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="55" column="16" lean-forward="true" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+            <state relative-caret-position="515">
+              <caret line="90" column="94" lean-forward="true" selection-start-line="90" selection-start-column="94" selection-end-line="90" selection-end-column="94" />
               <folding>
                 <element signature="e#0#62#0" expanded="true" />
-                <marker date="1542756874224" expanded="true" signature="191:196" ph="..." />
-                <marker date="1542756874224" expanded="true" signature="191:2096" ph="..." />
+                <marker date="1542763887946" expanded="true" signature="191:196" ph="..." />
+                <marker date="1542763887946" expanded="true" signature="191:2096" ph="..." />
               </folding>
             </state>
           </provider>
@@ -378,7 +375,14 @@
       <option name="project" value="LOCAL" />
       <updated>1542418438989</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Some work on tests">
+      <created>1542758458425</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1542758458425</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -395,10 +399,20 @@
       <configuration name="pytest in Tests" configurationId="tests" />
     </history-entry>
   </component>
+  <component name="TodoView" selected-index="1">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26439232" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26439232" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -407,7 +421,7 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
@@ -430,7 +444,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="database merge" />
     <MESSAGE value="Updated myStorageManager Interface. Split a few methods up and refactored to be more stable (and strongly typed). Since Django seamlessly updates members of our database, this Manager is more of a helper class for ORGANIZING data and keeping everything easy to access." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated myStorageManager Interface. Split a few methods up and refactored to be more stable (and strongly typed). Since Django seamlessly updates members of our database, this Manager is more of a helper class for ORGANIZING data and keeping everything easy to access." />
+    <MESSAGE value="Some work on tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some work on tests" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/TAServer/viewsa.py" />
@@ -458,16 +473,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Managers/myStorageManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TAServer/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="719">
@@ -475,14 +480,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Managers/myStorageManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="617">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="55" column="16" lean-forward="true" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+        <state relative-caret-position="515">
+          <caret line="90" column="94" lean-forward="true" selection-start-line="90" selection-start-column="94" selection-end-line="90" selection-end-column="94" />
           <folding>
             <element signature="e#0#62#0" expanded="true" />
-            <marker date="1542756874224" expanded="true" signature="191:196" ph="..." />
-            <marker date="1542756874224" expanded="true" signature="191:2096" ph="..." />
+            <marker date="1542763887946" expanded="true" signature="191:196" ph="..." />
+            <marker date="1542763887946" expanded="true" signature="191:2096" ph="..." />
           </folding>
         </state>
       </provider>
