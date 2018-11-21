@@ -46,6 +46,7 @@ class AbstractStorageManager(ABC):
     @abstractmethod
     def get_users_by(self)->[User]: pass
     # Returns a list of all User models in the database. Empty list if no matches.
+    # NAMES GET_USERS_BY VS GET_ALL_USERS BECAUSE WE MAY WANT TO GET ALL USERS VIA MORE FIELDS LATER
 
     @abstractmethod
     def get_section(self, dept, cnum, snum)->Section: pass
