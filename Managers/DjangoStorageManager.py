@@ -14,7 +14,7 @@ class DjangoStorageManager(AbstractStorageManager):
 
     def insert_user(self, user: User)->bool: pass
 
-    def get_all_users(self)->[User]: pass
+    def get_users_by(self)->[User]: pass
 
     def get_user(self, username)->User: pass
 

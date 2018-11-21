@@ -44,7 +44,7 @@ class AbstractStorageManager(ABC):
     # Returns a User model that has this username (plus other data from database) and returns it. None if no entry matches
 
     @abstractmethod
-    def get_all_users(self)->[User]: pass
+    def get_users_by(self)->[User]: pass
     # Returns a list of all User models in the database. Empty list if no matches.
 
     @abstractmethod
