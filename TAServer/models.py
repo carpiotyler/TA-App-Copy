@@ -9,19 +9,19 @@ class Section(models.Model):
 
     # section type
     SEC_TYPE = (
-        'lab'
-        'lecture'
+        ('lab', 'Lab'),
+        ('lecture', 'Lecture')
     )
     # days to meet (M=Monday, T=Tuesday, W=Wednesday, H=Thursday, F=Friday)
     DAYS = (
-        'M',
-        'T',
-        'W',
-        'H',
-        'F',
-        'MW',
-        'TH',
-        'MWF',
+        ('M', "Monday"),
+        ('T', "Tuesday"),
+        ('W', "Wednesday"),
+        ('H', "Thursday"),
+        ('F', "Friday"),
+        ('MW', "Monday Wednesday"),
+        ('TH', "Tuesday Thursday"),
+        ('MWF', "Monday Wednesday Friday")
     )
     # section number
     snum = models.IntegerField()
@@ -32,8 +32,10 @@ class Section(models.Model):
     # room Number
     room = models.IntegerField()
     # instructor or ta
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(User)
     # days of week meeting
     days = models.CharField(max_length=5, choices=DAYS)
     # time of meeting ("05:45 AM" or "5:45 PM")
-    time = models.CharField(max_length=8)
+    startTime = models.CharField(max_length=8)
+    # time of meeting end
+    endTime = models.CharField(max_length=8)

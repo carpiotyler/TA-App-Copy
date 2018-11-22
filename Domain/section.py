@@ -1,6 +1,6 @@
 class Section:
 
-    def __init__(self, str_dept, str_cnum, str_snum, str_instructor="", type=None, days=None, room=None, time=None):
+    def __init__(self, str_dept, str_cnum, str_snum, str_instructor="", type=None, days=None, room=None, endTime=None, startTime=None):
         self.dept = str_dept
         self.cnum = str_cnum
         self.snum = str_snum
@@ -8,4 +8,5 @@ class Section:
         self.type = type
         self.days = days
         self.room = room
-        self.time = time
+        self.startTime = startTime
+        self.endTime = endTime
