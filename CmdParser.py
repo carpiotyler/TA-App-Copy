@@ -21,7 +21,7 @@ class CommandParser:
                        'help': "Placeholder description for help",
                        'exit': "Placeholder description for exit"}
 
-    def __init__(self, mySM:SM = SM(), myUM:UM = UM(JSM()), myCM:CM = CM(), myAM:AM = AM(JSM())):
+    def __init__(self, mySM:SM = None, myUM:UM = None, myCM:CM = None, myAM:AM = None):
         pass
 
     # Parses the course command
@@ -63,9 +63,9 @@ class CommandParser:
         split = command.split(" ")
         command = split[0].lower()
 
-        for cmd in self.CommandList:
+        for cmd in self.commandList:
             if cmd.__name__ == command:
-                return cmd(command)
+                return cmd(self=self, command=command)
         return "Not a valid command"
 
     @staticmethod
