@@ -32,7 +32,7 @@ class Section(models.Model):
     # room Number
     room = models.IntegerField()
     # instructor or ta
-    instructor = models.ForeignKey(User)
+    instructor = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     # days of week meeting
     days = models.CharField(max_length=5, choices=DAYS)
     # time of meeting ("05:45 AM" or "5:45 PM")

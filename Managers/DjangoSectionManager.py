@@ -21,6 +21,10 @@ class SectionManager(ManagerInterface):
                         str_instructor=fields.get("instructor"), type=fields.get("type"), days=fields.get("days"),
                         room=fields.get("room"), endTime=fields.get("endTime"), startTime=fields.get("startTime"))
 
+        # Make sure course already exists
+        if not self.courseExists(cnum=toAdd.cnum, dept=toAdd.dept):
+            return False
+
         # Make sure user exists if inst is to be added
         if toAdd.instructor is not None and not self.userExists(toAdd.instructor):
             return False
@@ -67,7 +71,27 @@ class SectionManager(ManagerInterface):
             print(invalid)
             return False
 
+        toEdit = Section(str_dept=fields.get("dept"), str_cnum=fields.get("cnum"), str_snum=fields.get("snum"),
+                        str_instructor=fields.get("instructor"), type=fields.get("type"), days=fields.get("days"),
+                        room=fields.get("room"), endTime=fields.get("endTime"), startTime=fields.get("startTime"))
 
+        # Make sure course already exists
+        if not self.courseExists(cnum=toEdit.cnum, dept=toEdit.dept):
+            return False
+
+        # Make sure user exists if inst is to be added
+        if toEdit.instructor is not None and not self.userExists(toEdit.instructor):
+            return False
+
+        # Check for correct time format of start and end time
+        if not self.timeFormat(toEdit.startTime) or not self.timeFormat(toEdit.endTime):
+            return False
+
+        # Check if time and room conflict
+        if not self.roomConflict(start=toEdit.startTime, end=toEdit.endTime, room=toEdit.room):
+            return False
+
+        #TODO: complete edit
         pass
 
     def delete(self, fields: dict)->bool:
@@ -80,12 +104,22 @@ class SectionManager(ManagerInterface):
         toDel = Section(str_dept=fields.get("dept"),str_cnum=fields.get("cnum"),str_snum=fields.get("snum"),
                         str_instructor=fields.get("instructor"), type=fields.get("type"), days=fields.get("days"),
                         room=fields.get("room"), time=fields.get("time"))
-        pass
+
+        if self.courseExists(cnum=fields.get("cnum"), dept=fields.get("dept")):
+            self.db.delete(toDel)
+            return True
+        else:
+            return False
 
     # Make sure user exists
     def userExists(self, ins):
         user = self.db.get_user(ins)
         return user is not None
+
+    # Make sure course exists
+    def courseExists(self, cnum, dept):
+        course = self.db.get_course(cnum, dept)
+        return course is not None
 
     # make sure necessary fields are not set to None
     def actionHelper(self, dept, cnum, snum, action):
@@ -97,7 +131,7 @@ class SectionManager(ManagerInterface):
         }
         return switch.get(None, "okay")
 
-    def addHelper(self, sec : Section):
+    def addHelper(self, sec: Section):
         self.db.insert_section(sec)
         course = self.db.get_course(sec.dept, sec.cnum)
         if sec.snum not in course.sections:
@@ -149,50 +183,50 @@ class SectionManager(ManagerInterface):
         else:
             return True
 
-    # This helper will take a time in string format and return a list
-    # The list will be [Hour, minutes, meridies] (e.g. 4:30 PM will return [4, 30, "PM"]
+    # This helper will take a time in string format and return a integer time
+    # The integer will be in military hours for easy comparison in roomConflict()
     # NOTE: time format should be called before calling this method
-    def intTime(self, time : str)->list:
+    def intTime(self, time : str)->int:
 
         breakDown = time.split(" ")
         meridies = breakDown[1]
         minHr = breakDown[0].split(":")
         hr = int(minHr[0])
         min = int(minHr[1])
-        intTime = [hr, min, meridies]
+        if meridies.lower() is "pm" and hr != 12:
+            hr = hr + 12
+        elif meridies.lower() is "am" and hr == 12:
+            hr = 0
+        hr = str(hr)
+        min = str(min)
+        intTime = hr + min
+        intTime = int(intTime)
+        return intTime
 
     # NOTE: time format should be called before calling this method
-    def roomConflict(self, start : str, end : str, room: int):
+    def roomConflict(self, start: str, end: str, room: int)->bool:
 
         if start is None or room is None or end is None:
             return True
 
-        breakStart = self.intTime(start)
-        startHr = breakStart[0]
-        startMin = breakStart[1]
-        startMeridies = breakStart[2]
-
-        breakEnd = self.intTime(end)
-        endHr = breakEnd[0]
-        endMin = breakEnd[1]
-        endMeridies = breakEnd[2]
-
         roomUse = Section.objects.filter(room=room)
         if roomUse.count() > 0:
+
+            # get integer values for start and end times for comparison
+            startTime = self.intTime(start)
+            endTime = self.intTime(end)
+
             for x in roomUse:
-                breakStart = x.startTime.split(" ")
-                xStartMeridies = breakStart[1]
-                minHr = breakStart[0].split(":")
-                xStartMin = minHr[1]
-                xStartHr = minHr[0]
+                xStart = self.intTime(x.startTime)
+                xEnd = self.intTime(x.endTime)
 
-                breakEnd = x.endTime.split(" ")
-                xEndMeridies = breakEnd[1]
-                minHr = breakEnd[0].split(":")
-                xEndMin = minHr[1]
-                xEndHr = minHr[0]
-                if
+                # check if start and end time is inbetween each other class that shares the same room
+                if xStart <= startTime <= xEnd:
+                    return False
+                elif xStart <= endTime <= xEnd:
+                    return False
 
+        return True
 
     @static
     def reqFields(self)->list:
