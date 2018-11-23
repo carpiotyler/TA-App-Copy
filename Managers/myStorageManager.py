@@ -1,56 +1,62 @@
 from abc import ABC, abstractmethod
-from Domain.course import Course
-from Domain.section import Section
-from Domain.user import User
+from TAServer.models import User, Course, Section
 
 
 class AbstractStorageManager(ABC):
-    # Type conversions so legacy code works with Domain folder
-    class Course(Course):
-        pass
-
-    class Section(Section):
-        pass
-
-    class User(User):
-        pass
 
     # ################################################################################# #
     # List of functional storage methods to be implemented by a data system             #
     # ################################################################################# #
     @abstractmethod
-    def set_up(self): pass
+    def set_up(self, overwrite=False): pass
+    # NOTE: WILL WIPE ALL DATA and  IF YOU SET OVERWRITE TO TRUE
     # Sets up storage. JSON, Database, whatever. Also creates one user: username=supervisor password=1234 role=supervisor
     # Returns true on successful setup false otherwise
 
     @abstractmethod
-    def insert_course(self, course): pass
+    def insert_course(self, course: Course)->bool: pass
     # Inserts a Course to the course list, overwriting if it exists.
     # Does not validate data! Simply makes sure it has received a course object then inserts it to the database.
+    # Returns True if Course existed and was overwritten.
 
     @abstractmethod
-    def insert_user(self, user): pass
+    def insert_user(self, user: User)->bool: pass
     # Inserts a User to the user list, overwriting if it exists. Does not error check for valid data!
     # Does not validate data! Simply makes sure it has received a user object then inserts it to the database.
+    # Returns True if User existed and was overwritten.
 
     @abstractmethod
-    def insert_section(self, section): pass
+    def insert_section(self, section: Section)->bool: pass
     # Inserts a Section to the user list, overwriting if it exists. Does not error check for valid data!
     # Does not validate data! Simply makes sure it has received a section object then inserts it to the database.
+    # Returns True if Section existed and was overwritten.
 
     @abstractmethod
-    def get_course(self, dept, cnum): pass
-    # Builds a Course object that has this dept and cnum (plus other data from database) and returns it. None if no entry matches.
-    # Returns a list of Course Objects that match dept if cnum is not specified. If dept and cnum are both blank, returns all courses as a list.
+    def get_course(self, dept, cnum)->Course: pass
+    # Builds a Course model that has this dept and cnum (plus other data from database) and returns it. None if no entry matches.
 
     @abstractmethod
-    def get_user(self, username): pass
-    # Builds a User object that has this username (plus other data from database) and returns it. None if no entry matches
-    # Returns a list of User objects if username is not specified.
+    def get_courses_by(self, dept, cnum)->[Course]: pass
+    # Returns a list of Course models that match dept if cnum is not specified. If dept and cnum are both blank, returns all courses as a list.
 
     @abstractmethod
-    def get_section(self, dept, cnum, snum): pass
-    # Builds a Section object that has this username (plus other data from database) and returns it. None if no entry matches
+    def get_user(self, username)->User: pass
+    # Returns a User model that has this username (plus other data from database) and returns it. None if no entry matches
 
-    # (NOT IMPLEMENTED/MAY NEVER BE NECESSARY) Returns a list of Section Objects that match (dept, cnum) if snum is not specified (All sections of a course). Returns a list that
-    # (NOT IMPLEMENTED/MAY NEVER BE NECESSARY) Matches dept only if (cnum, snum) are not specified. Returns all sections if cnum, dept, snum are all blank.
+    @abstractmethod
+    def get_users_by(self)->[User]: pass
+    # Returns a list of all User models in the database. Empty list if no matches.
+    # NAMES GET_USERS_BY VS GET_ALL_USERS BECAUSE WE MAY WANT TO GET ALL USERS VIA MORE FIELDS LATER
+
+    @abstractmethod
+    def get_section(self, dept, cnum, snum)->Section: pass
+    # Builds a Section model that has this dept, cnum, and snum (plus other data from database) and returns it. None if no entry matches
+
+    @abstractmethod
+    def get_sections_by(self, dept, cnum, snum)->[Section]: pass
+    # Returns a list of all Section models in the database. Empty list if no matches.
+
+    @abstractmethod
+    def delete(self, to_delete)->bool: pass
+    # Deletes an object from the database.
+    # Returns True if object existed and was deleted.
