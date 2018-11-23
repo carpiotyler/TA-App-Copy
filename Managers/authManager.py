@@ -1,4 +1,5 @@
 from Managers.myStorageManager import AbstractStorageManager
+from Managers.userManager import UserManager as UM
 from Domain.user import User
 
 
