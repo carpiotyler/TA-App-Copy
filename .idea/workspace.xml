@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac65fbc6-2fa9-46fd-b343-929385a69025" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/DjangoSectionManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/DjangoSectionManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/unit_tests/djangoSectionTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/unit_tests/djangoSectionTests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TAServer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/TAServer/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,6 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/TA_App$Test__Tests_unit_tests_djangoSectionTests.coverage" NAME="Test: Tests.unit_tests.djangoSectionTests Coverage Results" MODIFIED="1543097828663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/TA_App_Demo$main.coverage" NAME="main Coverage Results" MODIFIED="1541535897678" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/TA_App$main.coverage" NAME="main Coverage Results" MODIFIED="1541531825054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/TA_App_Master$main.coverage" NAME="main Coverage Results" MODIFIED="1541565602923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -43,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests/unit_tests/djangoSectionTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="48" lean-forward="true" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+            <state relative-caret-position="425">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -57,14 +57,18 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TAServer/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+            <state relative-caret-position="1037">
+              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
             </state>
           </provider>
         </entry>
@@ -72,7 +76,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Managers/DjangoSectionManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="272">
               <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
               <folding>
                 <element signature="e#0#69#0" expanded="true" />
@@ -134,9 +138,9 @@
         <option value="$PROJECT_DIR$/Managers/managerInterface.py" />
         <option value="$PROJECT_DIR$/Managers/sectionManager.py" />
         <option value="$PROJECT_DIR$/Domain/section.py" />
-        <option value="$PROJECT_DIR$/TAServer/models.py" />
         <option value="$PROJECT_DIR$/Managers/DjangoSectionManager.py" />
         <option value="$PROJECT_DIR$/Tests/unit_tests/djangoSectionTests.py" />
+        <option value="$PROJECT_DIR$/TAServer/models.py" />
       </list>
     </option>
   </component>
@@ -187,12 +191,6 @@
               <item name="TA-App" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="Tests" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="acceptance_tests" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="TA-App" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="Tests" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="unit_tests" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
@@ -232,7 +230,27 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Django server.TA-App">
+  <component name="RunManager" selected="Django tests.Test: Tests.unit_tests.djangoSectionTests">
+    <configuration name="Test: Tests.unit_tests.djangoSectionTests" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="TA-App" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="Tests.unit_tests.djangoSectionTests" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="TA-App" type="Python.DjangoServer" factoryName="Django server">
       <module name="TA-App" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -283,7 +301,13 @@
     <list>
       <item itemvalue="Django server.TAServer" />
       <item itemvalue="Django server.TA-App" />
+      <item itemvalue="Django tests.Test: Tests.unit_tests.djangoSectionTests" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Django tests.Test: Tests.unit_tests.djangoSectionTests" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -295,7 +319,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1542224311531</updated>
-      <workItem from="1543038112098" duration="1150000" />
+      <workItem from="1543038112098" duration="1455000" />
+      <workItem from="1543092346829" duration="2058000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/Sass-Meister/TA-App into Section-Manager&#10;&#10;# Conflicts:&#10;#&#9;.idea/misc.xml&#10;#&#9;.idea/modules.xml">
       <created>1542416629192</created>
@@ -360,22 +385,40 @@
       <option name="project" value="LOCAL" />
       <updated>1543011764100</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Almost done, need to finish edit() and run unit tests">
+      <created>1543042277090</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1543042277090</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Test__Tests_unit_tests_djangoSectionTests - 2018.11.24 at 14h 53m 30s.xml">
+      <configuration name="Test: Tests.unit_tests.djangoSectionTests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__Tests_unit_tests_djangoSectionTests - 2018.11.24 at 16h 01m 35s.xml">
+      <configuration name="Test: Tests.unit_tests.djangoSectionTests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__Tests_unit_tests_djangoSectionTests - 2018.11.24 at 16h 17m 11s.xml">
+      <configuration name="Test: Tests.unit_tests.djangoSectionTests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1150000" />
+    <option name="totallyTimeSpent" value="3513000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11050328" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.42669585" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.46542552" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.46936542" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -487,13 +530,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TAServer/models.py">
+    <entry file="file://$PROJECT_DIR$/Managers/DjangoSectionManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        <state relative-caret-position="272">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#69#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -501,9 +544,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Domain/course.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/TA-App.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/unit_tests/sectionTests.py">
@@ -516,23 +556,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Managers/DjangoSectionManager.py">
+    <entry file="file://$PROJECT_DIR$/.idea/TA-App.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#69#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/unit_tests/djangoSectionTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="48" lean-forward="true" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+        <state relative-caret-position="425">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TAServer/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
         </state>
       </provider>
     </entry>

@@ -4,6 +4,26 @@ from django.db import models
 
 # Create your models here.
 
+class User(models.Model):
+
+    username = models.CharField(max_length = 40)
+    password = models.CharField(max_length = 40)
+
+    def __str__(self):
+        pass
+
+class Course(models.Model):
+    cnum = models.CharField(max_length = 4)
+    name = models.CharField(max_length = 15)
+    description = models.CharField(max_length = 75)
+    dept = models.CharField(max_length = 10)
+
+    def __str__(self):
+        pass
+
+    # returns all sections for course
+    def sections (self):
+        pass
 
 class Section(models.Model):
 
