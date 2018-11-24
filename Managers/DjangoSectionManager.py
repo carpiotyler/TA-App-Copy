@@ -39,6 +39,7 @@ class SectionManager(ManagerInterface):
 
         # With and without instructor adding to course and sections db
         if toAdd.instructor is None:
+            toAdd.instructor = #TODO: add empty instructor
             self.addHelper(toAdd)
             return True
         else:
@@ -91,8 +92,16 @@ class SectionManager(ManagerInterface):
         if not self.roomConflict(start=toEdit.startTime, end=toEdit.endTime, room=toEdit.room):
             return False
 
-        #TODO: complete edit
-        pass
+        # With and without instructor adding to course and sections db
+        if toEdit.instructor is None:
+            toEdit.instructor = #TODO: add empty instructor
+            self.addHelper(toEdit)
+            return True
+        else:
+            if not self.valUser(toEdit.instructor):
+                return False
+            self.addHelper(toEdit)
+            return True
 
     def delete(self, fields: dict)->bool:
 
@@ -139,6 +148,7 @@ class SectionManager(ManagerInterface):
         self.db.insert_course(course)
 
     # Make sure user is a TA or instructor
+    #TODO: make sure to allow empty user object for a "placeholder"
     def valUser(self, ins):
         user = self.db.get_user(ins)
         if user.role.lower() != "ta" and user.role.lower() != "instructor":
@@ -157,7 +167,7 @@ class SectionManager(ManagerInterface):
         minHr = broken[0].split(":")
         min = minHr[0]
         Hr = minHr[1]
-        #check if min has  2 char and hr has at least one but not more than 2
+        #check if min has  2 characters (1:5 pm or 1:0 pm will not be accepted) and hr has at least one but not more than 2 (01:30 or 1:30 is fine)
         if len(min) != 2 or len(Hr) > 2 or len(Hr) < 1:
             return False
 
@@ -170,13 +180,13 @@ class SectionManager(ManagerInterface):
             return False
 
        # for min and Hr, check appropriate range
-        if min < 0 or min > 60:
+        if min < 0 or min >= 60:
             return False
         if Hr < 1 or Hr > 12:
             return False
 
         # check if the second half of the original split string broken[1] should be
-        # either am or pm
+        # either am or pm (lower case)
         partDay = broken[1].lower()
         if partDay is not "am" or "pm":
             return False
@@ -185,7 +195,7 @@ class SectionManager(ManagerInterface):
 
     # This helper will take a time in string format and return a integer time
     # The integer will be in military hours for easy comparison in roomConflict()
-    # NOTE: time format should be called before calling this method
+    # NOTE: time format should be called before calling this method or else int() conversion will fail
     def intTime(self, time : str)->int:
 
         breakDown = time.split(" ")
@@ -193,6 +203,8 @@ class SectionManager(ManagerInterface):
         minHr = breakDown[0].split(":")
         hr = int(minHr[0])
         min = int(minHr[1])
+
+        # convert to military time
         if meridies.lower() is "pm" and hr != 12:
             hr = hr + 12
         elif meridies.lower() is "am" and hr == 12:
@@ -203,7 +215,7 @@ class SectionManager(ManagerInterface):
         intTime = int(intTime)
         return intTime
 
-    # NOTE: time format should be called before calling this method
+    # NOTE: timeFormat() should be called before calling this method
     def roomConflict(self, start: str, end: str, room: int)->bool:
 
         if start is None or room is None or end is None:
@@ -220,7 +232,7 @@ class SectionManager(ManagerInterface):
                 xStart = self.intTime(x.startTime)
                 xEnd = self.intTime(x.endTime)
 
-                # check if start and end time is inbetween each other class that shares the same room
+                # check if start and end time is between each other class that shares the same room
                 if xStart <= startTime <= xEnd:
                     return False
                 elif xStart <= endTime <= xEnd:

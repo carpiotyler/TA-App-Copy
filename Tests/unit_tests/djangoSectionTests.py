@@ -1,6 +1,7 @@
 from django.test import TestCase
 from TAServer.models import Section, Course, User
 from Managers.DjangoSectionManager import SectionManager as SM
+from Managers.DjangoStorageManager import DjangoStorageManager as storage
 
 class sectionTest(TestCase):
 
@@ -21,7 +22,7 @@ class sectionTest(TestCase):
         self.u3 = User.objects.create(username="Crunchy", first_name="Ron", last_name="Skimpy",
                  email="BubbaGump@gmail.com", password="shrimp", role="administrator")
         self.u3.save()
-        self.sec = SM()
+        self.sec = SM(storage)
 
     def tearDown(self):
         pass
