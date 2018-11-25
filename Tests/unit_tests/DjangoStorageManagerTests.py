@@ -3,6 +3,7 @@ from TAServer.models import User, Section, Course
 from django.test import TestCase
 import unittest
 
+
 class DjangoStorageManagerTests(TestCase):
 
     # setUp Calls setup function from db. This makes sense as all databases have a hardcoded supervisor to start with,
@@ -41,12 +42,9 @@ class DjangoStorageManagerTests(TestCase):
 
         # Should rebuild database, with none of the following models we had created:
         self.storage.set_up(overwrite=True)
-        u = User.objects.get(username="test")
-        c = Course.objects.get(dept="CS", cnum="351")
-        s = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
-        self.assertIsNone(u)
-        self.assertIsNone(c)
-        self.assertIsNone(s)
+        self.assertEqual(User.objects.all().count(), 1, "After rebuild (overwrite), must contain one user!")
+        self.assertEqual(Section.objects.all().count(), 0)
+        self.assertEqual(Course.objects.all().count(), 0)
 
     # NOTE: FOR ALL OTHER TESTS WE ASSUME SETUP WORKS CORRECTLY AND ONLY ONE SUPERUSER IS IN THE DATABASE
 
