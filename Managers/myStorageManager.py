@@ -8,7 +8,7 @@ class AbstractStorageManager(ABC):
     # List of functional storage methods to be implemented by a data system             #
     # ################################################################################# #
     @abstractmethod
-    def set_up(self, overwrite=False): pass
+    def set_up(self, overwrite: bool = False)->bool: pass
     # NOTE: WILL WIPE ALL DATA and  IF YOU SET OVERWRITE TO TRUE
     # Sets up storage. JSON, Database, whatever. Also creates one user: username=supervisor password=1234 role=supervisor
     # Returns true on successful setup false otherwise
