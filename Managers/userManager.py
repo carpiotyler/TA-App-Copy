@@ -1,61 +1,27 @@
-from Managers.myStorageManager import AbstractStorageManager as StorageManager
-from Domain.user import User
+from Managers.myStorageManager import AbstractStorageManager
+from Managers.ManagerInterface import ManagerInterface
 
 
-class UserManager:
+class UserManager(ManagerInterface):
+    def __init__(self, database: AbstractStorageManager):
+        pass
 
-    def __init__(self, storage: StorageManager):
-        self.storage = storage
+    def add(self, fields: dict)->bool:
+        pass
 
-    def add(self, username, password: str = None, role: str = None) -> str:
-        user = self.storage.get_user(username)
+    def view(self, fields: dict)->str:
+        pass
 
-        if user is not None:  # user exists
-            return "User Already Exists"
+    def edit(self, fields: dict)->bool:
+        pass
 
-        else:  # user dne
-            _password = "" if password is None else password
-            _role = "" if role is None else role
-            user = User(username, _password, _role)
-            self.storage.insert_user(user)
-            return user.__str__()
+    def delete(self, fields: dict)->bool:
+        pass
 
-    def edit(self, username, password: str = None, role: str = None) -> str:
-        user = self.storage.get_user(username)
+    @staticmethod
+    def reqFields()->list:
+        pass
 
-        if user is None:  # user dne
-            return "No User Available"
-
-        else:  # found user
-            _password = user.password if password is None else password
-            _role = user.role if role is None else role
-            user = User(username, _password, _role)
-            self.storage.insert_user(user)
-            return user.__str__()
-
-    def view(self, username: str = None) -> str:
-
-        if username is None:  # fetch all users
-            users = self.storage.get_all_users()
-            data = map(lambda x: x.__str__(), users)
-            return '|'.join(data)
-
-        else:  # fetch single user
-            user = self.storage.get_user(username)
-
-            if user is None:  # user dne
-                return "No User Available"
-
-            else:  # found user
-                return user.__str__()
-
-    def delete(self, username) -> str:
-
-        user = self.storage.get_user(username)
-
-        if user is None:  # user dne
-            return "No User Available"
-
-        else:  # found user
-            self.storage.delete_user(user)
-            return user.__str__()
+    @staticmethod
+    def optFields()->list:
+        pass

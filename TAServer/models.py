@@ -3,19 +3,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Staff(User):
-    ROLES = (
-        ('T', 'TA'),
-        ('I', 'Instructor'),
-        ('A', 'Administrator'),
-        ('S', 'Supervisor')
-    )
-
-    role = models.CharField(max_length=13, choices=ROLES)
-    sections = models.ManyToManyField(Section) # For TA's
-    courses = models.ManyToManyField(Course) # For instructors
-    phonenum = models.CharField(max_length=10)
-    address = models.CharField(max_length=30)
 
 class Course(models.Model):
     cnum = models.CharField(max_length = 4)
@@ -65,3 +52,17 @@ class Section(models.Model):
     startTime = models.CharField(max_length=8)
     # time of meeting end
     endTime = models.CharField(max_length=8)
+
+class Staff(User):
+    ROLES = (
+        ('T', 'TA'),
+        ('I', 'Instructor'),
+        ('A', 'Administrator'),
+        ('S', 'Supervisor')
+    )
+
+    role = models.CharField(max_length=13, choices=ROLES)
+    sections = models.ManyToManyField(Section) # For TA's
+    courses = models.ManyToManyField(Course) # For instructors
+    phonenum = models.CharField(max_length=10)
+    address = models.CharField(max_length=30)

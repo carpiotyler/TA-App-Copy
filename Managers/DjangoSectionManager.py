@@ -1,12 +1,13 @@
 from Managers.DjangoStorageManager import DjangoStorageManager as dsm
-from Managers.managerInterface import ManagerInterface
-from Domain.section import Section
+from Managers.ManagerInterface import ManagerInterface
+from Domain.section import Section as Sec
+from Domain.user import User
 from TAServer.models import Section
 
 
 class SectionManager(ManagerInterface):
 
-    def __init__(self, db : dsm):
+    def __init__(self, db: dsm):
         self.db = db
 
     def add(self, fields: dict)->bool:
@@ -17,7 +18,7 @@ class SectionManager(ManagerInterface):
             print(invalid)
             return False
 
-        toAdd = Section(str_dept=fields.get("dept"),str_cnum=fields.get("cnum"),str_snum=fields.get("snum"),
+        toAdd = Sec(str_dept=fields.get("dept"),str_cnum=fields.get("cnum"),str_snum=fields.get("snum"),
                         str_instructor=fields.get("instructor"), type=fields.get("type"), days=fields.get("days"),
                         room=fields.get("room"), endTime=fields.get("endTime"), startTime=fields.get("startTime"))
 
@@ -58,7 +59,7 @@ class SectionManager(ManagerInterface):
 
         result = self.db.get_section(dept = fields.get("dept"), cnum = fields.get("cnum"), snum = fields.get("snum"))
         if result is None:
-            return "Could not find " + fields.get("dept") + "-" + fields.get("cnum") + "-" + fields.get("snum")
+            return "Could not find " + fields.get("dept") + "-" + str(fields.get("cnum")) + "-" + str(fields.get("snum"))
         else:
             return "Course: " + result.dept + "-" + result.cnum + "<br>Section: " + result.snum \
                    + "<br>Instructor: " + result.instructor + "<br>Meeting time(s): " + result.days + " " + result.time
@@ -72,7 +73,7 @@ class SectionManager(ManagerInterface):
             print(invalid)
             return False
 
-        toEdit = Section(str_dept=fields.get("dept"), str_cnum=fields.get("cnum"), str_snum=fields.get("snum"),
+        toEdit = Sec(str_dept=fields.get("dept"), str_cnum=fields.get("cnum"), str_snum=fields.get("snum"),
                         str_instructor=fields.get("instructor"), type=fields.get("type"), days=fields.get("days"),
                         room=fields.get("room"), endTime=fields.get("endTime"), startTime=fields.get("startTime"))
 
@@ -110,9 +111,9 @@ class SectionManager(ManagerInterface):
             print(invalid)
             return False
 
-        toDel = Section(str_dept=fields.get("dept"),str_cnum=fields.get("cnum"),str_snum=fields.get("snum"),
+        toDel = Sec(str_dept=fields.get("dept"),str_cnum=fields.get("cnum"),str_snum=fields.get("snum"),
                         str_instructor=fields.get("instructor"), type=fields.get("type"), days=fields.get("days"),
-                        room=fields.get("room"), time=fields.get("time"))
+                        room=fields.get("room"), endTime=fields.get("endTime"), startTime=fields.get("startTime"))
 
         if self.courseExists(cnum=fields.get("cnum"), dept=fields.get("dept")):
             self.db.delete(toDel)
@@ -140,7 +141,7 @@ class SectionManager(ManagerInterface):
         }
         return switch.get(None, "okay")
 
-    def addHelper(self, sec: Section):
+    def addHelper(self, sec: Sec):
         self.db.insert_section(sec)
         course = self.db.get_course(sec.dept, sec.cnum)
         if sec.snum not in course.sections:
@@ -240,10 +241,10 @@ class SectionManager(ManagerInterface):
 
         return True
 
-    @static
+
     def reqFields(self)->list:
         return ["dept", "cnum", "snum"]
 
-    @static
+
     def optFields(self)->list:
         return ["instructor", "type", "days", "room", "startTime", "endTime"]

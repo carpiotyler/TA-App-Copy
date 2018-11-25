@@ -1,5 +1,5 @@
 from django.test import TestCase
-from TAServer.models import Section, Course, Staff
+from TAServer.models import Section, Course, Staff as User
 from Managers.DjangoSectionManager import SectionManager as SM
 from Managers.DjangoStorageManager import DjangoStorageManager as storage
 
@@ -14,7 +14,7 @@ class sectionTest(TestCase):
                     description="N/A", dept="CS")
         self.c1.save()
         self.s1 = Section.objects.create(snum=401, stype="lecture", course=self.c1, room=395, instructor=self.u1,
-                     days="MW", time="12:30 PM")
+                     days="MW", startTime="12:30 PM", endTime="1:30 PM")
         self.s1.save()
         self.u2 = User.objects.create(username="Rock", first_name="Jayson", last_name="Rock",
                  email="jRock@gmail.com", password="123", role="instructor")
@@ -92,11 +92,11 @@ class sectionTest(TestCase):
         secNocnum= {"snum": 401, "dept": "CS"}
         secNoSnum= {"cnum": 351, "dept": "CS"}
         secNodept= {"snum": 401, "cnum": 351}
-        self.assertEqual(self.sec.view(secNocnum), "Could not view, no course specified",
+        self.assertEqual(self.sec.view(secNocnum), "Could not complete viewing, course number is needed",
                          "Should not be able to view without course specified")
-        self.assertEqual(self.sec.view(secNoSnum), "Could not view, no section number specified",
+        self.assertEqual(self.sec.view(secNoSnum), "Could not complete viewing, section number is needed",
                          "Should not be able to view without section number specified")
-        self.assertEqual(self.sec.view(secNodept), "Could not view, no department specified",
+        self.assertEqual(self.sec.view(secNodept), "Could not complete viewing, department is needed",
                          "Should not be able to view without department specified")
 
     def test_delete(self):
@@ -146,11 +146,11 @@ class sectionTest(TestCase):
     # Need to make sure that the "time" field accepts multiple ways of inputting (e.g "01:30 PM", "1:30 PM", "1:30PM"
     def test_editTimes(self):
         timeOne = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
-                    "time": "01:30 PM", "snumNew": 402}
+                    "startTime": "01:30 PM", "snumNew": 402}
         timeTwo = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
-                    "time": "1:30 PM", "snumNew": 402}
+                    "startTime": "1:30 PM", "snumNew": 402}
         timeThree = {"cnum": 351, "dept": "CS", "snum": 401, "days": "MWF", "instructor": "Rock", "room": 400,
-                    "time": "1:30PM", "snumNew": 402}
+                    "startTime": "1:30PM", "snumNew": 402}
         self.assertTrue(self.sec.edit(timeOne), "Editing time was not successful")
         self.assertTrue(self.sec.edit(timeTwo), "Editing time was not successful")
         self.assertTrue(self.sec.edit(timeThree), "Editing time was not successful")
