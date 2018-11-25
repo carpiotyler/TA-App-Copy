@@ -2,7 +2,9 @@ from Managers.userManager import UserManager as UM
 from Managers.sectionManager import mySectionManager as SM
 from Managers.courseManager import CourseManager as CM
 from Managers.authManager import AuthManager as AM
+from Managers.ManagerInterface import ManagerInterface
 from Managers.JSONStorageManager import JSONStorageManager as JSM
+from TAServer.models import User
 
 # This class used to bridge the gap between the CLI and the managers so it would be easy to transfer to django but
 # because of how we use django in this sprint, we still need this parser. This class does not need anything to be
@@ -22,6 +24,10 @@ class CommandParser:
                        'exit': "Placeholder description for exit"}
 
     def __init__(self, mySM:SM = None, myUM:UM = None, myCM:CM = None, myAM:AM = None):
+        pass
+
+    # Does the command parsing and manager function calling.
+    def mgr(self, mgr: ManagerInterface, command: str)->str:
         pass
 
     # Parses the course command
@@ -59,7 +65,7 @@ class CommandParser:
     # This is currently just a proof of concept to show how we could implement the way rock did it in the lab without
     # having to call ever command and check what they return and ahve to check in each command function if they're the
     # right one.
-    def parse(self, command: str) -> str:
+    def parse(self, command: str, user: User = None) -> str:
         split = command.split(" ")
         command = split[0].lower()
 
