@@ -39,7 +39,7 @@ class SectionManager(ManagerInterface):
 
         # With and without instructor adding to course and sections db
         if toAdd.instructor is None:
-            toAdd.instructor = #TODO: add empty instructor
+            #TODO: add empty instructor
             self.addHelper(toAdd)
             return True
         else:
@@ -94,7 +94,7 @@ class SectionManager(ManagerInterface):
 
         # With and without instructor adding to course and sections db
         if toEdit.instructor is None:
-            toEdit.instructor = #TODO: add empty instructor
+            #TODO: add empty instructor
             self.addHelper(toEdit)
             return True
         else:

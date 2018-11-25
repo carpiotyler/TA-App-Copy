@@ -1,16 +1,21 @@
 # This file is copied straight from Rock's provided code under "Skeleton code for Django" in sprint 2
 
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+class Staff(User):
+    ROLES = (
+        ('T', 'TA'),
+        ('I', 'Instructor'),
+        ('A', 'Administrator'),
+        ('S', 'Supervisor')
+    )
 
-class User(models.Model):
-
-    username = models.CharField(max_length = 40)
-    password = models.CharField(max_length = 40)
-
-    def __str__(self):
-        pass
+    role = models.CharField(max_length=13, choices=ROLES)
+    sections = models.ManyToManyField(Section) # For TA's
+    courses = models.ManyToManyField(Course) # For instructors
+    phonenum = models.CharField(max_length=10)
+    address = models.CharField(max_length=30)
 
 class Course(models.Model):
     cnum = models.CharField(max_length = 4)
@@ -24,6 +29,7 @@ class Course(models.Model):
     # returns all sections for course
     def sections (self):
         pass
+
 
 class Section(models.Model):
 
