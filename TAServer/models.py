@@ -1,19 +1,31 @@
 # This file is copied straight from Rock's provided code under "Skeleton code for Django" in sprint 2
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
 
 
-class TAGroup(models.Group):
-    permissions = (("can_edit_self", "Can edit users"),
-                   ("can_view_users", "Can view users"))
+class DefaultGroup(Group):
+    permissions = (("can_view_courses", "Can view courses"),
+
+                   ("can_view_sections", "Can view sections"),
+
+                   ("can_view_user", "Can view users"))
 
 
-class InsGroup(models.Group):
+class TAGroup(Group):
+    permissions = (("can_view_courses", "Can view courses"),
+
+                   ("can_view_sections", "Can view sections"),
+
+                   ("can_edit_self", "Can edit users"),
+                   ("can_view_user", "Can view users"))
+
+
+class InsGroup(Group):
     permissions = (("can_view_courses", "Can view courses"),
 
                    ("can_edit_self", "Can edit users"),
-                   ("can_view_users", "Can view users"),
+                   ("can_view_user", "Can view users"),
                    ("can_view_private", "Can view private user data"),
 
                    ("can_assign_ta", "Can assign TA's"),
@@ -21,7 +33,7 @@ class InsGroup(models.Group):
                    ("can_email_tas", "Can send emails"))
 
 
-class AdminGroup(models.Group):
+class AdminGroup(Group):
     permissions = (("can_create_course", "Can create courses"),
                    ("can_edit_courses", "Can edit courses"),
                    ("can_delete_courses", "Can delete courses"),
@@ -32,17 +44,17 @@ class AdminGroup(models.Group):
                    ("can_delete_sections", "Can delete sections"),
                    ("can_view_sections", "Can view sections"),
 
-                   ("can_create_users", "Can create users"),
-                   ("can_edit_users", "Can edit users"),
+                   ("can_create_user", "Can create users"),
+                   ("can_edit_user", "Can edit users"),
                    ("can_edit_self", "Can edit users"),
-                   ("can_delete_users", "Can delete users"),
-                   ("can_view_users", "Can view users"),
+                   ("can_delete_user", "Can delete users"),
+                   ("can_view_user", "Can view users"),
                    ("can_view_private", "Can view private user data"),
 
                    ("can_email_all", "Can send emails to all users"))
 
 
-class SupGroup(models.Group):
+class SupGroup(Group):
     permissions = (("can_create_course", "Can create courses"),
                    ("can_edit_courses", "Can edit courses"),
                    ("can_delete_courses", "Can delete courses"),
@@ -53,11 +65,11 @@ class SupGroup(models.Group):
                    ("can_delete_sections", "Can delete sections"),
                    ("can_view_sections", "Can view sections"),
 
-                   ("can_create_users", "Can create users"),
-                   ("can_edit_users", "Can edit users"),
+                   ("can_create_user", "Can create users"),
+                   ("can_edit_user", "Can edit users"),
                    ("can_edit_self", "Can edit users"),
-                   ("can_delete_users", "Can delete users"),
-                   ("can_view_users", "Can view users"),
+                   ("can_delete_user", "Can delete users"),
+                   ("can_view_user", "Can view users"),
                    ("can_view_private", "Can view private user data"),
 
                    ("can_assign_ta", "Can assign TA's"),
