@@ -1,12 +1,12 @@
 # Helper class for dealing with django's database
 # See myStorageManager Interface for full documentation on method behaviors
 from Managers.myStorageManager import AbstractStorageManager
-from TAServer.models import Course, Section, User
-
+from TAServer.models import Course, Section, Staff as User
 
 class DjangoStorageManager(AbstractStorageManager):
 
-    def set_up(self, overwrite=False)->bool:
+    @staticmethod
+    def set_up(overwrite=False)->bool:
         if len(Section.objects.all()) > 0 or len(User.objects.all()) > 0 or len(Course.objects.all()) > 0:
             # Database isn't empty!
             if not overwrite:
@@ -19,15 +19,18 @@ class DjangoStorageManager(AbstractStorageManager):
                 for course in Course.objects.all():
                     course.delete()
         sup = User(username="supervisor", password="123")
-        self.insert_user(sup)
+        DjangoStorageManager.insert_user(sup)
         return True
 
-    def insert_course(self, course: Course)->bool: pass
+    @staticmethod
+    def insert_course(course: Course)->bool: pass
 
-    def insert_section(self, section: Section)->bool: pass
+    @staticmethod
+    def insert_section(section: Section)->bool: pass
 
-    def insert_user(self, user: User)->bool:
-        existinguser = self.get_user(user.username)
+    @staticmethod
+    def insert_user(user: User)->bool:
+        existinguser = DjangoStorageManager.get_user(user.username)
         # Checking if user already exists
         if existinguser != None:
             # overwrite case
@@ -36,17 +39,24 @@ class DjangoStorageManager(AbstractStorageManager):
         user.save()
         return False
 
+    @staticmethod
+    def get_users_by()->[User]: pass
 
-    def get_users_by(self)->[User]: pass
+    @staticmethod
+    def get_user(username: str)->User:
+        return User.objects.filter(username=username).first()
 
-    def get_user(self, username: str)->User: pass
+    @staticmethod
+    def get_course(dept: str, cnum: str)->Course: pass
 
-    def get_course(self, dept: str, cnum: str)->Course: pass
+    @staticmethod
+    def get_courses_by(dept: str, cnum: str)->[Course]: pass
 
-    def get_courses_by(self, dept: str, cnum: str)->[Course]: pass
+    @staticmethod
+    def get_section(dept: str, cnum: str, snum: str)->[Section]: pass
 
-    def get_section(self, dept: str, cnum: str, snum: str)->[Section]: pass
+    @staticmethod
+    def get_sections_by(dept: str, cnum: str, snum: str)->[Section]: pass
 
-    def get_sections_by(self, dept: str, cnum: str, snum: str)->[Section]: pass
-
-    def delete(self, to_delete)->bool: pass
+    @staticmethod
+    def delete(to_delete)->bool: pass

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from TAServer.models import User, Course, Section
+from TAServer.models import Staff as User, Course, Section
 
 
 class AbstractStorageManager(ABC):

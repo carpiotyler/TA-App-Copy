@@ -1,5 +1,5 @@
 from Managers.DjangoStorageManager import DjangoStorageManager
-from TAServer.models import User, Section, Course
+from TAServer.models import Staff as User, Course, Section
 from django.test import TestCase
 import unittest
 
@@ -9,8 +9,7 @@ class DjangoStorageManagerTests(TestCase):
     # setUp Calls setup function from db. This makes sense as all databases have a hardcoded supervisor to start with,
     # and we test if setup does what it is supposed to later.
     def setUp(self):
-        self.storage = DjangoStorageManager()
-        self.storage.set_up(overwrite=False)
+        DjangoStorageManager.set_up(overwrite=False)
 
     # This test just makes sure that after a set_up call (we call this during def setUp in this class) there is a
     # starter supervisor
@@ -41,7 +40,7 @@ class DjangoStorageManagerTests(TestCase):
         self.assertIsNotNone(s)
 
         # Should rebuild database, with none of the following models we had created:
-        self.storage.set_up(overwrite=True)
+        DjangoStorageManager.set_up(overwrite=True)
         self.assertEqual(User.objects.all().count(), 1, "After rebuild (overwrite), must contain one user!")
         self.assertEqual(Section.objects.all().count(), 0)
         self.assertEqual(Course.objects.all().count(), 0)
@@ -51,11 +50,11 @@ class DjangoStorageManagerTests(TestCase):
     # Testing insert_course
     def test_insert_course(self):
         c = Course(dept = "CS", cnum = "351")
-        self.assertFalse(self.storage.insert_course(self, c), "Should return false, not overwriting!")
+        self.assertFalse(DjangoStorageManager.insert_course(c), "Should return false, not overwriting!")
         retval = Course.objects.get(dept="CS", cnum="351")
         self.assertIsNotNone(retval)
         c.name = "Data Structures and Algorithms"
-        self.assertTrue(self.storage.insert_course(c), "Should return true, overwriting!")
+        self.assertTrue(DjangoStorageManager.insert_course(c), "Should return true, overwriting!")
         retval = Course.objects.get(dept="CS", cnum="351")
         self.assertIsNotNone(retval)
         self.assertEqual(Course.objects.all().count(), 1, "Should only be 1 course in Courses during this test!")
@@ -66,25 +65,25 @@ class DjangoStorageManagerTests(TestCase):
         c = Course(dept="CS", cnum="351")
         c.save()
         s = Section(snum="801", course=c)
-        self.assertFalse(self.storage.insert_section(self, s), "Should return false, not overwriting!")
+        self.assertFalse(DjangoStorageManager.insert_section(s), "Should return false, not overwriting!")
         retval = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
         self.assertIsNotNone(retval)
         s.time = "11:00AM"
-        self.assertTrue(self.storage.insert_section(s), "Should return true, overwriting!")
+        self.assertTrue(DjangoStorageManager.insert_section(s), "Should return true, overwriting!")
         retval = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
         self.assertIsNotNone(retval)
         self.assertEqual(len(Section.objects.all()), 1, "Should only be 1 section in Sections during this test!")
         self.assertEqual(retval.time, "11:00AM", "Insert didn't properly update the db!")
 
-    #Testing insert_user
+    # Testing insert_user
     def test_insert_user(self):
         # TODO check for role
         u = User(username="Rock", password="123")
-        self.assertFalse(self.storage.insert_user(self, u), "Should return false, not overwriting!")
+        self.assertFalse(DjangoStorageManager.insert_user(u), "Should return false, not overwriting!")
         retval = User.objects.get(username="Rock")
         self.assertIsNotNone(retval)
         u.password = "password"
-        self.assertTrue(self.storage.insert_user(u), "Should return true, overwriting!")
+        self.assertTrue(DjangoStorageManager.insert_user(u), "Should return true, overwriting!")
         retval = User.objects.get(username="Rock")
         self.assertIsNotNone(retval)
         self.assertEqual(User.objects.all().count(), 2, "Should only be 2 users in Users during this test!")
@@ -94,7 +93,7 @@ class DjangoStorageManagerTests(TestCase):
     def test_get_course(self):
         c = Course(dept="CS", cnum="351", name="Data Structures and Algorithms")
         c.save()
-        retval = self.storage.get_course(dept="CS", cnum="351")
+        retval = DjangoStorageManager.get_course(dept="CS", cnum="351")
         self.assertIsNotNone(retval)
         self.assertIsInstance(retval, Course)
         self.assertEqual(retval.name, "Data Structures and Algorithms")
@@ -109,27 +108,27 @@ class DjangoStorageManagerTests(TestCase):
         c3.save()
 
         # Testing getting course by providing dept and cnum (should be unique - 1 course!)
-        retval = self.storage.get_courses_by(self, dept="MATH", cnum="240")
+        retval = DjangoStorageManager.get_courses_by(self, dept="MATH", cnum="240")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 1)
         self.assertEqual(list.__contains__(self, c3))
 
         # Testing getting course by providing dept
-        retval = self.storage.get_courses_by(self, dept="CS")
+        retval = DjangoStorageManager.get_courses_by(self, dept="CS")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 2)
         self.assertEqual(list.__contains__(self, c1))
         self.assertEqual(list.__contains__(self, c2))
 
         # Testing getting course by providing cnum
-        retval = self.storage.get_courses_by(self, cnum="240")
+        retval = DjangoStorageManager.get_courses_by(self, cnum="240")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 2)
         self.assertEqual(list.__contains__(self, c2))
         self.assertEqual(list.__contains__(self, c3))
 
         # Testing getting course by providing nothing (all)
-        retval = self.storage.get_courses_by(self)
+        retval = DjangoStorageManager.get_courses_by(self)
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 3)
         self.assertEqual(list.__contains__(self, c1))
@@ -141,7 +140,7 @@ class DjangoStorageManagerTests(TestCase):
         # TODO Verify Roles
         u = User(username="Rock", password="123")
         u.save()
-        retval = self.storage.get_user("Rock")
+        retval = DjangoStorageManager.get_user("Rock")
         self.assertIsNotNone(retval)
         self.assertIsInstance(retval, User)
         self.assertEqual(retval.password, "123")
@@ -155,13 +154,13 @@ class DjangoStorageManagerTests(TestCase):
         u2.save()
 
         # Testing getting user by providing username(should be unique - 1 user!)
-        retval = self.storage.get_users_by(username="Rock")
+        retval = DjangoStorageManager.get_users_by(username="Rock")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 1)
         self.assertEqual(list.__contains__(self, u1))
 
         # Testing getting course by providing nothing (all users)
-        retval = self.storage.get_users_by(self)
+        retval = DjangoStorageManager.get_users_by(self)
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 2)
         self.assertEqual(list.__contains__(self, u1))
@@ -173,7 +172,7 @@ class DjangoStorageManagerTests(TestCase):
         c.save()
         s = Section(snum="801", course=c, time="11:00AM")
         s.save()
-        retval = self.storage.get_section(snum="801",dept="CS", cnum="351")
+        retval = DjangoStorageManager.get_section(snum="801",dept="CS", cnum="351")
         self.assertIsNotNone(retval)
         self.assertIsInstance(retval, Section)
         self.assertEqual(retval.time, "11:00AM")
@@ -195,13 +194,13 @@ class DjangoStorageManagerTests(TestCase):
         s3.save()
 
         # Testing getting sections by providing snum, dept, and cnum (should be unique - 1 section!)
-        retval = self.storage.get_sections_by(self, dept="CS", cnum="351", snum="801")
+        retval = DjangoStorageManager.get_sections_by(self, dept="CS", cnum="351", snum="801")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 1)
         self.assertEqual(list.__contains__(self, s1))
 
         # Testing getting sections by providing dept
-        retval = self.storage.get_sections_by(self, dept="CS")
+        retval = DjangoStorageManager.get_sections_by(self, dept="CS")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 3)
         self.assertEqual(list.__contains__(self, s1))
@@ -209,34 +208,34 @@ class DjangoStorageManagerTests(TestCase):
         self.assertEqual(list.__contains__(self, s3))
 
         # Testing getting sections by providing cnum
-        retval = self.storage.get_sections_by(self, cnum="351")
+        retval = DjangoStorageManager.get_sections_by(self, cnum="351")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 2)
         self.assertEqual(list.__contains__(self, s1))
         self.assertEqual(list.__contains__(self, s3))
 
         # Testing getting section by providing dept and cnum
-        retval = self.storage.get_sections_by(self, dept="CS", cnum="351")
+        retval = DjangoStorageManager.get_sections_by(self, dept="CS", cnum="351")
         self.assertIsInstance(retval, list)
         self.assertEqual(len(list.count()), 2)
         self.assertEqual(list.__contains__(self, s1))
         self.assertEqual(list.__contains__(self, s3))
 
         # Testing getting sections by providing dept and snum
-        retval = self.storage.get_sections_by(self, dept="CS", snum="801")
+        retval = DjangoStorageManager.get_sections_by(self, dept="CS", snum="801")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 2)
         self.assertEqual(list.__contains__(self, s1))
         self.assertEqual(list.__contains__(self, s2))
 
         # Testing getting sections by providing cnum and snum
-        retval = self.storage.get_sections_by(self, cnum="351", snum="801")
+        retval = DjangoStorageManager.get_sections_by(self, cnum="351", snum="801")
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 1)
         self.assertEqual(list.__contains__(self, s1))
 
         # Testing getting sections by providing nothing (all)
-        retval = self.storage.get_sections_by(self)
+        retval = DjangoStorageManager.get_sections_by(self)
         self.assertIsInstance(retval, list)
         self.assertEqual(list.count(), 3)
         self.assertEqual(list.__contains__(self, s1))
@@ -249,9 +248,9 @@ class DjangoStorageManagerTests(TestCase):
         u = User(user="Rock", password="123")
 
         # None of these objects are in the database, so nothing should be deleted
-        self.assertFalse(self.storage.delete(c))
-        self.assertFalse(self.storage.delete(s))
-        self.assertFalse(self.storage.delete(u))
+        self.assertFalse(DjangoStorageManager.delete(c))
+        self.assertFalse(DjangoStorageManager.delete(s))
+        self.assertFalse(DjangoStorageManager.delete(u))
 
         c.save()
         s.save()
@@ -261,9 +260,9 @@ class DjangoStorageManagerTests(TestCase):
         self.assertEqual(User.objects.all().count(), 2)
 
         # Deleting objects here
-        self.assertTrue(self.storage.delete(s))
-        self.assertTrue(self.storage.delete(c))
-        self.assertTrue(self.storage.delete(u))
+        self.assertTrue(DjangoStorageManager.delete(s))
+        self.assertTrue(DjangoStorageManager.delete(c))
+        self.assertTrue(DjangoStorageManager.delete(u))
         self.assertEqual(Course.objects.all().count(), 0)
         self.assertEqual(Section.objects.all().count(), 0)
         self.assertEqual(User.objects.all().count(), 1)
@@ -276,7 +275,7 @@ class DjangoStorageManagerTests(TestCase):
         self.assertEqual(User.objects.all().count(), 2)
 
         # Testing course -> section cascade delete
-        self.assertTrue(self.storage.delete(c))
+        self.assertTrue(DjangoStorageManager.delete(c))
         self.assertEqual(Course.objects.all().count(), 0)
         self.assertEqual(Section.objects.all().count(), 0)
         self.assertEqual(User.objects.all().count(), 2)
