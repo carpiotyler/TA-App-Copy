@@ -20,17 +20,15 @@ class SupGroup(Group):
 
 
 class Course(models.Model):
-    cnum = models.CharField(max_length = 4, default="")
-    name = models.CharField(max_length = 40, default="")
-    description = models.CharField(max_length = 200, default="")
-    dept = models.CharField(max_length = 10, default="")
+    cnum = models.CharField(max_length=4)
+    name = models.CharField(max_length=40)
+    description = models.CharField(max_length=200)
+    dept = models.CharField(max_length=10)
+    sections = models.ManyToManyField('Section')
 
     def __str__(self):
-        pass
+        return ""+ self.pk + self.dept + self.cnum + self.name + '\n' + "Description: " + self.description + '\n' + str(self.sections)
 
-    # returns all sections for course
-    def sections (self):
-        pass
 
 
 class Section(models.Model):
