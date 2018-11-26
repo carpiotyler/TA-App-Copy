@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User, Group
 from django.db import models
 
+
 class TAGroup(Group):
     pass
 
@@ -16,6 +17,7 @@ class AdminGroup(Group):
 
 class SupGroup(Group):
     pass
+
 
 class Course(models.Model):
     cnum = models.CharField(max_length = 4, default="")
@@ -54,7 +56,7 @@ class Section(models.Model):
     # section type (uses SEC_TYPE)
     stype = models.CharField(max_length=10, default="", choices=SEC_TYPE)
     # course points to course model
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
     # room Number
     room = models.IntegerField(default=-1)
     # instructor or ta
