@@ -1,6 +1,6 @@
-from Managers.JSONStorageManager import JSONStorageManager
-from Managers.myStorageManager import AbstractStorageManager as storage
 from Managers.sectionManager import SectionManager
+from Managers.DjangoStorageManager import DjangoStorageManager as dm
+from TAServer.models import Course
 
 # Course obj used for CourseManger, might place in seperate file once we finalize everything
 
@@ -8,68 +8,133 @@ from Managers.sectionManager import SectionManager
 # Handles adding,viewing,editing and deleting of all courses.
 class CourseManager:
 
+    def __init__(self):
 
-
-    def __init__(self,db='database.json'):
-
-        # Right now only CS dept courses can be added with manager. Dept list can be changed to support more departments
+        # Right now only CS dept courses can be added with manager. 
+        # Dept list can be changed to support more departments
+        self.reqFields = ['dept', 'cnum']
+        self.optFields = ['name', 'description', 'section', 'instr']
         self.depts = ['CS']
-        self.c = None
-        self.s = JSONStorageManager(db)
-        self.s.set_up()
         self.sec = SectionManager()
-    
+        dm.set_up(overwrite=False)
 
-    # Adds course to database using database manager and section manager
-    def add(self, dept=None, cnum=None, instr=None, section=None):
+
+    def add(self, fields: dict):
+        """Adds course to database using database manager and section manager"""
 
         # Both dept and cnum are mandatory in order to add course
-        if not self._check_params(dept,cnum,instr,section): return
-        dept = dept.upper()
+        if not self._check_params(fields):
+            return False
+
+        # Storing dict values into variables
+        dept = fields.get('dept').upper()
+        cnum = fields.get('cnum')
+        section = fields.get('section')
+        descr = fields.get('description')
+        name = fields.get('name')
 
         # Checks if dept isvalid
         if dept in self.depts:
 
-            # If sections is passed, call section manager to add section
+            # Create course objecte with given fields
+            c = Course(dept=dept, cnum=cnum, description=descr, name=name)
+
+            # If sections is None, just call database manager to add course
             if section is None:
-                c = storage.Course(dept,cnum,[],'','')
-                self.s.insert_course(c)
-            else:
-                c = storage.Course(dept,cnum,[],'','')
-                self.s.insert_course(c)
-                self.sec.add(dept,cnum,section,instr)
+                return dm.insert_course(c)
 
-            return True
+            # Else insert course
+            dm.insert_course(c)
+            
+            # Call section manager to add section, if section created successfully, return True,
+            # else delete course and return False
+            if self.sec.add(fields):
+                return True
+            dm.delete(c)
 
-        else:
-            return False
+        return False
 
-    
-    # Get courselist from db manager, convert to string and pass back to parser
-    def view(self, dept=None, cnum=None, instr=None, section=None):
+    def view(self, fields: dict):
+        """Get course list from db manager, convert to string and pass back to parser"""
+
+        # Store dict values into variables
+        dept = fields.get('dept').upper()
+        cnum = fields.get('cnum')
 
         # View all courses
         if not dept and not cnum:
-            courselist = self.s.get_course('','')
-            return self._courselist_string(courselist)
+            course_list = dm.get_courses_by(dept="", cnum="")
+            return self._course_list_string(course_list)
+
         # View by dept
         elif dept and not cnum:
-            courselist = self.s.get_course(dept,'')
-            return self._courselist_string(courselist)
+            course_list = dm.get_courses_by(dept=dept)
+            return self._course_list_string(course_list)
 
         # View single course
         else:
-            return self.s.get_course(dept,cnum)
+            course_list = dm.get_courses_by(dept=dept, cnum=cnum)
+            return self._course_list_string(course_list)
 
-    def delete(self,dept=None, cnum=None, instr=None, section=None ):
-        pass
+    def delete(self, fields: dict):
+        """Delete a specific course from the database"""
 
-    def edit(self,dept=None, cnum=None, instr=None, section=None ):
-        pass
+        # Check if required params are present and error check optional params
+        if not self._check_params(fields):
+            return False
 
+        # Store dict values into variables
+        dept = fields.get('dept').upper()
+        cnum = fields.get('cnum')
+        section = fields.get('section')
 
-    # Check for invalid parameters    
-    def _check_params(self=None,dept=None,cnum=None,instr=None,section=None):
+        # Delete section only
+        if section:
+            return self.sec.delete(fields)
+
+        # Retrieve courses with dept and cnum
+        course_list = dm.get_courses_by(dept=dept, cnum=cnum)
+        
+        # Delete all courses retreived from database with given dept and cnum
+        for c in course_list:
+            if not dm.delete(c):
+                return False
+        return True
+
+        
+
+    def edit(self, fields: dict):
+        '''Edit a specific course in the database'''
+        
+        # Check if required fields are present and error check optional fields
+        if self._check_params(fields):
+
+            # Get course to edit
+            c = dm.get_course(dept=fields['dept'], cnum=fields['cnum'])
+
+            # Edit name
+            if 'name' in fields:
+                c.name = fields['name']
+
+            # Edit description
+            if 'description' in fields:
+                c.description = fields['description']
+
+            # Edit sections, insert course with database manager and have section manager edit sections
+            if 'sections' in fields:
+                if dm.insert_course(c):
+                    return self.sec.edit(fields)
+                return False
+
+        return dm.insert_course(c)
+
+    # Check for invalid parameters
+    def _check_params(self, fields: dict):
+
+        dept = fields.get('dept')
+        cnum = fields.get('cnum')
+        section = fields.get('section')
+        instr = fields.get('instr')
 
         if not dept:
             return False
@@ -90,12 +155,20 @@ class CourseManager:
         else: return True
     
     # Converts list of courses into a printable string
-    def _courselist_string(self, courselist):
+    def _course_list_string(self, course_list):
 
-        if not courselist:
+        if not course_list:
             return 'No course found in database.'
 
         coursestring = ''
-        for c in courselist:
+        for c in course_list:
             coursestring = coursestring + str(c)+ '\n'
         return coursestring
+
+    # @static
+    # def reqFields()->list:
+    #     pass
+
+    # @static
+    # def optFields()->list:
+    #     pass

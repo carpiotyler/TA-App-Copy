@@ -1,8 +1,7 @@
 from Managers.myStorageManager import AbstractStorageManager
-from Managers.ManagerInterface import ManagerInterface
 
 
-class UserManager(ManagerInterface):
+class ManagerInterface:
     def __init__(self, database: AbstractStorageManager):
         pass
 
