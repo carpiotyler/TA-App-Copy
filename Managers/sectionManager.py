@@ -337,11 +337,12 @@ class SectionManager(ManagerInterface):
             # get integer values for start and end times for comparison
             startTime = self.intTime(start)
             endTime = self.intTime(end)
+            posConflict = self.conDays(days)
 
             for x in roomUse:
                 # Need to make certain not to compare the same object on edit, this shouldn't happen with add
                 if sec is None or action == "edit" and sec.snum != x.snum:
-                    if days == x.days:
+                    if x.days in posConflict:
                         xStart = self.intTime(x.startTime)
                         xEnd = self.intTime(x.endTime)
 
@@ -351,7 +352,7 @@ class SectionManager(ManagerInterface):
                         elif xStart <= endTime <= xEnd:
                             return False
                 else:
-                    if days == x.days:
+                    if x.days in posConflict:
                         xStart = self.intTime(x.startTime)
                         xEnd = self.intTime(x.endTime)
 
@@ -362,6 +363,22 @@ class SectionManager(ManagerInterface):
                             return False
 
         return True
+
+    # used to check time conflict, returns a list of possible days that would have a room conflict
+    def conDays(self, days: str):
+
+        switch = {
+            'M': ['M','MW','MWF'],
+            'T': ['T', 'TH'],
+            'W': ['W', 'MW', 'MWF'],
+            'H': ['H', 'TH'],
+            'F': ['F', 'MWF'],
+            'MW': ['M','W','MW','MWF'],
+            'MWF':['M','W','F','MW','MWF'],
+            'TH':['T','H','TH'],
+        }
+
+        return switch.get(days)
 
     @staticmethod
     def reqFields()->list:
