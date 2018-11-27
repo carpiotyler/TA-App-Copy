@@ -14,7 +14,7 @@ class sectionTest(TestCase):
                     description="N/A", dept="CS")
         self.c1.save()
         self.s1 = Section.objects.create(snum="401", stype="lecture", course=self.c1, room=395, instructor=self.u1,
-                     days="W", startTime="12:30 PM", endTime="1:30 PM")
+                     days="W", time="12:30PM-1:30PM")
         self.s1.save()
         self.u2 = User.objects.create(username="Rock", first_name="Jayson", last_name="Rock",
                  email="jRock@gmail.com", password="123", role="instructor")
@@ -31,21 +31,21 @@ class sectionTest(TestCase):
     # Test correct adding
     def test_add(self):
         newSec = {"snum" : "801", "stype": "lab", "cnum": "351", "dept": "CS", "room": 901, "instructor": "Gumby",
-                  "days": "T", "startTime": "4:00 PM", "endTime": "5:00 PM"}
+                  "days": "T", "time": "4:00PM-5:00PM"}
         self.assertTrue(self.sec.add(newSec), "New section was not added")
 
     # Test add when given various invalid field inputs
     def test_addInvalid(self):
         addDays = {"cnum": "351", "dept": "CS", "snum": "401", "days": "Wrong", "instructor": "Rock", "room": 400,
-                  "startTime": "1:00 PM", "endTime": "2:00 PM", "snumNew": "402"}
+                  "time": "1:00PM-2:00PM", "snumNew": "402"}
         addIns = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Crunchy", "room": 400,
-                  "startTime": "1:00 PM", "endTime": "2:00 PM", "snumNew": "402"}
+                  "time": "1:00PM-2:00PM", "snumNew": "402"}
         addRoom = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": "Wrong",
-                  "startTime": "1:00 PM", "endTime": "2:00 PM", "snumNew": "402"}
+                  "time": "1:00PM-2:00PM", "snumNew": "402"}
         addTime = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400,
-                  "startTime": "Wrong", "endTime": "2:00 PM", "snumNew": "402"}
+                  "time": "Wrong", "snumNew": "402"}
         addsnum = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400,
-                  "startTime": "1:00 PM", "endTime": "2:00 PM", "snumNew": "Wrong"}
+                  "time": "1:00PM-2:00PM", "snumNew": "Wrong"}
         self.assertFalse(self.sec.add(addDays), "Should return false due to invalid days input")
         self.assertFalse(self.sec.add(addIns), "Should return false due to invalid instructor")
         self.assertFalse(self.sec.add(addRoom), "Should return false due to invalid room number")
@@ -69,14 +69,14 @@ class sectionTest(TestCase):
     # test that adding fails when adding a new Section whose time and room conflict with another currently existing one
     def test_addRoomTimeConflict(self):
         secConflict= {"snum" : "801", "stype": "lab", "cnum": "351", "dept": "CS", "room": 395, "instructor": "Gumby",
-                  "days": "W", "startTime": "12:30 PM", "endTime": "1:00 PM"}
+                  "days": "W", "time": "12:30PM-1:00PM"}
         self.assertFalse(self.sec.add(secConflict), "Section added conflicts with already created section")
 
     # test "section view secNum" command output
     def test_view(self):
         toView= {"snum":"401", "cnum":"351", "dept":"CS"}
         self.assertEqual(self.sec.view(toView),
-                         "Course: CS-351<br>Section: 401<br>Instructor: Gumby<br>Meeting time(s): W 12:30 PM-1:30 PM"
+                         "Course: CS-351<br>Section: 401<br>Instructor: Gumby<br>Meeting time(s): W 12:30PM-1:30PM"
                          "<br>Room: 395")
 
     # Test to make sure a course without a section will not be found
@@ -113,7 +113,7 @@ class sectionTest(TestCase):
         self.assertFalse(self.sec.delete(secNodept), "Should return false when no department is specified")
 
     def test_edit(self):
-        toEdit= {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400, "startTime": "1:00 PM", "endTime": "2:00 PM"}
+        toEdit= {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400, "time": "1:00PM-2:00PM"}
         self.assertTrue(self.sec.edit(toEdit), "Edit was not successful")
 
     # Test edit without enough info
@@ -128,15 +128,13 @@ class sectionTest(TestCase):
     # Test edit when given various invalid field inputs
     def test_editInvalid(self):
         editDays = {"cnum": "351", "dept": "CS", "snum": "401", "days": "Wrong", "instructor": "Rock", "room": 400,
-                  "startTime": "1:00 PM", "endTime": "2:00 PM"}
+                  "time": "1:00PM-2:00PM"}
         editIns = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Crunchy", "room": 400,
-                  "startTime": "1:00 PM", "endTime": "2:00 PM"}
+                  "time": "1:00PM-2:00PM"}
         editRoom = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": "Wrong",
-                  "startTime": "1:00 PM", "endTime": "2:00 PM"}
+                  "time": "1:00PM-2:00PM"}
         editTime = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400,
-                  "startTime": "Wrong", "endTime": "2:00 PM"}
-        editsnum = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400,
-                  "startTime": "1:00 PM", "endTime": "2:00 PM"}
+                  "time": "Wrong"}
         self.assertFalse(self.sec.edit(editDays), "Should return false due to invalid days input")
         self.assertFalse(self.sec.edit(editIns), "Should return false due to invalid instructor")
         self.assertFalse(self.sec.edit(editRoom), "Should return false due to invalid room number")
@@ -145,17 +143,17 @@ class sectionTest(TestCase):
     # Need to make sure that the "time" field accepts multiple ways of inputting (e.g "01:30 PM", "1:30 PM"
     def test_editTimes(self):
         timeOne = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400,
-                    "startTime": "01:30 PM", "endTime": "02:30 PM"}
+                    "time": "01:30PM-02:30PM"}
         timeTwo = {"cnum": "351", "dept": "CS", "snum": "401", "days": "MWF", "instructor": "Rock", "room": 400,
-                    "startTime": "3:30 PM", "endTime": "4:30 PM"}
+                    "time": "3:30PM-4:30PM"}
         self.assertTrue(self.sec.edit(timeOne), "Editing time was not successful")
         self.assertTrue(self.sec.edit(timeTwo), "Editing time was not successful")
 
     # Test that if, upon editing, the if the new room and time conflict with a previously added section, it fails.
     def test_editRoomTimeConflict(self):
         newSec = {"snum" : "801", "stype": "lab", "cnum": "351", "dept": "CS", "room": 901, "instructor": "Gumby",
-                  "days": "T", "startTime": "4:00 PM", "endTime": "5:00 PM"}
+                  "days": "T", "time": "4:00PM-5:00PM"}
         self.sec.add(newSec)
         secConflict= {"snum" : "801", "stype": "lab", "cnum": "351", "dept": "CS", "room": 395, "instructor": "Gumby",
-                  "days": "W", "startTime": "12:30 PM", "endTime": "1:00 PM"}
+                  "days": "W", "time": "12:30PM-1:00PM"}
         self.assertFalse(self.sec.edit(secConflict), "Section added conflicts with already created section")

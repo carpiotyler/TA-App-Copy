@@ -44,16 +44,11 @@ class SectionManager(ManagerInterface):
         if not self.checkDays(fields.get("days")):
             return False
 
-        # as of right now you can only enter a start time AND a end time but not just one
-        if fields.get('startTime') is not None and fields.get('endTime') is None or fields.get('startTime') is None and fields.get('endTime') is not None:
-            return False
-
         # Check for correct time format of start and end time
-        if not self.timeFormat(fields.get('startTime')) or not self.timeFormat(fields.get('endTime')):
+        if not self.timeFormat(fields.get('time')) :
             return False
 
-        start = fields.get('startTime')
-        end = fields.get('endTime')
+        time = fields.get('time')
         days = fields.get('days').upper()
         room = fields.get('room')
         # try to convert room into integers
@@ -65,13 +60,13 @@ class SectionManager(ManagerInterface):
                 return False
 
             # Check if time and room conflict
-            if not self.roomConflict(start=start, end=end, room=room, days=days, sec=db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="add"):
+            if not self.roomConflict(time=time, room=room, days=days, sec=db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="add"):
                 return False
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None:
             toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
-                            room=room, endTime=end, startTime=start)
+                            room=room, time=time)
             self.addHelper(toAdd)
             return True
         else:
@@ -79,7 +74,7 @@ class SectionManager(ManagerInterface):
                 return False
             ins = db.get_user(fields.get("instructor"))
             toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
-                            room=room, endTime=end, startTime=start, instructor=ins)
+                            room=room, time=time, instructor=ins)
             self.addHelper(toAdd)
             return True
 
@@ -97,7 +92,7 @@ class SectionManager(ManagerInterface):
         else:
             return "Course: " + str(result.course.dept) + "-" + str(result.course.cnum) + "<br>Section: " + str(result.snum) \
                    + "<br>Instructor: " + result.instructor.username + "<br>Meeting time(s): " + str(result.days) + " " \
-                   + result.startTime + "-" + result.endTime + "<br>Room: " + str(result.room)
+                   + result.time + "<br>Room: " + str(result.room)
 
 
     # Edit will need cnum, snum and dept (like all other commands)
@@ -137,11 +132,10 @@ class SectionManager(ManagerInterface):
             return False
 
         # Check for correct time format of start and end time
-        if not self.timeFormat(fields.get('startTime')) or not self.timeFormat(fields.get('endTime')):
+        if not self.timeFormat(fields.get('time')):
             return False
 
-        start = fields.get('startTime')
-        end = fields.get('endTime')
+        time = fields.get('time')
         days = fields.get('days').upper()
         room = fields.get('room')
         # try to convert room into integers
@@ -153,13 +147,13 @@ class SectionManager(ManagerInterface):
                 return False
 
             # Check if time and room conflict
-            if not self.roomConflict(start=start, end=end, room=room, days=days, sec=db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="edit"):
+            if not self.roomConflict(time=time, room=room, days=days, sec=db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="edit"):
                 return False
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None:
             toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
-                            room=room, endTime=end, startTime=start)
+                            room=room, time=time)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
             return True
         else:
@@ -167,7 +161,7 @@ class SectionManager(ManagerInterface):
                 return False
             ins = db.get_user(fields.get("instructor"))
             toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
-                            room=room, endTime=end, startTime=start, instructor=ins)
+                            room=room, time=time, instructor=ins)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
             return True
 
@@ -226,10 +220,8 @@ class SectionManager(ManagerInterface):
             sec.stype = toChange.stype
         if sec.days is None:
             sec.days = toChange.days
-        if sec.startTime is None:
-            sec.startTime = toChange.startTime
-        if sec.endTime is None:
-            sec.endTime = toChange.endTime
+        if sec.time is None:
+            sec.startTime = toChange.time
         if sec.room is None:
             sec.room = toChange.room
         if sec.instructor is None:
@@ -265,90 +257,149 @@ class SectionManager(ManagerInterface):
             return False
         else:
             return True
+
     # check the time input to make sure it's in the correct format 12:20 PM
     def timeFormat(self, time : str)->bool:
         #Note: strip string before passing
         if time is "" or None:
             return True
-        broken = time.split(" ")
+        broken = time.split("-")
         if len(broken) is not 2:
             return False
-        minHr = broken[0].split(":")
-        Hr = minHr[0]
-        min = minHr[1]
+
+        if len(broken[0]) > 7 or len(broken[0]) < 6:
+            return False
+        if len(broken[1]) > 7 or len(broken[1]) < 6:
+            return False
+
+        startMinHr = broken[0].split(":")   # split 12:00PM
+        if len(startMinHr) is not 2:
+            return False
+        startHr = startMinHr[0]             # 12
+        minMer = startMinHr[1]              # 00PM
+        startMin = minMer[0:2]              # 00
+        startMer = minMer[2:4]              # PM
+
+        endMinHr = broken[1].split(":")
+        if len(endMinHr) is not 2:
+            return False
+        endHr = endMinHr[0]
+        minMer = endMinHr[1]
+        endMin = minMer[0:2]
+        endMer = minMer[2:4]
+
 
         #check if min has  2 characters (1:5 pm or 1:0 pm will not be accepted) and hr has at least one but not more than 2 (01:30 or 1:30 is fine)
-        if len(min) != 2 or len(Hr) > 2 or len(Hr) < 1:
+        if len(startMin) != 2 or len(startHr) > 2 or len(startHr) < 1:
+            return False
+        if len(endMin) != 2 or len(endHr) > 2 or len(endHr) < 1:
             return False
 
         # try to convert two strings into integers (minute and hour)
         try:
-            min = int(min)
-            Hr = int(Hr)
+            startMin = int(startMin)
+            startHr = int(startHr)
+            endMin = int(endMin)
+            endHr = int(endHr)
         except ValueError:
             print ('Time is not a valid integer')
             return False
 
        # for min and Hr, check appropriate range
-        if min < 0 or min >= 60:
+        if startMin < 0 or startMin >= 60:
             return False
-        if Hr < 1 or Hr > 12:
+        if startHr < 1 or startHr > 12:
+            return False
+        if endMin < 0 or endMin >= 60:
+            return False
+        if endHr < 1 or endHr > 12:
             return False
 
         # check if the second half of the original split string broken[1] should be
         # either am or pm (lower case)
-        partDay = broken[1].lower()
-        if partDay == "am" or partDay == "pm":
-            return True
+
+        if startMer.lower() == "am" or startMer.lower() == "pm":
+            if endMer.lower() == "am" or endMer.lower() == "pm":
+                return True
+            else:
+                return False
         else:
             return False
 
     # This helper will take a time in string format and return a integer time
     # The integer will be in military hours for easy comparison in roomConflict()
     # NOTE: time format should be called before calling this method or else int() conversion will fail
-    def intTime(self, time: str)->int:
+    def intTime(self, time: str)->list:
 
-        breakDown = time.split(" ")
-        meridies = breakDown[1]
-        minHr = breakDown[0].split(":")
-        hr = int(minHr[0])
-        min = int(minHr[1])
+        broken = time.split("-")
+
+        startMinHr = broken[0].split(":")
+        startHr = startMinHr[0]             # 12
+        minMer = startMinHr[1]              # 00PM
+        startMin = minMer[0:2]              # 00
+        startMer = minMer[2:4]              # PM
+
+        endMinHr = broken[1].split(":")
+        endHr = endMinHr[0]
+        minMer = endMinHr[1]
+        endMin = minMer[0:2]
+        endMer = minMer[2:4]
+
+        startMin = int(startMin)
+        startHr = int(startHr)
+        endMin = int(endMin)
+        endHr = int(endHr)
 
         # convert to military time
-        if meridies.lower() == "pm" and hr != 12:
-            hr = hr + 12
-        elif meridies.lower() == "am" and hr == 12:
-            hr = 0
-        if min == 0:
-            min = "00"
+        if startMer.lower() == "pm" and startHr != 12:
+            startHr = startHr + 12
+        elif startMer.lower() == "am" and startHr == 12:
+            startHr = 0
+        if startMin == 0:
+            startMin = "00"
         else:
-            min = str(min)
+            startMin = str(startMin)
 
-        hr = str(hr)
-        intTime = hr + min
-        intTime = int(intTime)
-        return intTime
+        startHr = str(startHr)
+        startTime = startHr + startMin
+        startTime = int(startTime)
+
+        if endMer.lower() == "pm" and endHr != 12:
+            endHr = endHr + 12
+        elif endMer.lower() == "am" and endHr == 12:
+            endHr = 0
+        if endMin == 0:
+            endMin = "00"
+        else:
+            endMin = str(endMin)
+
+        endHr = str(endHr)
+        endTime = endHr + endMin
+        endTime = int(endTime)
+        return [startTime, endTime]
 
     # NOTE: timeFormat() should be called before calling this method
-    def roomConflict(self, start: str, end: str, room: int, days: str, sec: Section, action: str)->bool:
+    def roomConflict(self, time: str, room: int, days: str, sec: Section, action: str)->bool:
 
-        if start is None or room is -1 or end is None or days is None:
+        if time is None or "" or room is -1 or days is None or "":
             return True
 
         roomUse = Section.objects.filter(room=room)
         if roomUse.count() > 0:
 
             # get integer values for start and end times for comparison
-            startTime = self.intTime(start)
-            endTime = self.intTime(end)
+            checkTime = self.intTime(time)
+            startTime = checkTime[0]
+            endTime = checkTime[1]
             posConflict = self.conDays(days)
 
             for x in roomUse:
                 # Need to make certain not to compare the same object on edit, this shouldn't happen with add
                 if sec is None or action == "edit" and sec.snum != x.snum:
-                    if x.days in posConflict:
-                        xStart = self.intTime(x.startTime)
-                        xEnd = self.intTime(x.endTime)
+                    if x.days in posConflict and x.time is not None or x.time is not "":
+                        xTime = self.intTime(x.time)
+                        xStart = xTime[0]
+                        xEnd = xTime[1]
 
                         # check if start and end time is between each other class that shares the same room
                         if xStart <= startTime <= xEnd:
@@ -356,9 +407,10 @@ class SectionManager(ManagerInterface):
                         elif xStart <= endTime <= xEnd:
                             return False
                 else:
-                    if x.days in posConflict:
-                        xStart = self.intTime(x.startTime)
-                        xEnd = self.intTime(x.endTime)
+                    if x.days in posConflict and x.time is not None or x.time is not "":
+                        xTime = self.intTime(x.time)
+                        xStart = xTime[0]
+                        xEnd = xTime[1]
 
                         # check if start and end time is between each other class that shares the same room
                         if xStart <= startTime <= xEnd:
@@ -391,4 +443,4 @@ class SectionManager(ManagerInterface):
     # Note: "snumNew" will only do something if the user calls edit and wants to change the section number
     @staticmethod
     def optFields()->list:
-        return ["instructor", "type", "days", "room", "startTime", "endTime"]
+        return ["instructor", "type", "days", "room", "time"]

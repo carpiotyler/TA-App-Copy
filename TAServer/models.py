@@ -62,10 +62,9 @@ class Section(models.Model):
     instructor = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     # days of week meeting
     days = models.CharField(max_length=5, choices=DAYS, default='None')
-    # time of meeting ("05:45 AM" or "5:45 PM")
-    startTime = models.CharField(max_length=8, blank=True)
-    # time of meeting end
-    endTime = models.CharField(max_length=8, blank=True)
+    # time of meeting ("05:45AM-06:00AM")
+    time = models.CharField(max_length=15, blank=True)
+
 
 class Staff(User):
     ROLES = (
