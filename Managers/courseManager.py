@@ -55,10 +55,13 @@ class CourseManager(ManagerInterface):
 
     def view(self, fields: dict):
         """Get course list from db manager, convert to string and pass back to parser"""
-
+        dept=None
+        cnum=None
         # Store dict values into variables
-        dept = fields.get('dept').upper()
-        cnum = fields.get('cnum')
+        if 'dept' in fields:
+            dept=fields['dept']
+        if 'cnum' in fields:
+            dept=fields['cnum']
 
         # View all courses
         if not dept and not cnum:

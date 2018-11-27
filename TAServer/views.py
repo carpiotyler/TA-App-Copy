@@ -33,15 +33,15 @@ def mgr(mgr: ManagerInterface, command: str, request) -> str:
     cmddict = fieldsToDict(command)
 
     for field in mgr.reqFields(): # Make sure all required fields are there
-        if field not in cmddict:
+        if field not in cmddict and cmddict['action'] != 'view':
             return "Missing field: %s" % field
 
     for field in mgr.optFields(): # Make sure all optfields are set to None if they're not in there
         if field not in cmddict:
             cmddict[field] = None
 
-    for field in cmddict: # Remove all fields not in the manager
-        if field not in mgr.optFields() and field not in mgr.reqFields():
+    for field in cmddict.copy(): # Remove all fields not in the manager. A copy because you cant remove from a dict while iterating through it
+        if field not in mgr.optFields() and field not in mgr.reqFields() and field != 'action' and field != 'command':
             del cmddict[field]
 
     if not validate(cmddict, request.user):
@@ -57,7 +57,6 @@ def mgr(mgr: ManagerInterface, command: str, request) -> str:
             return "Failure"
 
     return "No dice"
-
 
 # Calls the general manager command with the course manager correctly initialized
 def course(command: str, request) -> str:
@@ -125,7 +124,7 @@ def parse(request) -> str:
 
     for cmd in commandList:
         if cmd.__name__ == command:
-            return cmd(command, request)
+            return cmd(request.POST["command"], request)
     return "Not a valid command"
 
 
