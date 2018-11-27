@@ -1,22 +1,21 @@
 from Managers.sectionManager import SectionManager
-from Managers.DjangoStorageManager import DjangoStorageManager as dm
+from Managers.ManagerInterface import ManagerInterface
+from Managers.DjangoStorageManager import DjangoStorageManager as dsm
 from TAServer.models import Course
 
 # Course obj used for CourseManger, might place in seperate file once we finalize everything
 
         
 # Handles adding,viewing,editing and deleting of all courses.
-class CourseManager:
+class CourseManager(ManagerInterface):
 
-    def __init__(self):
+    def __init__(self, dm: dsm):
 
         # Right now only CS dept courses can be added with manager. 
         # Dept list can be changed to support more departments
-        self.reqFields = ['dept', 'cnum']
-        self.optFields = ['name', 'description', 'section', 'instr']
         self.depts = ['CS']
-        self.sec = SectionManager()
-        dm.set_up(overwrite=False)
+        self.dm = dm
+        self.sec = SectionManager(self.dm)
 
 
     def add(self, fields: dict):
@@ -41,16 +40,16 @@ class CourseManager:
 
             # If sections is None, just call database manager to add course
             if section is None:
-                return dm.insert_course(c)
+                return self.dm.insert_course(c)
 
             # Else insert course
-            dm.insert_course(c)
+            self.dm.insert_course(c)
             
             # Call section manager to add section, if section created successfully, return True,
             # else delete course and return False
             if self.sec.add(fields):
                 return True
-            dm.delete(c)
+            self.dm.delete(c)
 
         return False
 
@@ -63,17 +62,17 @@ class CourseManager:
 
         # View all courses
         if not dept and not cnum:
-            course_list = dm.get_courses_by(dept="", cnum="")
+            course_list = self.dm.get_courses_by(dept="", cnum="")
             return self._course_list_string(course_list)
 
         # View by dept
         elif dept and not cnum:
-            course_list = dm.get_courses_by(dept=dept)
+            course_list = self.dm.get_courses_by(dept=dept)
             return self._course_list_string(course_list)
 
         # View single course
         else:
-            course_list = dm.get_courses_by(dept=dept, cnum=cnum)
+            course_list = self.dm.get_courses_by(dept=dept, cnum=cnum)
             return self._course_list_string(course_list)
 
     def delete(self, fields: dict):
@@ -93,11 +92,11 @@ class CourseManager:
             return self.sec.delete(fields)
 
         # Retrieve courses with dept and cnum
-        course_list = dm.get_courses_by(dept=dept, cnum=cnum)
+        course_list = self.dm.get_courses_by(dept=dept, cnum=cnum)
         
         # Delete all courses retreived from database with given dept and cnum
         for c in course_list:
-            if not dm.delete(c):
+            if not self.dm.delete(c):
                 return False
         return True
 
@@ -110,7 +109,7 @@ class CourseManager:
         if self._check_params(fields):
 
             # Get course to edit
-            c = dm.get_course(dept=fields['dept'], cnum=fields['cnum'])
+            c = self.dm.get_course(dept=fields['dept'], cnum=fields['cnum'])
 
             # Edit name
             if 'name' in fields:
@@ -122,11 +121,11 @@ class CourseManager:
 
             # Edit sections, insert course with database manager and have section manager edit sections
             if 'sections' in fields:
-                if dm.insert_course(c):
+                if self.dm.insert_course(c):
                     return self.sec.edit(fields)
                 return False
 
-        return dm.insert_course(c)
+        return self.dm.insert_course(c)
 
     # Check for invalid parameters
     def _check_params(self, fields: dict):
@@ -165,10 +164,11 @@ class CourseManager:
             coursestring = coursestring + str(c)+ '\n'
         return coursestring
 
-    # @static
-    # def reqFields()->list:
-    #     pass
+    @staticmethod
+    def reqFields()->list:
+        return ['dept', 'cnum']
+        
 
-    # @static
-    # def optFields()->list:
-    #     pass
+    @staticmethod
+    def optFields()->list:
+        return ['name', 'description', 'section', 'instr']

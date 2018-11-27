@@ -79,14 +79,19 @@ class SupGroup(Group):
 
 class Course(models.Model):
     cnum = models.CharField(max_length=4)
-    name = models.CharField(max_length=40)
-    description = models.CharField(max_length=200)
     dept = models.CharField(max_length=10)
-    sections = models.ManyToManyField('Section')
+    name = models.CharField(max_length=40, blank=True, default="")
+    description = models.CharField(max_length=200, blank=True, default="")
+    sections = models.ManyToManyField('Section', related_name='sec', blank=True, null=True)
 
     def __str__(self):
-        return "Department: "+ self.dept + " "+"Cnum: "+str(self.cnum) +" "+ "Course Name: "+self.name + '\n' + "Description: " + self.description + '\n' + str(self.sections)
-
+        course_string = "Department: "+ self.dept + " "+"Cnum: "+str(self.cnum)+ " "
+        if self.name:
+            print('yee')
+            course_string = course_string+ "Name: "+self.name + " "
+        if self.description:
+            course_string = course_string+ "Description: "+self.description + " "
+        return course_string
 
 
 class Section(models.Model):
@@ -125,8 +130,8 @@ class Section(models.Model):
     endTime = models.CharField(max_length=8, blank=True, default="")
 
     def __str__(self):
-        return "" + self.course.dept + self.course.cnum + self.snum + '\n' + "Section type: " + self.type + '\n' + \
-               "room: " + str(self.rooms) + '\n' + "Instructor: " + self.instructor + '\n' + "Time(s) :" + self.days + \
+        return "" + self.course.dept + self.course.cnum + self.snum + '\n' + "Section type: " + self.stype + '\n' + \
+               "room: " + str(self.room) + '\n' + "Instructor: " + str(self.instructor) + '\n' + "Time(s) :" + self.days + \
                " " + self.startTime + "-" + self.endTime
 
 class Staff(User):
