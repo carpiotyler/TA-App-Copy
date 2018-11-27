@@ -85,7 +85,7 @@ class Course(models.Model):
     sections = models.ManyToManyField('Section')
 
     def __str__(self):
-        return ""+ self.pk + self.dept + self.cnum + self.name + '\n' + "Description: " + self.description + '\n' + str(self.sections)
+        return "Department: "+ self.dept + " "+"Cnum: "+str(self.cnum) +" "+ "Course Name: "+self.name + '\n' + "Description: " + self.description + '\n' + str(self.sections)
 
 
 
@@ -124,6 +124,10 @@ class Section(models.Model):
     # time of meeting end
     endTime = models.CharField(max_length=8, blank=True, default="")
 
+    def __str__(self):
+        return "" + self.course.dept + self.course.cnum + self.snum + '\n' + "Section type: " + self.type + '\n' + \
+               "room: " + str(self.rooms) + '\n' + "Instructor: " + self.instructor + '\n' + "Time(s) :" + self.days + \
+               " " + self.startTime + "-" + self.endTime
 
 class Staff(User):
     ROLES = (

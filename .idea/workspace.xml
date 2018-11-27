@@ -2,29 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac65fbc6-2fa9-46fd-b343-929385a69025" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Managers/DjangoStorageManager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Managers/ManagerInterface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/unit_tests/djangoSectionTests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CmdParser.py" beforeDir="false" afterPath="$PROJECT_DIR$/CmdParser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/authManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/authManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/courseManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/courseManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/example.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/myStorageManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/myStorageManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/sectionManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/sectionManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Managers/userManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/userManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Managers/ManagerInterface.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/TAServer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/TAServer/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TAServer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/TAServer/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TAServer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/TAServer/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/unit_tests/JSONStorageManagerTests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/unit_tests/database.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/unit_tests/parserTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/unit_tests/parserTests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,11 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Managers/sectionManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2159">
-              <caret line="127" column="98" lean-forward="true" selection-start-line="127" selection-start-column="98" selection-end-line="127" selection-end-column="98" />
-              <folding>
-                <element signature="e#0#69#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2125">
+              <caret line="127" column="24" selection-start-line="127" selection-start-column="24" selection-end-line="127" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -84,7 +61,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Managers/authManager.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
@@ -107,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TAServer/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="618">
-              <caret line="124" column="45" selection-start-line="124" selection-start-column="45" selection-end-line="124" selection-end-column="45" />
+            <state relative-caret-position="331">
+              <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
               <folding>
                 <element signature="e#102#152#0" expanded="true" />
               </folding>
@@ -133,7 +110,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
+            <state relative-caret-position="663">
               <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
               <folding>
                 <element signature="e#0#62#0" expanded="true" />
@@ -145,8 +122,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TAServer/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="41" column="14" lean-forward="true" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
+            <state relative-caret-position="697">
+              <caret line="41" column="14" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -154,8 +131,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TAServer/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+            <state relative-caret-position="136">
+              <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -163,8 +140,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests/unit_tests/parserTests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-889">
-              <caret line="3" column="52" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="52" />
+            <state relative-caret-position="51">
+              <caret line="3" column="50" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -203,9 +180,9 @@
         <option value="$PROJECT_DIR$/Managers/DjangoStorageManager.py" />
         <option value="$PROJECT_DIR$/Managers/myStorageManager.py" />
         <option value="$PROJECT_DIR$/Managers/sectionManager.py" />
-        <option value="$PROJECT_DIR$/TAServer/models.py" />
-        <option value="$PROJECT_DIR$/TAServer/views.py" />
         <option value="$PROJECT_DIR$/Tests/unit_tests/parserTests.py" />
+        <option value="$PROJECT_DIR$/TAServer/views.py" />
+        <option value="$PROJECT_DIR$/TAServer/models.py" />
       </list>
     </option>
   </component>
@@ -219,6 +196,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane" />
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
@@ -251,7 +229,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
       <pane id="Course" />
     </panes>
   </component>
@@ -410,8 +387,8 @@
       <item itemvalue="Django tests.Test: Tests.unit_tests.DjangoStorageManagerTests" />
       <item itemvalue="Django tests.Test: Tests.unit_tests.DjangoStorageManagerTests.DjangoStorageManagerTests.test_set_up" />
       <item itemvalue="Python.manage" />
-      <item itemvalue="Python tests.pytest in Tests" />
       <item itemvalue="Python.djangoSectionTests" />
+      <item itemvalue="Python tests.pytest in Tests" />
     </list>
     <recent_temporary>
       <list>
@@ -434,6 +411,7 @@
       <option name="presentableId" value="Default" />
       <updated>1542224311531</updated>
       <workItem from="1543260728938" duration="892000" />
+      <workItem from="1543280119844" duration="922000" />
     </task>
     <task id="LOCAL-00001" summary="Updated myStorageManager Interface. Split a few methods up and refactored to be more stable (and strongly typed). Since Django seamlessly updates members of our database, this Manager is more of a helper class for ORGANIZING data and keeping everything easy to access.">
       <created>1542418438989</created>
@@ -470,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543186545421</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Changed import in views.py">
+      <created>1543280205655</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1543280205655</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -506,7 +491,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="892000" />
+    <option name="totallyTimeSpent" value="1814000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -518,10 +503,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31400436" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31716418" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -617,7 +602,8 @@
     <MESSAGE value="Some work on tests" />
     <MESSAGE value="Finished insert tests" />
     <MESSAGE value="New db interface to work from" />
-    <option name="LAST_COMMIT_MESSAGE" value="New db interface to work from" />
+    <MESSAGE value="Changed import in views.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed import in views.py" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/TAServer/viewsa.py" />
@@ -633,13 +619,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Managers/ManagerInterface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Managers/managerInterface.py" />
     <entry file="file://$PROJECT_DIR$/CmdParser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -680,12 +660,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Managers/sectionManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2125">
+          <caret line="127" column="24" selection-start-line="127" selection-start-column="24" selection-end-line="127" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Managers/courseManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/unit_tests/sectionTests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/unit_tests/DjangoStorageManagerTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
+        <state relative-caret-position="663">
           <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
           <folding>
             <element signature="e#0#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TAServer/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" column="14" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/unit_tests/parserTests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="50" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Managers/authManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#60#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -700,70 +728,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/unit_tests/sectionTests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/unit_tests/parserTests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-889">
-          <caret line="3" column="52" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Managers/sectionManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2159">
-          <caret line="127" column="98" lean-forward="true" selection-start-line="127" selection-start-column="98" selection-end-line="127" selection-end-column="98" />
-          <folding>
-            <element signature="e#0#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TAServer/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TAServer/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="41" column="14" lean-forward="true" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
+        <state relative-caret-position="136">
+          <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TAServer/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="618">
-          <caret line="124" column="45" selection-start-line="124" selection-start-column="45" selection-end-line="124" selection-end-column="45" />
+        <state relative-caret-position="331">
+          <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
           <folding>
             <element signature="e#102#152#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Managers/courseManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Managers/authManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#60#0" expanded="true" />
           </folding>
         </state>
       </provider>
