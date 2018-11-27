@@ -82,7 +82,7 @@ class Course(models.Model):
     dept = models.CharField(max_length=10)
     name = models.CharField(max_length=40, blank=True, default="")
     description = models.CharField(max_length=200, blank=True, default="")
-    sections = models.ManyToManyField('Section', related_name='sec', blank=True, null=True)
+    sections = models.ManyToManyField('Section', related_name='sec', blank=True)
 
     def __str__(self):
         course_string = "Department: "+ self.dept + " "+"Cnum: "+str(self.cnum)+ " "
@@ -124,15 +124,13 @@ class Section(models.Model):
     instructor = models.ForeignKey(User, blank=True, null=True, on_delete= models.DO_NOTHING)
     # days of week meeting
     days = models.CharField(max_length=5, blank=True, null=True, choices=DAYS, default="")
-    # time of meeting ("05:45 AM" or "5:45 PM")
-    startTime = models.CharField(max_length=8, blank=True, default="")
-    # time of meeting end
-    endTime = models.CharField(max_length=8, blank=True, default="")
+    # time of meeting ("05:45AM-06:00AM")
+    time = models.CharField(max_length=15, blank=True)
 
     def __str__(self):
         return "" + self.course.dept + self.course.cnum + self.snum + '\n' + "Section type: " + self.stype + '\n' + \
                "room: " + str(self.room) + '\n' + "Instructor: " + str(self.instructor) + '\n' + "Time(s) :" + self.days + \
-               " " + self.startTime + "-" + self.endTime
+               " " + self.time
 
 class Staff(User):
     ROLES = (
