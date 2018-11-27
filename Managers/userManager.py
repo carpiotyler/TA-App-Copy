@@ -1,6 +1,7 @@
 from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Managers.abstractManager import ManagerInterface
 from TAServer.models import Staff as User
+from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGroup
 
 
 class UserManager(ManagerInterface):
@@ -20,7 +21,24 @@ class UserManager(ManagerInterface):
             user.email = "" if fields.get("email") is None else fields.get("email")
             user.password = "" if fields.get("password") is None else fields.get("password")
             user.role = "" if fields.get("role") is None else fields.get("role")
+
+            if user.role is None or user.role == "default":
+                user.groups.add(DefaultGroup())
+
+            elif user.role == "ta":
+                user.groups.add(TAGroup())
+
+            elif user.role == "ins":
+                user.groups.add(InsGroup())
+
+            elif user.role == "admin":
+                user.groups.add(AdminGroup())
+
+            elif user.role == "sup":
+                user.groups.add(SupGroup())
+
             self.storage.insert_user(user)
+
             return True
 
         else:  # user exists
@@ -49,6 +67,22 @@ class UserManager(ManagerInterface):
             user.email = "" if fields.get("email") is None else fields.get("email")
             user.password = "" if fields.get("password") is None else fields.get("password")
             user.role = "" if fields.get("role") is None else fields.get("role")
+
+            if user.role is None or user.role == "default":
+                user.groups.add(DefaultGroup())
+
+            elif user.role == "ta":
+                user.groups.add(TAGroup())
+
+            elif user.role == "ins":
+                user.groups.add(InsGroup())
+
+            elif user.role == "admin":
+                user.groups.add(AdminGroup())
+
+            elif user.role == "sup":
+                user.groups.add(SupGroup())
+
             self.storage.insert_user(user)
             return True
 
