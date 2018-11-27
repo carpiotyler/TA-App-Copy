@@ -14,7 +14,8 @@ from django.contrib.auth import authenticate, login, logout
 # This is a very fast and loose way to validate everything. I'm basically assuming that if you've got ins or ta in your
 # command you're trying to assign them to something because user view uses other field names. If a user is not provided
 # construct the default one (assuming that the default one will have the default permissions level)
-def validate(cmd: dict, usr: User = User())->bool:
+# Bugs: Doesn't check what the user is trying to edit
+def validate(cmd: dict, usr: User)->bool:
     if 'ta' in cmd:
         return usr.has_perm("can_assign_ta")
 
@@ -33,15 +34,15 @@ def mgr(mgr: ManagerInterface, command: str, request) -> str:
     cmddict = fieldsToDict(command)
 
     for field in mgr.reqFields(): # Make sure all required fields are there
-        if field not in cmddict:
+        if field not in cmddict and cmddict['action'] is not 'view':
             return "Missing field: %s" % field
 
     for field in mgr.optFields(): # Make sure all optfields are set to None if they're not in there
         if field not in cmddict:
             cmddict[field] = None
 
-    for field in cmddict: # Remove all fields not in the manager
-        if field not in mgr.optFields() and field not in mgr.reqFields():
+    for field in cmddict.copy(): # Remove all fields not in the manager. A copy because you cant remove from a dict while iterating through it
+        if field not in mgr.optFields() and field not in mgr.reqFields() and field is not 'action' and field is not 'command':
             del cmddict[field]
 
     if not validate(cmddict, request.user):
@@ -105,11 +106,14 @@ descriptionList = {'login': "Placeholder description for login",
 
 # Parses the help command
 def help(command: str, request) -> str:
-    want = command.split(' ')[1].lower() # What the user wants help with. Splits the command into splaces, gets the first one, and gets the lower case of that
+    split = command.lower().split(' ')
 
-    if(want not in descriptionList):
-        return "Not a valid command"
-    return descriptionList[want]
+    if(len(split) == 1):
+        return "This is the default help command response"
+
+    if(split[1] not in descriptionList):
+        return "%s is not a valid command" % split[1]
+    return descriptionList[split[1]]
 
 
 # This needs to be here to see all the above functions as handles
@@ -125,7 +129,7 @@ def parse(request) -> str:
 
     for cmd in commandList:
         if cmd.__name__ == command:
-            return cmd(command, request)
+            return cmd(request.POST["command"], request)
     return "Not a valid command"
 
 
