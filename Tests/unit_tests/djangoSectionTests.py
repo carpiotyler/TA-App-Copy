@@ -23,7 +23,7 @@ class sectionTest(TestCase):
                  email="BubbaGump@gmail.com", password="shrimp", role="administrator")
         self.u3.save()
         temp = storage()
-        self.sec = SM()
+        self.sec = SM(storage())
 
     def tearDown(self):
         pass

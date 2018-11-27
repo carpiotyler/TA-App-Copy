@@ -1,12 +1,12 @@
-from Managers.DjangoStorageManager import DjangoStorageManager as db
+from Managers.DjangoStorageManager import DjangoStorageManager as Store
 from Managers.ManagerInterface import ManagerInterface
 from TAServer.models import Section, Course as Course, User as User
 
 
 class SectionManager(ManagerInterface):
 
-    def __init__(self):
-        db.set_up(overwrite=False)
+    def __init__(self, db: Store()):
+        db.setup()
 
     def add(self, fields: dict)->bool:
 
