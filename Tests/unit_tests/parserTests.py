@@ -6,7 +6,7 @@ from Managers.courseManager import CourseManager
 from Managers.ManagerInterface import ManagerInterface
 from Managers.myStorageManager import AbstractStorageManager
 from Managers.authManager import AuthManager
-from Domain.user import User # Eventually change this to models
+from TAServer.models import Course, Section, Staff as User
 
 
 # This is the base class for all the testing versions of their respective classes. The main difference is in order to

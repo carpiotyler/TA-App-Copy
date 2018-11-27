@@ -1,7 +1,5 @@
 from Managers.myStorageManager import AbstractStorageManager as storage
-from Domain import user as DomainUser
-from Domain import section as DomainSection
-from Domain import course as DomainCourse
+from TAServer.models import Course, Section, Staff as User
 
 import json, os
 

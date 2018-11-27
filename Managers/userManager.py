@@ -1,26 +1,25 @@
 from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Managers.abstractManager import ManagerInterface
-from Domain.user import User
+from TAServer.models import Staff as User
 
 
 class UserManager(ManagerInterface):
 
     def __init__(self, storage: StorageManager):
         self.storage = storage
-        pass
 
     def add(self, fields: dict) -> bool:
+        print(fields)
         user = self.storage.get_user(fields.get("username"))
 
         if user is None:  # user dne
-            user = User(
-                "" if fields.get("username") is None else fields.get("username"),
-                "" if fields.get("password") is None else fields.get("password"),
-                "" if fields.get("role") is None else fields.get("role"),
-                "" if fields.get("address") is None else fields.get("address"),
-                "" if fields.get("phone_number") is None else fields.get("phone_number"),
-                "" if fields.get("email") is None else fields.get("email"),
-            )
+            user = User()
+            user.username = "" if fields.get("username") is None else fields.get("username")
+            user.address = "" if fields.get("address") is None else fields.get("address"),
+            user.phonenum = "" if fields.get("phone_number") is None else fields.get("phone_number")
+            user.email = "" if fields.get("email") is None else fields.get("email")
+            user.password = "" if fields.get("password") is None else fields.get("password")
+            user.role = "" if fields.get("role") is None else fields.get("role")
             self.storage.insert_user(user)
             return True
 
@@ -43,14 +42,13 @@ class UserManager(ManagerInterface):
             return False
 
         else:  # found user
-            user = User(
-                user.username if fields.get("username") is None else fields.get("username"),
-                user.password if fields.get("password") is None else fields.get("password"),
-                user.role if fields.get("role") is None else fields.get("role"),
-                user.address if fields.get("address") is None else fields.get("address"),
-                user.phone_number if fields.get("phone_number") is None else fields.get("phone_number"),
-                user.email if fields.get("email") is None else fields.get("email")
-            )
+            user = User()
+            user.username = "" if fields.get("username") is None else fields.get("username")
+            user.address = "" if fields.get("address") is None else fields.get("address"),
+            user.phonenum = "" if fields.get("phone_number") is None else fields.get("phone_number")
+            user.email = "" if fields.get("email") is None else fields.get("email")
+            user.password = "" if fields.get("password") is None else fields.get("password")
+            user.role = "" if fields.get("role") is None else fields.get("role")
             self.storage.insert_user(user)
             return True
 

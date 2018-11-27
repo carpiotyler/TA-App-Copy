@@ -1,4 +1,5 @@
 from Managers.courseManager import CourseManager
+from TAServer.models import Course, Section, Staff as User
 import unittest
 import os,json
 

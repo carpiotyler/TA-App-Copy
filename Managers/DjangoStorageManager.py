@@ -3,6 +3,7 @@
 from Managers.myStorageManager import AbstractStorageManager
 from TAServer.models import Course, Section, Staff as User
 
+
 class DjangoStorageManager(AbstractStorageManager):
 
     @staticmethod
@@ -65,11 +66,13 @@ class DjangoStorageManager(AbstractStorageManager):
 
         # Checking if user already exists
         if existinguser != None:
+            print("update existing user")
             # overwrite case, just setting new users id to the old one we found, then overwriting
             user.id = existinguser.id
             user.save()
             overwritten = True
         else:
+            print("save new user")
             #new user, just save it
             user.save()
             overwritten = False

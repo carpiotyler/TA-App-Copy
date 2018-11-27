@@ -1,6 +1,6 @@
 from Managers.DjangoStorageManager import DjangoStorageManager as db
 from Managers.ManagerInterface import ManagerInterface
-from TAServer.models import Section, Course as Course, User as User
+from TAServer.models import Course, Section, Staff as User
 
 
 class SectionManager(ManagerInterface):

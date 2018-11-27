@@ -1,19 +1,18 @@
-from typing import Optional
+import django
+django.setup()
 
-from Managers.myStorageManager import AbstractStorageManager as storage
-
+from Managers.myStorageManager import AbstractStorageManager as StorageManager
+from TAServer.models import Course, Section, Staff as User
 from Managers.userManager import UserManager
-from Domain.section import Section
-from Domain.course import Course
-from Domain.user import User
+from django.test import TestCase
 
-import unittest
-
-
-class UserManagerTests(unittest.TestCase):
+class UserManagerTests(TestCase):
 
     def setUp(self):
-        self.user = User("foo", "abc123")
+
+        self.user = User()
+        self.user.username = "foobar"
+        self.user.password = "abc123"
         self.user_manager = UserManager(MockStorageManager())
 
     def tearDown(self):
@@ -31,6 +30,8 @@ class UserManagerTests(unittest.TestCase):
         a = user_manager.add({"username": user.username, "password": user.password})
 
         # then add result contains user
+        print("Hello World")
+        print(a)
         self.assertTrue(a)
 
         # when adding an existing user
@@ -118,10 +119,10 @@ class UserManagerTests(unittest.TestCase):
         c = user_manager.delete({"username": user.username})
 
         # then delete result contains error
-        self.assertTrue(c) # TODO DELETE METHOD
+        self.assertTrue(c)  # TODO DELETE METHOD
 
 
-class MockStorageManager(storage):
+class MockStorageManager(StorageManager):
 
     def __init__(self):
         self.users: [User] = []
@@ -129,7 +130,7 @@ class MockStorageManager(storage):
         self.sections: [Section] = []
 
     def set_up(self):
-        self.users.append(User("supervisor", "1234", "supervisor"))
+        pass
 
     def insert_course(self, course):
         self.courses.append(course)
@@ -150,3 +151,15 @@ class MockStorageManager(storage):
 
     def get_section(self, dept, cnum, snum):
         return next(filter(lambda n: (n.dept == dept & n.cnum == cnum & n.snum == snum), self.sections), [])
+
+    def get_courses_by(self, dept, cnum) -> [Course]:
+        pass
+
+    def get_users_by(self, role) -> [User]:
+        pass
+
+    def get_sections_by(dept, cnum, snum) -> [Section]:
+        pass
+
+    def delete(self, to_delete) -> bool:
+        pass

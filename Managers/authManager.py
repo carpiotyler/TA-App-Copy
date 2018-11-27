@@ -1,5 +1,5 @@
-from Managers.myStorageManager import AbstractStorageManager
-from Domain.user import User
+from TAServer.models import Staff as User
+from Managers.userManager import UserManager as UM
 
 
 class AuthManager:
