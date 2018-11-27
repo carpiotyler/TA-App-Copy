@@ -6,7 +6,7 @@ from Managers.userManager import UserManager as UM
 from Managers.sectionManager import SectionManager as SM
 from Managers.courseManager import CourseManager as CM
 from Managers.ManagerInterface import ManagerInterface
-from Managers.JSONStorageManager import JSONStorageManager as Storage # Change to whatever we're using now
+from Managers.DjangoStorageManager import DjangoStorageManager as Storage # Change to whatever we're using now
 from TAServer.models import Staff as User
 from django.contrib.auth import authenticate, login, logout
 
