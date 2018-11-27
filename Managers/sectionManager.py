@@ -5,8 +5,8 @@ from TAServer.models import Section, Course as Course, User as User
 
 class SectionManager(ManagerInterface):
 
-    def __init__(self):
-        db.set_up(overwrite=False)
+    def __init__(self, db):
+        self.db = db
 
     def add(self, fields: dict)->bool:
 
@@ -20,7 +20,7 @@ class SectionManager(ManagerInterface):
         if not self.courseExists(cnum=fields.get("cnum"), dept=fields.get("dept")):
             return False
 
-        course = db.get_course(dept=fields.get("dept"), cnum=fields.get("cnum"))
+        course = self.db.get_course(dept=fields.get("dept"), cnum=fields.get("cnum"))
 
         # Make sure section doesn't already exist (Should be edit instead)
         if self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
@@ -60,7 +60,7 @@ class SectionManager(ManagerInterface):
                 return False
 
             # Check if time and room conflict
-            if not self.roomConflict(time=time, room=room, days=days, sec=db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="add"):
+            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="add"):
                 return False
 
         # With and without instructor adding to course and sections db
@@ -72,7 +72,7 @@ class SectionManager(ManagerInterface):
         else:
             if not self.valUser(fields.get("instructor")):
                 return False
-            ins = db.get_user(fields.get("instructor"))
+            ins = self.db.get_user(fields.get("instructor"))
             toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
                             room=room, time=time, instructor=ins)
             self.addHelper(toAdd)
@@ -86,7 +86,7 @@ class SectionManager(ManagerInterface):
         if invalid != "okay":
             return invalid
 
-        result = db.get_section(dept = fields.get("dept"), cnum = fields.get("cnum"), snum = fields.get("snum"))
+        result = self.db.get_section(dept = fields.get("dept"), cnum = fields.get("cnum"), snum = fields.get("snum"))
         if result is None:
             return "Could not find " + fields.get("dept") + "-" + str(fields.get("cnum")) + "-" + str(fields.get("snum"))
         else:
@@ -110,7 +110,7 @@ class SectionManager(ManagerInterface):
         if not self.courseExists(cnum=fields.get("cnum"), dept=fields.get("dept")):
             return False
 
-        course = db.get_course(fields.get("dept"), fields.get("cnum"))
+        course = self.db.get_course(fields.get("dept"), fields.get("cnum"))
 
         # Make sure section exists
         if not self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
@@ -147,7 +147,7 @@ class SectionManager(ManagerInterface):
                 return False
 
             # Check if time and room conflict
-            if not self.roomConflict(time=time, room=room, days=days, sec=db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="edit"):
+            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="edit"):
                 return False
 
         # With and without instructor adding to course and sections db
@@ -159,7 +159,7 @@ class SectionManager(ManagerInterface):
         else:
             if not self.valUser(fields.get("instructor")):
                 return False
-            ins = db.get_user(fields.get("instructor"))
+            ins = self.db.get_user(fields.get("instructor"))
             toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
                             room=room, time=time, instructor=ins)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
@@ -175,8 +175,8 @@ class SectionManager(ManagerInterface):
             return False
 
         if self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
-            section = db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum"))
-            db.delete(section)
+            section = self.db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum"))
+            self.db.delete(section)
             return True
         else:
             return False
@@ -185,17 +185,17 @@ class SectionManager(ManagerInterface):
 
     # Make sure user exists
     def userExists(self, ins):
-        user = db.get_user(username=ins)
+        user = self.db.get_user(username=ins)
         return user is not None
 
     # Make sure course exists
     def courseExists(self, cnum, dept):
-        course = db.get_course(cnum=cnum, dept=dept)
+        course = self.db.get_course(cnum=cnum, dept=dept)
         return course is not None
 
     # Make sure section exists
     def sectionExists(self,cnum, dept, snum):
-        section = db.get_section(cnum=cnum, dept=dept, snum=snum)
+        section = self.db.get_section(cnum=cnum, dept=dept, snum=snum)
         return section is not None
 
     # make sure necessary fields are not set to None
@@ -209,12 +209,12 @@ class SectionManager(ManagerInterface):
         return switch.get(None, "okay")
 
     def addHelper(self, sec: Section):
-        db.insert_section(sec)
+        self.db.insert_section(sec)
 
     def editHelper(self, sec: Section, snumNew: str):
         # Check fields that are empty from sec and set them to whatever the current section has
         # Users need to explicitly enter "None" to edit the value to None/default
-        toChange = db.get_section(cnum=sec.course.cnum, dept=sec.course.dept, snum=sec.snum)
+        toChange = self.db.get_section(cnum=sec.course.cnum, dept=sec.course.dept, snum=sec.snum)
 
         if sec.stype is None:
             sec.stype = toChange.stype
@@ -229,11 +229,11 @@ class SectionManager(ManagerInterface):
 
 
         # remove old section and replace with the new one
-        db.insert_section(sec)
+        self.db.insert_section(sec)
 
     # Make sure user is a TA or instructor
     def valUser(self, ins):
-        user = db.get_user(ins)
+        user = self.db.get_user(ins)
         if user.role.lower() != "ta" and user.role.lower() != "instructor" and user.role is not None:
             return False
         else:
