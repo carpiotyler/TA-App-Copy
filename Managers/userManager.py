@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Managers.abstractManager import ManagerInterface
 from Domain.user import User
@@ -73,32 +72,3 @@ class UserManager(ManagerInterface):
     @staticmethod
     def optFields(self) -> list:
         return ["address", "phone_number", "email"]
-=======
-from Managers.myStorageManager import AbstractStorageManager
-from Managers.ManagerInterface import ManagerInterface
-
-
-class UserManager(ManagerInterface):
-    def __init__(self, database: AbstractStorageManager):
-        pass
-
-    def add(self, fields: dict)->bool:
-        pass
-
-    def view(self, fields: dict)->str:
-        pass
-
-    def edit(self, fields: dict)->bool:
-        pass
-
-    def delete(self, fields: dict)->bool:
-        pass
-
-    @staticmethod
-    def reqFields()->list:
-        pass
-
-    @staticmethod
-    def optFields()->list:
-        pass
->>>>>>> master
