@@ -21,6 +21,7 @@ class UserManager(ManagerInterface):
             user.email = "" if fields.get("email") is None else fields.get("email")
             user.password = "" if fields.get("password") is None else fields.get("password")
             user.role = "" if fields.get("role") is None else fields.get("role")
+            self.storage.insert_user(user)
 
             if user.role is None or user.role == "default":
                 user.groups.add(DefaultGroup())
@@ -36,8 +37,9 @@ class UserManager(ManagerInterface):
 
             elif user.role == "sup":
                 user.groups.add(SupGroup())
-
-            self.storage.insert_user(user)
+            else:
+                return false
+            
 
             return True
 
@@ -70,6 +72,7 @@ class UserManager(ManagerInterface):
             user.email = "" if fields.get("email") is None else fields.get("email")
             user.password = "" if fields.get("password") is None else fields.get("password")
             user.role = "" if fields.get("role") is None else fields.get("role")
+            self.storage.insert_user(user)
 
             if user.role is None or user.role == "default":
                 user.groups.add(DefaultGroup())
@@ -86,7 +89,6 @@ class UserManager(ManagerInterface):
             elif user.role == "sup":
                 user.groups.add(SupGroup())
 
-            self.storage.insert_user(user)
             return True
 
     def delete(self, fields: dict) -> bool:
