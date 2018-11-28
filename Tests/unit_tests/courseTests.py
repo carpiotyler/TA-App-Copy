@@ -46,16 +46,28 @@ class CourseTests(TestCase):
 
     def test_course_view(self):
 
-        self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS',cnum='351'))
-        self.assertEquals("Department: CS\nCourse Number: 331\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS',cnum='331'))
-        self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n\nDepartment: CS\nCourse Number: 341\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS'))
+        self.cm.add(self.good_c1)
+        self.cm.add(self.good_c4)
+        self.assertEquals("Department: CS Course Number: 351",self.cm.view(self.good_c1))
+        self.assertEquals("Department: CS Course Number: 331 Name: Algorithms Instructor: Yang Section: 903",self.cm.view(self.good_c4))
 
     def test_course_view_no_course(self):
 
-        self.assertEqual("Missing field: dept",self.cm.view(cnum='352'),"Dept is not specified")
+        self.assertEqual("",self.cm.view(self.bad_c3),"Dept is not specified")
 
-        self.assertEquals("Could not be found",self.cm.view(dept='CS',cnum='352'))
+        self.assertEquals("Could not be found",self.cm.view(self.good_c1))
 
-    def test_course_view_all(self):
 
-        self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n\nDepartment: CS\nCourse Number: 341\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS'))
+    def test_delete(self):
+        self.cm.add(self.good_c1)
+        self.cm.add(self.good_c2)
+
+        self.assertEqual(False, self.cm.add(self.bad_c1), "Dept and Cnum not specified")
+        self.assertEqual(False, self.cm.add(self.bad_c2), "Cnum not specified")
+        self.assertEqual(False, self.cm.add(self.bad_c3), "Dept not specified")
+
+        self.assertEqual(True, self.cm.delete(self.good_c2), "Success")
+        self.assertEqual(False, self.cm.delete(self.good_c4), "Course Not Found")
+
+
+
