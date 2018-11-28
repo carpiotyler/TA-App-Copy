@@ -131,19 +131,19 @@ def checkLogout(command: str, request) -> str:
     return "Success"
 
 
-descriptionList = {'checkLogin': "Placeholder description for login",
-                   'checkLogout': "Placeholder description for logout",
-                   'course': "Placeholder description for course",
-                   'section': "Placeholder description for section",
-                   'user': "Placeholder description for user",
-                   'help': "Placeholder description for help"}
+descriptionList = {'login': "To use login, just enter: login username password",
+                   'logout': "To logout, just enter: logout",
+                   'course': "Course is one of the three main commands that are all structured like this: command action args. The command in this case is course, the action can either be add, delete, edit, or view and the args are whatever you want to enter",
+                   'section': "Section is one of the three main commands that are all structured like this: command action args. The command in this case is section, the action can either be add, delete, edit, or view and the args are whatever you want to enter",
+                   'user': "User is one of the three main commands that are all structured like this: command action args. The command in this case is user, the action can either be add, delete, edit, or view and the args are whatever you want to enter",
+                   'help': "The function to get help, just enter help or help command"}
 
 # Parses the help command
 def help(command: str, request) -> str:
     split = command.lower().split(' ')
 
     if(len(split) == 1):
-        return "This is the default help command response"
+        return "All the functions are login, logout, course, section, user, help. Check the readme for better examples"
 
     if(split[1] not in descriptionList):
         return "%s is not a valid command" % split[1]
