@@ -102,6 +102,7 @@ class DjangoStorageManager(AbstractStorageManager):
 
     @staticmethod
     def get_user(username: str)->User:
+        user = User.objects.get(username=username)
         return User.objects.filter(username=username).first()
 
     @staticmethod

@@ -161,8 +161,13 @@ commandList = [checkLogin, checkLogout, course, section, user, help]
 def parse(request) -> str:
     command = request.POST["command"].split(' ')[0].lower()
 
+    if command == "login":
+        command = "checkLogin"
+    elif command == "logout":
+        command = "checkLogout"
+
     for cmd in commandList:
-        if cmd.__name__.lower() == command:
+        if cmd.__name__.lower() == command.lower():
             return cmd(request.POST["command"], request)
     return "Not a valid command"
 

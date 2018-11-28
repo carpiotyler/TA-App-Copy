@@ -23,23 +23,22 @@ class UserManager(ManagerInterface):
             user.role = "" if fields.get("role") is None else fields.get("role")
             self.storage.insert_user(user)
 
-            if user.role is None or user.role == "default":
-                user.groups.add(DefaultGroup())
-
-            elif user.role == "ta":
-                user.groups.add(TAGroup())
-
-            elif user.role == "ins":
-                user.groups.add(InsGroup())
-
-            elif user.role == "admin":
-                user.groups.add(AdminGroup())
-
-            elif user.role == "sup":
-                user.groups.add(SupGroup())
-            else:
-                return false
-            
+            # if user.role is None or user.role == "default":
+            #     user.groups.add(DefaultGroup())
+            #
+            # elif user.role == "ta":
+            #     user.groups.add(TAGroup())
+            #
+            # elif user.role == "ins":
+            #     user.groups.add(InsGroup())
+            #
+            # elif user.role == "admin":
+            #     user.groups.add(AdminGroup())
+            #
+            # elif user.role == "sup":
+            #     user.groups.add(SupGroup())
+            # else:
+            #     return false
 
             return True
 
@@ -48,8 +47,8 @@ class UserManager(ManagerInterface):
 
     def view(self, fields) -> str:
         if fields.get("username") is None:  # fetch all users
-            users = self.storage.get_user("")
-            if users is None:
+            users = self.storage.get_users_by()
+            if len(users) == 0:
                 return "No Users"
             else:
                 return '|'.join(map(lambda x: x.__str__(), users))
