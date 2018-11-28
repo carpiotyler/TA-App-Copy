@@ -17,6 +17,7 @@ from django.contrib.auth import authenticate, login, logout
 # construct the default one (assuming that the default one will have the default permissions level)
 # Bugs: Doesn't check what the user is trying to edit
 def validate(cmd: dict, usr: User = None)->bool:
+    return True
     # if 'ta' in cmd:
     #     return usr.has_perm("can_assign_ta")
     #
@@ -76,6 +77,8 @@ def mgr(mgr: ManagerInterface, command: str, request) -> str:
     for field in cmddict.copy(): # Remove all fields not in the manager. A copy because you cant remove from a dict while iterating through it
         if field not in mgr.optFields() and field not in mgr.reqFields() and field is not 'action' and field is not 'command':
             del cmddict[field]
+
+    print(cmddict)
 
     if(cmddict['action'] == 'view'):
         return mgr.view(cmddict)
@@ -159,7 +162,7 @@ def parse(request) -> str:
     command = request.POST["command"].split(' ')[0].lower()
 
     for cmd in commandList:
-        if cmd.__name__ == command:
+        if cmd.__name__.lower() == command:
             return cmd(request.POST["command"], request)
     return "Not a valid command"
 
