@@ -40,22 +40,17 @@ class CourseManager(ManagerInterface):
 
             # If sections is None, just call database manager to add course
             if snum is None:
-                try:
-                    self.dm.insert_course(c)
-                    return True
-                except:
-                    return False
+                self.dm.insert_course(c)
+                return True
 
             # Else insert course
-            try:
-                self.dm.insert_course(c)
-
-                # Call section manager to add section, if section created successfully, return True,
-                # else delete course and return False
-                if self.sec.add(fields):
-                    return True
-                self.dm.delete(c)
-            except: return False
+            self.dm.insert_course(c)
+             
+             # Call section manager to add section, if section created successfully, return True,
+             # else delete course and return False
+            if self.sec.add(fields):
+                return True
+            self.dm.delete(c)
         return False
 
     def view(self, fields: dict):
