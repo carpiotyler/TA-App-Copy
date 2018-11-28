@@ -4,24 +4,24 @@ from django.db import models
 
 
 class DefaultGroup(Group):
-    permissions = (("can_view_courses", "Can view courses"),
+    permissions = (("can_view_course", "Can view courses"),
 
-                   ("can_view_sections", "Can view sections"),
+                   ("can_view_section", "Can view sections"),
 
                    ("can_view_user", "Can view users"))
 
 
 class TAGroup(Group):
-    permissions = (("can_view_courses", "Can view courses"),
+    permissions = (("can_view_course", "Can view courses"),
 
-                   ("can_view_sections", "Can view sections"),
+                   ("can_view_section", "Can view sections"),
 
                    ("can_edit_self", "Can edit users"),
                    ("can_view_user", "Can view users"))
 
 
 class InsGroup(Group):
-    permissions = (("can_view_courses", "Can view courses"),
+    permissions = (("can_view_course", "Can view courses"),
 
                    ("can_edit_self", "Can edit users"),
                    ("can_view_user", "Can view users"),
@@ -34,14 +34,14 @@ class InsGroup(Group):
 
 class AdminGroup(Group):
     permissions = (("can_create_course", "Can create courses"),
-                   ("can_edit_courses", "Can edit courses"),
-                   ("can_delete_courses", "Can delete courses"),
-                   ("can_view_courses", "Can view courses"),
+                   ("can_edit_course", "Can edit courses"),
+                   ("can_delete_course", "Can delete courses"),
+                   ("can_view_course", "Can view courses"),
 
-                   ("can_create_sections", "Can create sections"),
-                   ("can_edit_sections", "Can edit sections"),
-                   ("can_delete_sections", "Can delete sections"),
-                   ("can_view_sections", "Can view sections"),
+                   ("can_create_section", "Can create sections"),
+                   ("can_edit_section", "Can edit sections"),
+                   ("can_delete_section", "Can delete sections"),
+                   ("can_view_section", "Can view sections"),
 
                    ("can_create_user", "Can create users"),
                    ("can_edit_user", "Can edit users"),
@@ -55,14 +55,14 @@ class AdminGroup(Group):
 
 class SupGroup(Group):
     permissions = (("can_create_course", "Can create courses"),
-                   ("can_edit_courses", "Can edit courses"),
-                   ("can_delete_courses", "Can delete courses"),
-                   ("can_view_courses", "Can view courses"),
+                   ("can_edit_course", "Can edit courses"),
+                   ("can_delete_course", "Can delete courses"),
+                   ("can_view_course", "Can view courses"),
 
-                   ("can_create_sections", "Can create sections"),
-                   ("can_edit_sections", "Can edit sections"),
-                   ("can_delete_sections", "Can delete sections"),
-                   ("can_view_sections", "Can view sections"),
+                   ("can_create_section", "Can create sections"),
+                   ("can_edit_section", "Can edit sections"),
+                   ("can_delete_section", "Can delete sections"),
+                   ("can_view_section", "Can view sections"),
 
                    ("can_create_user", "Can create users"),
                    ("can_edit_user", "Can edit users"),

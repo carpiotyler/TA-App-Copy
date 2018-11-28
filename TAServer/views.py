@@ -8,21 +8,47 @@ from Managers.courseManager import CourseManager as CM
 from Managers.ManagerInterface import ManagerInterface
 from Managers.DjangoStorageManager import DjangoStorageManager as Storage # Change to whatever we're using now
 from TAServer.models import Staff as User
+from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGroup
 from django.contrib.auth import authenticate, login, logout
 
 
 # This is a very fast and loose way to validate everything. I'm basically assuming that if you've got ins or ta in your
 # command you're trying to assign them to something because user view uses other field names. If a user is not provided
 # construct the default one (assuming that the default one will have the default permissions level)
-def validate(cmd: dict, usr: User = User())->bool:
+# Bugs: Doesn't check what the user is trying to edit
+def validate(cmd: dict, usr: User = None)->bool:
+    # if 'ta' in cmd:
+    #     return usr.has_perm("can_assign_ta")
+    #
+    # if 'ins' in cmd:
+    #     return usr.has_perm("can_assign_ins")
+    #
+    # return usr.has_perm("can_%s_%s" % (cmd['action'], cmd['command'])) # This catches most cases
+
+    permDict = {'T': TAGroup, 'I': InsGroup, 'A': AdminGroup, 'S': SupGroup}
+
+    permGroup = DefaultGroup
+    checkPerm = ""
+
+    if usr is not None:
+        permGroup = permDict[usr.role]
+
     if 'ta' in cmd:
-        return usr.has_perm("can_assign_ta")
+        checkPerm = "can_assign_ta"
 
-    if 'ins' in cmd:
-        return usr.has_perm("can_assign_ins")
+    elif 'ins' in cmd:
+        checkPerm = "can_assign_ins"
 
-    return usr.has_perm("can_%s_%s" % (cmd['action'], cmd['command'])) # This catches most cases
+    else:
+        checkPerm = "can_%s_%s" % (cmd['action'], cmd['command'])
 
+    print("checking %s is in %s" % (checkPerm, permGroup.__name__))
+
+    for perm in permGroup.permissions:
+        if perm[0] == checkPerm:
+            return True
+
+    return False
 
 # The general manager command parser. The manager has already been picked by another function an as long as it
 # implements the interface, this will all work. It checks that all the required fields are there, makes any missing
@@ -31,6 +57,13 @@ def validate(cmd: dict, usr: User = User())->bool:
 # if the function returns a boolean).
 def mgr(mgr: ManagerInterface, command: str, request) -> str:
     cmddict = fieldsToDict(command)
+
+    if request.user.is_authenticated:
+        print("User is authenticated")
+        if not validate(cmddict, request.user):
+            return "Bad Permissions"
+    elif not validate(cmddict):
+        return "Bad Permissions"
 
     for field in mgr.reqFields(): # Make sure all required fields are there
         if field not in cmddict and cmddict['action'] != 'view':
@@ -41,11 +74,8 @@ def mgr(mgr: ManagerInterface, command: str, request) -> str:
             cmddict[field] = None
 
     for field in cmddict.copy(): # Remove all fields not in the manager. A copy because you cant remove from a dict while iterating through it
-        if field not in mgr.optFields() and field not in mgr.reqFields() and field != 'action' and field != 'command':
+        if field not in mgr.optFields() and field not in mgr.reqFields() and field is not 'action' and field is not 'command':
             del cmddict[field]
-
-    if not validate(cmddict, request.user):
-        return "Bad Permissions"
 
     if(cmddict['action'] == 'view'):
         return mgr.view(cmddict)
@@ -57,6 +87,7 @@ def mgr(mgr: ManagerInterface, command: str, request) -> str:
             return "Failure"
 
     return "No dice"
+
 
 # Calls the general manager command with the course manager correctly initialized
 def course(command: str, request) -> str:
@@ -91,6 +122,8 @@ def checkLogin(command: str, request) -> str:
 # Logs the user out (django's logout function just clears session data so idk really how do even tell if a user was
 # logged in in the first place so it always retusn Success
 def checkLogout(command: str, request) -> str:
+    if(not request.user.is_authenticated):
+        return "Failure"
     logout(request) # All this does is clear session data for the request which happens to include the user
     return "Success"
 
@@ -104,11 +137,14 @@ descriptionList = {'login': "Placeholder description for login",
 
 # Parses the help command
 def help(command: str, request) -> str:
-    want = command.split(' ')[1].lower() # What the user wants help with. Splits the command into splaces, gets the first one, and gets the lower case of that
+    split = command.lower().split(' ')
 
-    if(want not in descriptionList):
-        return "Not a valid command"
-    return descriptionList[want]
+    if(len(split) == 1):
+        return "This is the default help command response"
+
+    if(split[1] not in descriptionList):
+        return "%s is not a valid command" % split[1]
+    return descriptionList[split[1]]
 
 
 # This needs to be here to see all the above functions as handles
