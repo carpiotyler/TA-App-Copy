@@ -56,8 +56,10 @@ Software Engineering Fall 2018 Project, Sprint 2
             role - The role of the user. Must be either TA, Instructor, Administrator, or Supervisor
             
         Optional Fields:
-        
-      
+            address - The address of the user 
+            phone_number - The phone number of the user
+            email - The email address of the user
+
 ### Examples
 
     Department(dept) and course number(cnum) are required field to add a course
