@@ -98,9 +98,9 @@ class UserManager(ManagerInterface):
         pass
 
     @staticmethod
-    def reqFields(self) -> list:
+    def reqFields() -> list:
         return ["username", "password", "role"]
 
     @staticmethod
-    def optFields(self) -> list:
+    def optFields() -> list:
         return ["address", "phone_number", "email"]
