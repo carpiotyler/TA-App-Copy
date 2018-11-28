@@ -131,8 +131,8 @@ def checkLogout(command: str, request) -> str:
     return "Success"
 
 
-descriptionList = {'login': "Placeholder description for login",
-                   'logout': "Placeholder description for logout",
+descriptionList = {'checkLogin': "Placeholder description for login",
+                   'checkLogout': "Placeholder description for logout",
                    'course': "Placeholder description for course",
                    'section': "Placeholder description for section",
                    'user': "Placeholder description for user",

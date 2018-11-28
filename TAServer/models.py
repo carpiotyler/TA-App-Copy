@@ -1,5 +1,6 @@
 # This file is copied straight from Rock's provided code under "Skeleton code for Django" in sprint 2
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -121,7 +122,7 @@ class Section(models.Model):
     # room Number
     room = models.IntegerField(default=-1, blank=True, null=True)
     # instructor or ta
-    instructor = models.ForeignKey(User, blank=True, null=True, on_delete= models.DO_NOTHING)
+    instructor = models.ForeignKey('Staff', blank=True, null=True, on_delete= models.DO_NOTHING)
     # days of week meeting
     days = models.CharField(max_length=5, blank=True, null=True, choices=DAYS, default="")
     # time of meeting ("05:45AM-06:00AM")
@@ -132,7 +133,7 @@ class Section(models.Model):
                "room: " + str(self.room) + '\n' + "Instructor: " + str(self.instructor) + '\n' + "Time(s) :" + self.days + \
                " " + self.time
 
-class Staff(User):
+class Staff(AbstractUser):
     ROLES = (
         ('T', 'TA'),
         ('I', 'Instructor'),
@@ -140,6 +141,12 @@ class Staff(User):
         ('S', 'Supervisor')
     )
 
+    # username = models.CharField(max_length=30, default="")
+    # password = models.CharField(max_length=30, default="")
+    firstname = models.CharField(max_length=30, default="")
+    lastname = models.CharField(max_length=30, default="")
+    bio = models.CharField(max_length=100, default="")
+    email = models.CharField(max_length=30, default="")
     role = models.CharField(max_length=13, choices=ROLES, default="")
     sections = models.ManyToManyField(Section, blank=True) # For TA's
     courses = models.ManyToManyField(Course, blank=True) # For instructors
