@@ -1,21 +1,14 @@
 from Managers.courseManager import CourseManager
-<<<<<<< HEAD
-from Managers.DjangoStorageManager import DjangoStorageManager
+from Managers.myStorageManager import AbstractStorageManager
 from django.test import TestCase
-=======
-from TAServer.models import Course, Section, Staff as User
-import unittest
-import os,json
->>>>>>> 78dd528d98d4d584782f2b9017400a52dc797fbe
-
 
 
 
 class CourseTests(TestCase):
 
     def setUp(self):
-        self.dsm = DjangoStorageManager()
-        self.cm = CourseManager(self.dsm)
+        self.sm = AbstractStorageManager
+        self.cm = CourseManager(self.sm)
         self.bad_course1 = {"dept":None, "cnum":None}
         self.bad_course2 = {"dept":'CS'}
         self.bad_course3 = {"cnum":'351'}
@@ -23,7 +16,7 @@ class CourseTests(TestCase):
 
         self.good_course1 = {"dept":'CS', "cnum":'351'}
         self.good_course2 = {"dept":'CS', "cnum":'351', "instructor":'Rock', "snum":'901'}
-      
+
 
     def tearDown(self):
         pass
@@ -54,5 +47,5 @@ class CourseTests(TestCase):
         self.assertEquals("Could not be found",self.cm.view(dept='CS',cnum='352'))
 
     def test_course_view_all(self):
-  
+
         self.assertEquals("Department: CS\nCourse Number: 351\nSections: []\nCourse Name:\nDescription:\n\nDepartment: CS\nCourse Number: 341\nSections: []\nCourse Name:\nDescription:\n",self.cm.view(dept='CS'))
