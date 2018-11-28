@@ -1,5 +1,6 @@
 from Managers.courseManager import CourseManager
-from Managers.myStorageManager import AbstractStorageManager
+from TAServer.models import Section, Course, Staff as User
+from Managers.DjangoStorageManager import DjangoStorageManager
 from django.test import TestCase
 
 
@@ -7,15 +8,20 @@ from django.test import TestCase
 class CourseTests(TestCase):
 
     def setUp(self):
-        self.sm = AbstractStorageManager
-        self.cm = CourseManager(self.sm)
-        self.bad_course1 = {"dept":None, "cnum":None}
-        self.bad_course2 = {"dept":'CS'}
-        self.bad_course3 = {"cnum":'351'}
-        self.bad_course4 = {"dept":'CS', "cnum":'359', "instructor":'Jason'}
+        self.dsm = DjangoStorageManager
+        self.cm = CourseManager(self.dsm)
+        self.bad_c1 = {"dept":None, "cnum":None}
+        self.bad_c2 = {"dept":'CS'}
+        self.bad_c3 = {"cnum":'351'}
+        self.bad_c4 = {"dept":'CS', "cnum":'359', "instructor":'Jason'}
+        self.bad_c5 = {"dept":'MATH', "cnum":'111'}
+        self.bad_c6 = {"dept":'CS', "cnum": 'abc'}
 
-        self.good_course1 = {"dept":'CS', "cnum":'351'}
-        self.good_course2 = {"dept":'CS', "cnum":'351', "instructor":'Rock', "snum":'901'}
+        self.good_c1 = {"dept":'CS', "cnum":'351'}
+        self.good_c2 = {"dept":'CS', "cnum":'352', "snum":'901'}
+        self.good_c3 = {"dept":'CS', "cnum":'353', "instructor":'Rock', "snum":'902'}
+        self.good_c4 = {"dept": 'CS', "cnum": '353', "instructor": 'Yang', "snum": '903', "name": 'Algorithms'}
+        self.good_c5 = {"dept": 'CS', "cnum": '354', "instructor": 'Boyland', "snum": '904', "name": 'Discrete', "descr": 'Theory'}
 
 
     def tearDown(self):
@@ -23,16 +29,20 @@ class CourseTests(TestCase):
 
     def test_course_add(self):
 
-        self.assertEqual(True, self.cm.add(self.good_course1))
-        self.assertEqual(True, self.cm.add(self.good_course2))
+        self.assertEqual(True, self.cm.add(self.good_c1))
+        self.assertEqual(True, self.cm.add(self.good_c2))
+        self.assertEqual(True, self.cm.add(self.good_c3))
+        self.assertEqual(True, self.cm.add(self.good_c4))
+        self.assertEqual(True, self.cm.add(self.good_c5))
 
     def test_course_add_fail(self):
 
-        self.assertEquals(False,self.cm.add(self.bad_course1))
-        self.assertEqual(False,self.cm.add(self.bad_course2),"Cnum not specified")
-        self.assertEqual(False,self.cm.add(self.bad_course3),"Dept not specified")
-        self.assertEqual(False,self.cm.add(self.bad_course4),"Cannot add Intructor with no section")
-
+        self.assertEqual(False, self.cm.add(self.bad_c1), "Dept and Cnum not specified")
+        self.assertEqual(False, self.cm.add(self.bad_c2), "Cnum not specified")
+        self.assertEqual(False, self.cm.add(self.bad_c3), "Dept not specified")
+        self.assertEqual(False, self.cm.add(self.bad_c4), "Cannot add Intructor with no section")
+        self.assertEqual(False, self.cm.add(self.bad_c5), "Department not in list of departments")
+        self.assertEqual(False, self.cm.add(self.bad_c6), "Cnum must be a number")
 
     def test_course_view(self):
 
