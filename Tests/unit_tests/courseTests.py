@@ -1,48 +1,44 @@
 from Managers.courseManager import CourseManager
+<<<<<<< HEAD
+from Managers.DjangoStorageManager import DjangoStorageManager
+from django.test import TestCase
+=======
 from TAServer.models import Course, Section, Staff as User
 import unittest
 import os,json
+>>>>>>> 78dd528d98d4d584782f2b9017400a52dc797fbe
 
 
 
 
-class CourseTests(unittest.TestCase):
+class CourseTests(TestCase):
 
     def setUp(self):
-        # In case before testing a tes.json somehow exists
-        try:
-            self.file = open("coursetest.json", "w")
-        except FileNotFoundError:
-            pass
-        self.file.close()
-        os.remove("coursetest.json")
-        cm = CourseManager("coursetest.json")
-        self.file = None
+        self.dsm = DjangoStorageManager()
+        self.cm = CourseManager(self.dsm)
+        self.bad_course1 = {"dept":None, "cnum":None}
+        self.bad_course2 = {"dept":'CS'}
+        self.bad_course3 = {"cnum":'351'}
+        self.bad_course4 = {"dept":'CS', "cnum":'359', "instructor":'Jason'}
 
-        self.cm.add(dept='CS',cnum='351',instr='Joe')
-        self.cm.add(dept='CS',cnum='341',instr='Alice')
+        self.good_course1 = {"dept":'CS', "cnum":'351'}
+        self.good_course2 = {"dept":'CS', "cnum":'351', "instructor":'Rock', "snum":'901'}
+      
 
     def tearDown(self):
-        # To remove file (in case of crashes and such during runs before tests do it
-        try:
-            self.file = open("coursetest.json", "w")
-        except FileNotFoundError:
-            pass
-        self.file.close()
-        os.remove("coursetest.json")
+        pass
 
     def test_course_add(self):
 
-        self.assertEqual(True,self.cm.add(dept='CS',cnum='359'),"Added Successfully")
-        self.assertEqual(True,self.cm.add(dept='CS',cnum='359',instr='Rock',section='901'),"Added Successfully")
+        self.assertEqual(True, self.cm.add(self.good_course1))
+        self.assertEqual(True, self.cm.add(self.good_course2))
 
     def test_course_add_fail(self):
 
-        self.assertEquals(False,self.cm.add(dept=None, cnum=None))
-        self.assertEqual(False,self.cm.add(cnum='351'),"Dept not specified")
-        self.assertEqual(False,self.cm.add(cnum='351'),"Dept not specified")
-        self.assertEqual(False,self.cm.add(dept='CS'),"Cnum not specified")
-        self.assertEqual(False,self.cm.add(dept='CS',cnum='359',instr='Jason'),"Cannot add Intructor with no section")
+        self.assertEquals(False,self.cm.add(self.bad_course1))
+        self.assertEqual(False,self.cm.add(self.bad_course2),"Cnum not specified")
+        self.assertEqual(False,self.cm.add(self.bad_course3),"Dept not specified")
+        self.assertEqual(False,self.cm.add(self.bad_course4),"Cannot add Intructor with no section")
 
 
     def test_course_view(self):

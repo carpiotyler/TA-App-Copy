@@ -63,3 +63,4 @@ local_settings.py
 .env
 db.sqlite3
 .idea/
+.DS_Store

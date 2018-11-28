@@ -28,7 +28,7 @@ class CourseManager(ManagerInterface):
         # Storing dict values into variables
         dept = fields.get('dept').upper()
         cnum = fields.get('cnum')
-        section = fields.get('section')
+        snum = fields.get('snum')
         descr = fields.get('description')
         name = fields.get('name')
 
@@ -39,18 +39,23 @@ class CourseManager(ManagerInterface):
             c = Course(dept=dept, cnum=cnum, description=descr, name=name)
 
             # If sections is None, just call database manager to add course
-            if section is None:
-                return self.dm.insert_course(c)
+            if snum is None:
+                try:
+                    self.dm.insert_course(c)
+                    return True
+                except:
+                    return False
 
             # Else insert course
-            self.dm.insert_course(c)
-            
-            # Call section manager to add section, if section created successfully, return True,
-            # else delete course and return False
-            if self.sec.add(fields):
-                return True
-            self.dm.delete(c)
+            try:
+                self.dm.insert_course(c)
 
+                # Call section manager to add section, if section created successfully, return True,
+                # else delete course and return False
+                if self.sec.add(fields):
+                    return True
+                self.dm.delete(c)
+            except: return False
         return False
 
     def view(self, fields: dict):
@@ -88,10 +93,10 @@ class CourseManager(ManagerInterface):
         # Store dict values into variables
         dept = fields.get('dept').upper()
         cnum = fields.get('cnum')
-        section = fields.get('section')
+        snum = fields.get('snum')
 
         # Delete section only
-        if section:
+        if snum:
             return self.sec.delete(fields)
 
         # Retrieve courses with dept and cnum
@@ -123,7 +128,7 @@ class CourseManager(ManagerInterface):
                 c.description = fields['description']
 
             # Edit sections, insert course with database manager and have section manager edit sections
-            if 'sections' in fields:
+            if 'snum' in fields:
                 if self.dm.insert_course(c):
                     return self.sec.edit(fields)
                 return False
@@ -135,8 +140,8 @@ class CourseManager(ManagerInterface):
 
         dept = fields.get('dept')
         cnum = fields.get('cnum')
-        section = fields.get('section')
-        instr = fields.get('instr')
+        snum = fields.get('snum')
+        instructor = fields.get('instructor')
 
         if not dept:
             return False
@@ -147,17 +152,18 @@ class CourseManager(ManagerInterface):
         if not cnum.isdigit():
             return False
 
-        if instr:
-            if not all(x.isalpha() or x.isspace() for x in instr):
+        if instructor:
+            if not all(x.isalpha() or x.isspace() for x in instructor):
                 return False
 
-        if instr and not section:
+        if instructor and not snum:
             return False
 
         else: return True
     
     # Converts list of courses into a printable string
     def _course_list_string(self, course_list):
+        print(course_list)
 
         if not course_list:
             return 'No course found in database.'
@@ -165,6 +171,7 @@ class CourseManager(ManagerInterface):
         coursestring = ''
         for c in course_list:
             coursestring = coursestring + str(c)+ '\n'
+        print (coursestring)
         return coursestring
 
     @staticmethod
@@ -174,4 +181,4 @@ class CourseManager(ManagerInterface):
 
     @staticmethod
     def optFields()->list:
-        return ['name', 'description', 'section', 'instr']
+        return ['name', 'description', 'snum', 'instructor']
