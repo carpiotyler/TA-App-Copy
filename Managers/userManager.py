@@ -47,7 +47,10 @@ class UserManager(ManagerInterface):
     def view(self, fields) -> str:
         if fields.get("username") is None:  # fetch all users
             users = self.storage.get_user("")
-            return '|'.join(map(lambda x: x.__str__(), users))
+            if users is None:
+                return "No Users"
+            else:
+                return '|'.join(map(lambda x: x.__str__(), users))
 
         else:  # fetch single user
             user = self.storage.get_user(fields.get("username"))
