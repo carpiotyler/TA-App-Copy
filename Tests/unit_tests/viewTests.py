@@ -182,3 +182,5 @@ class viewTests(TestCase):
         self.assertTrue(views.validate(command, self.UserDict['sup']))
 
     # Test mgr
+    def test_mgr1(self):
+        pass
