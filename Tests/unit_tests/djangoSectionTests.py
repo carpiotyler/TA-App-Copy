@@ -23,7 +23,7 @@ class sectionTest(TestCase):
                  email="BubbaGump@gmail.com", password="shrimp", role="administrator")
         self.u3.save()
         temp = storage()
-        self.sec = SM()
+        self.sec = SM(storage)
 
     def tearDown(self):
         pass
@@ -33,6 +33,8 @@ class sectionTest(TestCase):
         newSec = {"snum" : "801", "stype": "lab", "cnum": "351", "dept": "CS", "room": 901, "instructor": "Gumby",
                   "days": "T", "time": "4:00PM-5:00PM"}
         self.assertTrue(self.sec.add(newSec), "New section was not added")
+        extraSec = {"snum" : "400", "cnum":"351", "dept":"CS"}
+        self.assertTrue(self.sec.add(extraSec), "New section was not added")
 
     # Test add when given various invalid field inputs
     def test_addInvalid(self):

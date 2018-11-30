@@ -100,7 +100,8 @@ class Section(models.Model):
     # section type
     SEC_TYPE = (
         ('lab', 'Lab'),
-        ('lecture', 'Lecture')
+        ('lecture', 'Lecture'),
+        (None, 'None')
     )
     # days to meet (M=Monday, T=Tuesday, W=Wednesday, H=Thursday, F=Friday)
     DAYS = (
@@ -111,22 +112,23 @@ class Section(models.Model):
         ('F', "Friday"),
         ('MW', "Monday Wednesday"),
         ('TH', "Tuesday Thursday"),
-        ('MWF', "Monday Wednesday Friday")
+        ('MWF', "Monday Wednesday Friday"),
+        (None, 'None')
     )
     # section number
     snum = models.CharField(max_length=4)
     # section type (uses SEC_TYPE)
-    stype = models.CharField(max_length=10, blank=True, null=True, choices=SEC_TYPE)
+    stype = models.CharField(max_length=10, blank=True, null=True, choices=SEC_TYPE, default=None)
     # course points to course model
     course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
     # room Number
     room = models.IntegerField(default=-1, blank=True, null=True)
     # instructor or ta
-    instructor = models.ForeignKey('Staff', blank=True, null=True, on_delete= models.DO_NOTHING)
+    instructor = models.ForeignKey('Staff', blank=True, null=True, on_delete=models.DO_NOTHING)
     # days of week meeting
-    days = models.CharField(max_length=5, blank=True, null=True, choices=DAYS, default="")
+    days = models.CharField(max_length=5, blank=True, null=True, choices=DAYS, default=None)
     # time of meeting ("05:45AM-06:00AM")
-    time = models.CharField(max_length=15, blank=True)
+    time = models.CharField(max_length=15, blank=True, null=True, default=None)
 
     def __str__(self):
         return "" + self.course.dept + self.course.cnum + self.snum + '\n' + "Section type: " + self.stype + '\n' + \

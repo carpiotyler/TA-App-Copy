@@ -1,11 +1,11 @@
-from Managers.DjangoStorageManager import DjangoStorageManager as db
+from Managers.DjangoStorageManager import DjangoStorageManager as dsm
 from Managers.ManagerInterface import ManagerInterface
 from TAServer.models import Course, Section, Staff as User
 
 
 class SectionManager(ManagerInterface):
 
-    def __init__(self, db):
+    def __init__(self, db : dsm):
         self.db = db
 
     def add(self, fields: dict)->bool:
@@ -26,14 +26,7 @@ class SectionManager(ManagerInterface):
         if self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
             return False
 
-        try:
-            snum = int(fields.get("snum"))
-        except ValueError:
-            print('Section number is not a valid integer')
-            return False
-
-        # section number should be greater than 0
-        if snum < 1:
+        if not self.checkSnum(fields.get('snum')):
             return False
 
         # Make sure user exists if inst is to be added
@@ -49,7 +42,12 @@ class SectionManager(ManagerInterface):
             return False
 
         time = fields.get('time')
-        days = fields.get('days').upper()
+        if fields.get('days') is not None:
+            days = fields.get('days').upper()
+        else:
+            days = None
+
+        snum = fields.get('snum')
         room = fields.get('room')
         # try to convert room into integers
         if room is not None:
@@ -116,12 +114,10 @@ class SectionManager(ManagerInterface):
         if not self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
             return False
 
-        try:
-            snum = int(fields.get("snum"))
-        except ValueError:
-            print('Section number is not a valid integer')
+        if not self.checkSnum(fields.get('snum')):
             return False
 
+        snum = fields.get('snum')
 
         # Make sure user exists if inst is to be added
         if fields.get('instructor') is not None and not self.userExists(fields.get('instructor')):
@@ -261,7 +257,7 @@ class SectionManager(ManagerInterface):
     # check the time input to make sure it's in the correct format 12:20 PM
     def timeFormat(self, time : str)->bool:
         #Note: strip string before passing
-        if time is "" or None:
+        if time is  None:
             return True
         broken = time.split("-")
         if len(broken) is not 2:
@@ -436,6 +432,18 @@ class SectionManager(ManagerInterface):
 
         return switch.get(days)
 
+    def checkSnum(self, snum):
+        try:
+            snum = int(snum)
+        except ValueError:
+            print('Section number is not a valid integer')
+            return False
+
+        # section number should be greater than 0
+        if snum < 1:
+            return False
+        else:
+            return True
     @staticmethod
     def reqFields()->list:
         return ["dept", "cnum", "snum"]
