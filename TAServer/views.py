@@ -134,7 +134,21 @@ def checkLogout(command: str, request) -> str:
 descriptionList = {'login': "To use login, just enter: login username password",
                    'logout': "To logout, just enter: logout",
                    'course': "Course is one of the three main commands that are all structured like this: command action args. The command in this case is course, the action can either be add, delete, edit, or view and the args are whatever you want to enter",
-                   'section': "Section is one of the three main commands that are all structured like this: command action args. The command in this case is section, the action can either be add, delete, edit, or view and the args are whatever you want to enter",
+                   'section': "Section is one of the three main commands that are all structured like this: command "
+                              "action args. The command in this case is section, the action can either be add, delete, edit or view."
+                              " Required fields for all "
+                              "sections include: cnum, dept and snum. Optional fields include: stype, "
+                              "time, days, room, and instructor(use username of instructor), details on each field below. "
+                              "An example of a valid command would be section add cnum=351 dept=CS snum=400. Also note "
+                              "that a course must exist/added before adding a section\n"
+                              "\ncnum: course number"
+                              "\ndept: department"
+                              "\nsnum: section number"
+                              "\nstype: type of section(lecture or lab)"
+                              "\ntime: time to meet should be formated like 11:30AM-12:30PM"
+                              "\ndays: days to meet (M,T,W,H,F,MW,MWF,TH)"
+                              "\nroom: room number"
+                              "\ninstructor: use the username of the instructor",
                    'user': "User is one of the three main commands that are all structured like this: command action args. The command in this case is user, the action can either be add, delete, edit, or view and the args are whatever you want to enter",
                    'help': "The function to get help, just enter help or help command"}
 

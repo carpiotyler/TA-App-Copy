@@ -58,20 +58,20 @@ class SectionManager(ManagerInterface):
                 return False
 
             # Check if time and room conflict
-            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="add"):
+            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="add"):
                 return False
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None:
-            toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
+            toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time)
             self.addHelper(toAdd)
             return True
         else:
             if not self.valUser(fields.get("instructor")):
                 return False
-            ins = self.db.get_user(fields.get("instructor"))
-            toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
+            ins = self.db.get_user(username=fields.get("instructor"))
+            toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time, instructor=ins)
             self.addHelper(toAdd)
             return True
@@ -88,9 +88,7 @@ class SectionManager(ManagerInterface):
         if result is None:
             return "Could not find " + fields.get("dept") + "-" + str(fields.get("cnum")) + "-" + str(fields.get("snum"))
         else:
-            return "Course: " + str(result.course.dept) + "-" + str(result.course.cnum) + "<br>Section: " + str(result.snum) \
-                   + "<br>Instructor: " + result.instructor.username + "<br>Meeting time(s): " + str(result.days) + " " \
-                   + result.time + "<br>Room: " + str(result.room)
+            return str(result)
 
 
     # Edit will need cnum, snum and dept (like all other commands)
@@ -131,9 +129,14 @@ class SectionManager(ManagerInterface):
         if not self.timeFormat(fields.get('time')):
             return False
 
+        if fields.get('days') is not None:
+            days = fields.get('days').upper()
+        else:
+            days = None
+
         time = fields.get('time')
-        days = fields.get('days').upper()
         room = fields.get('room')
+        snum = fields.get('snum')
         # try to convert room into integers
         if room is not None:
             try:
@@ -143,20 +146,20 @@ class SectionManager(ManagerInterface):
                 return False
 
             # Check if time and room conflict
-            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum")), action="edit"):
+            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="edit"):
                 return False
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None:
-            toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
+            toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
             return True
         else:
-            if not self.valUser(fields.get("instructor")):
+            if not self.valUser(username=fields.get("instructor")):
                 return False
             ins = self.db.get_user(fields.get("instructor"))
-            toAdd = Section(course=course, snum=snum, stype=fields.get("type"), days=fields.get("days"),
+            toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time, instructor=ins)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
             return True
@@ -171,9 +174,12 @@ class SectionManager(ManagerInterface):
             return False
 
         if self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
-            section = self.db.get_section(fields.get("cnum"), fields.get("dept"), fields.get("snum"))
-            self.db.delete(section)
-            return True
+            section = self.db.get_section(cnum=fields.get("cnum"),dept=fields.get("dept"), snum=fields.get("snum"))
+            test = self.db.delete(section)
+            if test:
+                return True
+            else:
+                return False
         else:
             return False
 
@@ -217,7 +223,7 @@ class SectionManager(ManagerInterface):
         if sec.days is None:
             sec.days = toChange.days
         if sec.time is None:
-            sec.startTime = toChange.time
+            sec.time = toChange.time
         if sec.room is None:
             sec.room = toChange.room
         if sec.instructor is None:
@@ -451,4 +457,4 @@ class SectionManager(ManagerInterface):
     # Note: "snumNew" will only do something if the user calls edit and wants to change the section number
     @staticmethod
     def optFields()->list:
-        return ["instructor", "type", "days", "room", "time"]
+        return ["instructor", "stype", "days", "room", "time"]

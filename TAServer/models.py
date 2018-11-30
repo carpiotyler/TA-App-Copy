@@ -124,16 +124,25 @@ class Section(models.Model):
     # room Number
     room = models.IntegerField(default=-1, blank=True, null=True)
     # instructor or ta
-    instructor = models.ForeignKey('Staff', blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
+    instructor = models.ForeignKey("Staff", blank=True, null=True, on_delete=models.DO_NOTHING, default=None)
     # days of week meeting
     days = models.CharField(max_length=5, blank=True, null=True, choices=DAYS, default=None)
     # time of meeting ("05:45AM-06:00AM")
     time = models.CharField(max_length=15, blank=True, null=True, default=None)
 
     def __str__(self):
-        return "" + self.course.dept + self.course.cnum + self.snum + '\n' + "Section type: " + self.stype + '\n' + \
-               "room: " + str(self.room) + '\n' + "Instructor: " + str(self.instructor) + '\n' + "Time(s) :" + self.days + \
-               " " + self.time
+        sec = "" + self.course.dept + "-" + self.course.cnum + "-" + self.snum + '\n'
+        if self.stype is not None:
+            sec = sec + "Section type: " + self.stype + '\n'
+        if self.room is not None or self.room is not -1:
+            sec = sec + "room: " + str(self.room) + '\n'
+        if self.instructor is not None:
+            sec = sec + "Instructor: " + str(self.instructor) + '\n'
+        if self.days is not None:
+            sec = sec + "Time(s) :" + self.days
+        if self.time is not None:
+            sec = sec + " " + self.time
+        return sec
 
 class Staff(AbstractUser):
     ROLES = (
