@@ -1,5 +1,3 @@
-import django
-
 from Managers.DjangoStorageManager import DjangoStorageManager as dm
 from TAServer.models import Course, Section, Staff as User
 from Managers.userManager import UserManager
