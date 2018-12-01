@@ -144,6 +144,7 @@ class Section(models.Model):
             sec = sec + " " + self.time
         return sec
 
+
 class Staff(AbstractUser):
     ROLES = (
         ('T', 'TA'),

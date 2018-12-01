@@ -19,7 +19,7 @@ class DjangoStorageManager(AbstractStorageManager):
                     user.delete()
                 for course in Course.objects.all():
                     course.delete()
-        sup = User(username="supervisor", password="123")
+        sup = User(username="supervisor", password="123", role=dict(User.ROLES)["S"])
         DjangoStorageManager.insert_user(sup)
         return True
 
@@ -66,13 +66,11 @@ class DjangoStorageManager(AbstractStorageManager):
 
         # Checking if user already exists
         if existinguser != None:
-            print("update existing user")
             # overwrite case, just setting new users id to the old one we found, then overwriting
             user.id = existinguser.id
             user.save()
             overwritten = True
         else:
-            print("save new user")
             #new user, just save it
             user.save()
             overwritten = False
@@ -102,7 +100,6 @@ class DjangoStorageManager(AbstractStorageManager):
 
     @staticmethod
     def get_user(username: str)->User:
-        user = User.objects.get(username=username)
         return User.objects.filter(username=username).first()
 
     @staticmethod

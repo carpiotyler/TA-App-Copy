@@ -22,7 +22,7 @@ class DjangoStorageManagerTests(TestCase):
         u = User.objects.get(username="supervisor")
         self.assertIsNotNone(u)
         self.assertEqual(u.password, "123")
-        # TODO check role of supervisor
+        self.assertEqual(u.role, dict(User.ROLES)["S"])
 
         # Testing database flushing (Overwrite = True
         newuser = User(username= "test", password = "password", role = "")
@@ -68,26 +68,27 @@ class DjangoStorageManagerTests(TestCase):
         self.assertFalse(DjangoStorageManager.insert_section(s), "Should return false, not overwriting!")
         retval = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
         self.assertIsNotNone(retval)
-        s.startTime = "11:00AM"
+        s.time = "11:00AM"
         self.assertTrue(DjangoStorageManager.insert_section(s), "Should return true, overwriting!")
         retval = Section.objects.get(snum="801", course__dept="CS", course__cnum="351")
         self.assertIsNotNone(retval)
         self.assertEqual(len(Section.objects.all()), 1, "Should only be 1 section in Sections during this test!")
-        self.assertEqual(retval.startTime, "11:00AM", "Insert didn't properly update the db!")
+        self.assertEqual(retval.time, "11:00AM", "Insert didn't properly update the db!")
 
     # Testing insert_user
     def test_insert_user(self):
-        # TODO check for role
         u = User(username="Rock", password="123")
         self.assertFalse(DjangoStorageManager.insert_user(u), "Should return false, not overwriting!")
         retval = User.objects.get(username="Rock")
         self.assertIsNotNone(retval)
         u.password = "password"
+        u.role=dict(User.ROLES)["I"]
         self.assertTrue(DjangoStorageManager.insert_user(u), "Should return true, overwriting!")
         retval = User.objects.get(username="Rock")
         self.assertIsNotNone(retval)
         self.assertEqual(User.objects.all().count(), 2, "Should only be 2 users in Users during this test!")
         self.assertEqual(retval.password, "password", "Insert didn't properly update the db!")
+        self.assertEqual(retval.role, dict(User.ROLES)["I"], "Should have updated roles!")
 
     # Testing get_course
     def test_get_course(self):
@@ -137,19 +138,18 @@ class DjangoStorageManagerTests(TestCase):
 
     # Testing get_user
     def test_get_user(self):
-        # TODO Verify Roles
-        u = User(username="Rock", password="123")
+        u = User(username="Rock", password="123", role=dict(User.ROLES)["I"])
         u.save()
         retval = DjangoStorageManager.get_user("Rock")
         self.assertIsNotNone(retval)
         self.assertIsInstance(retval, User)
         self.assertEqual(retval.password, "123")
+        self.assertEqual(retval.role, dict(User.ROLES)["I"])
 
     # Testing get_users_by (Filter version for searches)
     def test_get_users_by(self):
-        # TODO Verify Roles
-        u1 = User(username="Rock", password="123", role="I")
-        u2 = User(username="Boyland", password="Andrew", role="I")
+        u1 = User(username="Rock", password="123", role=dict(User.ROLES)["I"])
+        u2 = User(username="Boyland", password="Andrew", role=dict(User.ROLES)["I"])
         u1.save()
         u2.save()
 
@@ -160,7 +160,7 @@ class DjangoStorageManagerTests(TestCase):
         self.assertTrue(retval.__contains__(u1))
 
         # Testing getting user by providing role
-        retval = DjangoStorageManager.get_users_by(role="I")
+        retval = DjangoStorageManager.get_users_by(role="Instructor") # dict(User.ROLES)["I"] -> Instructor
         self.assertIsInstance(retval, list)
         self.assertEqual(len(retval), 2)
         self.assertTrue(retval.__contains__(u1))
@@ -177,12 +177,12 @@ class DjangoStorageManagerTests(TestCase):
     def test_get_section(self):
         c = Course(dept="CS", cnum="351", name="Data Structures and Algorithms")
         c.save()
-        s = Section(snum="801", course=c, startTime="11:00AM")
+        s = Section(snum="801", course=c, time="11:00AM")
         s.save()
         retval = DjangoStorageManager.get_section(snum="801",dept="CS", cnum="351")
         self.assertIsNotNone(retval)
         self.assertIsInstance(retval, Section)
-        self.assertEqual(retval.startTime, "11:00AM")
+        self.assertEqual(retval.time, "11:00AM")
         self.assertEqual(retval.course.cnum, "351")
         self.assertEqual(retval.course.dept, "CS")
 
