@@ -98,7 +98,8 @@ class UserManagerTests(TestCase):
         fields = {'username': 'test',
                   'password': '123',
                   'role': User.ROLES['I']}
-        self.assertTrue(self.user_manager.edit(self, fields), "test\nrole=instructor")
+        self.assertTrue(self.user_manager.edit(self, fields))
+        self.assertEqual(self.user_manager.view(self,{"username":"test"}), "test\nrole=instructor", "Edited!")
 
     def test_delete_user(self):
         # Basic fields case
