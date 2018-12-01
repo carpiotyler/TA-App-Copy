@@ -8,7 +8,10 @@ class UserManager(ManagerInterface):
 
     def __init__(self, storage: StorageManager):
         self.storage = storage
+        self.storage.set_up()
 
+    # This method simply adds a user to the database if they don't exist already.
+    # Returns true if a new user was added, returns false otherwise
     def add(self, fields: dict) -> bool:
         print(fields)
         user = self.storage.get_user(fields.get("username"))
@@ -45,6 +48,11 @@ class UserManager(ManagerInterface):
         else:  # user exists
             return False
 
+    # This method returns a string representing all users that match the parameters in "fields"
+    # Returns No Users if no matches
+    # Will only print out fields given by the input fields dict (for permission obedience)
+    # A View that returns a string of multiple users outputs sorted by username
+    # String is newlined for each user field, double newlined for every new user displayed
     def view(self, fields) -> str:
         if fields.get("username") is None:  # fetch all users
             users = self.storage.get_users_by()
@@ -57,6 +65,8 @@ class UserManager(ManagerInterface):
             user = self.storage.get_user(fields.get("username"))
             return "No User Available" if (user is None) else user.__str__()
 
+    # This method edits an existing user
+    # Returns true if a user existed (And therefore edited), or false if no user existed
     def edit(self, fields: dict) -> bool:
         user = self.storage.get_user(fields.get("username"))
 
@@ -90,6 +100,8 @@ class UserManager(ManagerInterface):
 
             return True
 
+    # Deletes a user if it exists.
+    # Returns true if it did delete an existing user, false otherwise
     def delete(self, fields: dict) -> bool:
         user = self.storage.get_user(fields.get("username"))
 
@@ -103,8 +115,8 @@ class UserManager(ManagerInterface):
 
     @staticmethod
     def reqFields() -> list:
-        return ["username", "password", "role"]
+        return ["username", "password"]
 
     @staticmethod
     def optFields() -> list:
-        return ["address", "phone_number", "email"]
+        return ["role", "address", "phone_number", "email"]

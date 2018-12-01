@@ -1,165 +1,110 @@
 import django
-django.setup()
 
-from Managers.myStorageManager import AbstractStorageManager as StorageManager
+from Managers.DjangoStorageManager import DjangoStorageManager as dm
 from TAServer.models import Course, Section, Staff as User
 from Managers.userManager import UserManager
 from django.test import TestCase
 
+
 class UserManagerTests(TestCase):
 
     def setUp(self):
-
-        self.user = User()
-        self.user.username = "foobar"
-        self.user.password = "abc123"
-        self.user_manager = UserManager(MockStorageManager())
+        self.user_manager = UserManager(dm)
 
     def tearDown(self):
         del self.user_manager
-        del self.user
 
-    def test_user_add(self):
-        # given a user
-        user = self.user
+    def test_user_add_basic(self):
+        # Basic fields case
+        fields = {'username':'test',
+                  'password':'123'}
 
-        # and a user_manager
-        user_manager = self.user_manager
+        # Testing that the returns are the expected behavior:
+        self.assertTrue(self.user_manager.add(self, fields), "Should be a valid user add!")
+        self.assertFalse(self.user_manager.add(self, fields), "Should no longer be able to add !: User Exists")
 
-        # when adding a non-existing user
-        a = user_manager.add({"username": user.username, "password": user.password})
+    def test_user_add_incorrect_fields(self):
+        # Completely incorrect add, the req fields aren't filled out!
+        fields = {'un': 'new',
+                  'pass': 'lola'}
+        self.assertFalse(self.user_manager.add(self, fields), "Should only add if reqfields are filled out!")
 
-        # then add result contains user
-        print("Hello World")
-        print(a)
-        self.assertTrue(a)
+    def test_user_add_complicated(self):
+        # A complicated, highest level test, shouldn't fail or throw exceptions:
+        fields = {'username': 'test',
+                  'password': '123',
+                  'role': User.ROLES["I"],  # Instructor, ins, whatever
+                  'email':'foo@bar.com',
+                  'address':'123 sesame street'}
 
-        # when adding an existing user
-        b = user_manager.add({"username": user.username, "password": user.password})
+        # Return val checking for subsequent calls
+        self.assertTrue(self.user_manager.add(self, fields), "Failed on omplicated user add")
+        self.assertFalse(self.user_manager.add(self, fields, "Shouldn't be able to call again"))
 
-        # then add result contains error
-        self.assertFalse(b)
+    def test_view_user_basic(self):
+        # adding basic user to test with
+        fields = {'username': 'test',
+                  'password': '123'}
 
-    def test_view_user(self):
-        # given a user
-        user = self.user
+        self.assertEqual(self.user_manager.view({"username":"test"}), "No Users", "No users case!")
+        self.assertTrue(self.user_manager.add(self, fields))
+        self.assertEqual(self.user_manager.view(self, fields), "test\nrole=default\n\n")
 
-        # and a user_manager
-        user_manager = self.user_manager
+    def test_view_user_all_basic(self):
+        # Adding three basic users to test with
+        fields1 = {'username': 'test',
+                  'password': '123'}
 
-        # when looking up a non-existing user
-        a = user_manager.view({"username": user.username})
+        fields2 = {'username': 'scotty',
+                  'password': '232',
+                   'role':User.ROLES["A"]}
 
-        # then lookup result contains error
-        self.assertEqual("No User Available", a)
+        fields3 = {'username': 'truff',
+                  'password': 'pass',
+                   'role':User.ROLES["I"]}
 
-        # when adding a non-existing user
-        b1 = user_manager.add({"username": user.username, "password": user.password})
+        self.assertTrue(self.user_manager.add(self, fields1), "Error adding fields1!")
+        self.assertTrue(self.user_manager.add(self, fields2), "Error adding fields2!")
+        self.assertTrue(self.user_manager.add(self, fields3), "Error adding fields3!")
 
-        # and looking up said user
-        b2 = self.user_manager.view({"username": user.username})
+        # View all (no username or role provided) must return all users, alphabetically sorted by username
+        self.assertEqual(self.user_manager.view(self, {}),
+                "scotty\nrole=administrator\n\nsup\nrole=supervisor\n\ntest\nrole=default\n\ntruff\nrole=instructor\n\n"
+                , "This is a long, convoluted sting, but this is the expected output")
 
-        # then add result contains user
-        self.assertTrue(b1)
+    def test_edit_user_basic(self):
+        # Basic fields case
+        fields = {'username': 'test',
+                  'password': '123'}
 
-        # and lookup result contains user
-        self.assertEqual(user.__str__(), b2)
+        self.assertFalse(self.user_manager.edit(self, fields, "No user to edit!"))
+        self.assertTrue(self.user_manager.add(self, fields), "Add should work")
+        # Editing nothing should still return true
+        self.assertTrue(self.user_manager.edit(self, fields), "Edit should return true if user exists! Even if no changes!")
+        # Basic editing
+        # Basic fields case
+        fields = {'username': 'test',
+                  'password': 'newpass'}
+        self.assertTrue(self.user_manager.edit(self, fields), "Edit should return true.")
 
-        # when looking up all users
-        c1 = user_manager.view({})
+    def test_edit_user_roles_and_view_integrated(self):
+        # Basic fields case
+        fields = {'username': 'test',
+                  'password': '123'}
 
-        # then lookup contains user
-        self.assertEqual(user.__str__(), c1)
-
-    def test_edit_user(self):
-        # given a user
-        user = self.user
-
-        # and a user_manager
-        user_manager = self.user_manager
-
-        # when editing a non-existing user
-        a = user_manager.edit({"username": user.username, "password": "xyz789"})
-
-        # then edit result contains error
-        self.assertFalse(a)
-
-        # when adding a non-existing user
-        b1 = user_manager.add({"username": user.username, "password": user.password})
-
-        # and editing said user
-        b2 = user_manager.edit({"username": user.username, "password": "xyz789"})
-
-        # then add result contains user
-        self.assertTrue(b1)
-
-        # and edit result contains user
-        self.assertTrue(b2)
+        self.assertTrue(self.user_manager.add(self, fields))
+        self.assertEqual(self.user_manager.view(self, {"username":"test"}), "test\nrole=default")
+        # Basic fields case
+        fields = {'username': 'test',
+                  'password': '123',
+                  'role': User.ROLES['I']}
+        self.assertTrue(self.user_manager.edit(self, fields), "test\nrole=instructor")
 
     def test_delete_user(self):
-        # given a user
-        user = self.user
-
-        # and a user_manager
-        user_manager = self.user_manager
-
-        # when adding a non-existing user
-        a = user_manager.add({"username": user.username, "password": user.password})
-
-        # then add result contains user
-        self.assertTrue(a)
-
-        # when deleting an existing user
-        b = user_manager.delete({"username": user.username})
-
-        # then delete result contains user
-        self.assertTrue(b)
-
-        # when deleting a non-existing user
-        c = user_manager.delete({"username": user.username})
-
-        # then delete result contains error
-        self.assertTrue(c)  # TODO DELETE METHOD
-
-
-class MockStorageManager(StorageManager):
-
-    def __init__(self):
-        self.users: [User] = []
-        self.courses: [Course] = []
-        self.sections: [Section] = []
-
-    def set_up(self):
-        pass
-
-    def insert_course(self, course):
-        self.courses.append(course)
-
-    def insert_user(self, user):
-        self.users.append(user)
-
-    def insert_section(self, section):
-        self.sections.append(section)
-
-    def get_course(self, dept, cnum):
-        return next(filter(lambda n: (n.dept == dept & n.cnum == cnum), self.courses), [])
-
-    def get_user(self, username):
-        if username is "" or None:
-            return self.users
-        return next(filter(lambda n: (n.username == username), self.users), None)
-
-    def get_section(self, dept, cnum, snum):
-        return next(filter(lambda n: (n.dept == dept & n.cnum == cnum & n.snum == snum), self.sections), [])
-
-    def get_courses_by(self, dept, cnum) -> [Course]:
-        pass
-
-    def get_users_by(self, role) -> [User]:
-        pass
-
-    def get_sections_by(dept, cnum, snum) -> [Section]:
-        pass
-
-    def delete(self, to_delete) -> bool:
-        pass
+        # Basic fields case
+        fields = {'username': 'test',
+                  'password': '123'}
+        self.assertTrue(self.user_manager.add(fields))
+        self.assertEqual(self.user_manager.view(self, {"username":"test"}), "test\nrole=default")
+        self.assertTrue(self.user_manager.delete(self, {"username":"test"}))
+        self.assertEqual(self.user_manager.view(self, {"username":"test"}), "No Users", "Should have been deleted!")
