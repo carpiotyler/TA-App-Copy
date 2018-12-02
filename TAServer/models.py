@@ -7,7 +7,7 @@ from django.db import models
 class DefaultGroup(Group):
     permissions = (("can_view_course", "Can view courses"),
 
-                   ("can_view_section", "Can view sections"),
+                   ("can_view_course", "Can view sections"),
 
                    ("can_view_user", "Can view users"))
 
@@ -94,6 +94,14 @@ class Course(models.Model):
             course_string = course_string+ "Description: "+self.description + " "
         return course_string
 
+    class Meta:
+        permissions = (("can_view_course", "Can view course data"),
+                       ("can_edit_course", "Can edit course data"),
+                       ("can_delete_course", "Can delete a course"),
+                       ("can_create_course", "Can create courses"),
+                       ("can_add_course", "Cam add a course"),
+                       ("can_assign_ins", "Can assign instructors"))
+
 
 class Section(models.Model):
 
@@ -144,6 +152,13 @@ class Section(models.Model):
             sec = sec + " " + self.time
         return sec
 
+    class Meta:
+        permissions = (("can_create_section", "Can create sections"),
+                       ("can_edit_section", "Can edit sections"),
+                       ("can_delete_section", "Can delete sections"),
+                       ("can_view_section", "Can view sections"),
+                       ("can_assign_ta", "Can assign TA's"))
+
 
 class Staff(AbstractUser):
     ROLES = (
@@ -164,3 +179,13 @@ class Staff(AbstractUser):
     courses = models.ManyToManyField(Course, blank=True) # For instructors
     phonenum = models.CharField(max_length=10, default="")
     address = models.CharField(max_length=30, default="")
+
+    class Meta:
+        permissions = (("can_create_user", "Can create users"),
+                       ("can_edit_user", "Can edit users"),
+                       ("can_edit_self", "Can edit users"),
+                       ("can_delete_user", "Can delete users"),
+                       ("can_view_user", "Can view users"),
+                       ("can_view_private", "Can view private user data"),
+                       ("can_email_all", "Can send emails to all users"),
+                       ("can_email_tas", "Can send emails"))
