@@ -1,12 +1,12 @@
 import unittest
 from CmdParser import CommandParser as parser
 from Managers.userManager import UserManager
-from Managers.sectionManager import mySectionManager
+from Managers.sectionManager import SectionManager
 from Managers.courseManager import CourseManager
 from Managers.ManagerInterface import ManagerInterface
 from Managers.myStorageManager import AbstractStorageManager
 from Managers.authManager import AuthManager
-from Domain.user import User # Eventually change this to models
+from TAServer.models import Course, Section, Staff as User
 
 
 # This is the base class for all the testing versions of their respective classes. The main difference is in order to
@@ -72,10 +72,10 @@ class TCM(TM, CourseManager):
 
 
 # Check TCM
-class TSM(TM, mySectionManager):
+class TSM(TM, SectionManager):
     def __init__(self, database: AbstractStorageManager=AbstractStorageManager()):
         super(TM, self).__init__(database)
-        super(mySectionManager, self).__init__(database)
+        super(SectionManager, self).__init__(database)
 
     # def add(self, fields: dict)->bool:
     #     return TM.add(self, fields)
@@ -91,11 +91,11 @@ class TSM(TM, mySectionManager):
     #
     # @staticmethod
     # def reqFields()->list:
-    #     return mySectionManager.reqFields()
+    #     return SectionManager.reqFields()
     #
     # @staticmethod
     # def optFields()->list:
-    #     return mySectionManager.optFields()
+    #     return SectionManager.optFields()
 
 
 # Check TCM

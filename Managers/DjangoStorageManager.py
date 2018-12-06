@@ -3,6 +3,7 @@
 from Managers.myStorageManager import AbstractStorageManager
 from TAServer.models import Course, Section, Staff as User
 
+
 class DjangoStorageManager(AbstractStorageManager):
 
     @staticmethod
@@ -18,7 +19,7 @@ class DjangoStorageManager(AbstractStorageManager):
                     user.delete()
                 for course in Course.objects.all():
                     course.delete()
-        sup = User(username="supervisor", password="123")
+        sup = User(username="supervisor", password="123", role=dict(User.ROLES)["S"])
         DjangoStorageManager.insert_user(sup)
         return True
 

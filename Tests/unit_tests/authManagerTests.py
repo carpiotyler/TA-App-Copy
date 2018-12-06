@@ -1,12 +1,7 @@
 from typing import Optional
-
 from Managers.myStorageManager import AbstractStorageManager as storage
-
 from Managers.authManager import AuthManager
-from Domain.section import Section
-from Domain.course import Course
-from Domain.user import User
-
+from TAServer.models import Course, Section, Staff as User
 import unittest
 
 

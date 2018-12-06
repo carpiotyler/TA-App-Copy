@@ -5,5 +5,5 @@
   {% csrf_token %}
   command: <input type="text" name="command"/><input type="submit"/>
   </form>
-  <div id="out">{{out}}</div>
+  <div id="out">{{out|linebreaks}}</div>
 {% endblock content %}
