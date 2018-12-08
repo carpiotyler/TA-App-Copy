@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+    {% include "main/header.html" %}
   <h1>Django model lab</h1>
   <form method="post" action="/">
   {% csrf_token %}
   command: <input type="text" name="command"/><input type="submit"/>
   </form>
   <div id="out">{{out|linebreaks}}</div>
+    {% include "main/footer.html" %}
 {% endblock content %}

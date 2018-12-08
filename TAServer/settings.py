@@ -27,7 +27,7 @@ SECRET_KEY = '2y#4ru@0v3rui(9(iv(bgbv-#132a+pt!fxf%oql+-mf@by=xg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -122,5 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 AUTH_USER_MODEL = 'TAServer.Staff'

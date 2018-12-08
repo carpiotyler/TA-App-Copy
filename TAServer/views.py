@@ -240,6 +240,13 @@ def codeToDict(code: str) -> dict:
 
     return rtr
 
+def error_404(request):
+    data = {}
+    return render(request, '404.html', data)
+
+def error_500(request):
+    data = {}
+    return render(request, '404.html', data)
 
 class Home(View):
     def get(self, request):
