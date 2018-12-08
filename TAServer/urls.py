@@ -9,6 +9,7 @@ from TAServer.views import Home
 
 urlpatterns = [
   url(r'^admin/', admin.site.urls),
+  url(r'^$', Home.as_view()),
   url('^home/', Home.as_view()),
   url(r'^login/$', auth_view.LoginView.as_view(), {'template_name': '/registration/login.html'}),
   url(r'^signup/$', views.signup, name='signup'),
