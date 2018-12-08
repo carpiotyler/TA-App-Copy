@@ -21,10 +21,10 @@ class UserManager(ManagerInterface):
             user = User()
             user.username = fields["username"]
 
-            # if fields['role'] is either None or "", set fields['role'] to 'default'
+            # if fields['role'] is either None or "", set fields['role'] to 'Default'
             # if fields['role'] exists and is invalid, return false. Otherwise, set role as fields['role']
             if 'role' not in fields.keys() or fields['role'] is None or fields['role'].strip() == "":
-                user.role = 'default'
+                user.role = dict(User.ROLES)['D']
             elif fields['role'] in dict(User.ROLES).values():
                 user.role = fields['role']
             else:
@@ -52,33 +52,59 @@ class UserManager(ManagerInterface):
         else:  # user exists
             return False
 
-    # This method returns a string representing all users that match the parameters in "fields"
-    # Returns No Users if no matches
-    # Will only print out fields given by the input fields dict (for permission obedience)
-    # A View that returns a string of multiple users outputs sorted by username
-    # String is newlined for each user field, double newlined for every new user displayed
+    # Returns a list of user dicts that match the parameters.
+    # Will ALWAYS return list, if getting a single user, ret[0] will be the user's field dict
+    # Currently supports this logic -> sorting by username(Unique) -> sorting by role(all with a role) -> returning all
+    # Multiple values sorted alphabetically by username
 
-    # NOT FULLY FUNCTIONAL, WE NEED TO BE ABLE TO PASS IN PERMISSIONS TO VIEW CERTAIN FIELDS
-    def view(self, fields) -> str:
-        retval = ""
+    def view(self, fields) -> [dict]:
+        retVal = []
 
         if 'username' in fields.keys() and fields['username'].strip() != "":
             # We have to return just one user's view. ez
             user = self.storage.get_user(fields['username'])
             if user is None:
-                retval = 'No Users'
+                # No users case
+                retVal = []
             else:
-                retval = "" + user.username + "\n" + "role=" + user.role + "\n\n"
-
-            return retval.lower()
+                # Put all users fields into a dict
+                retFields = {}
+                retFields['username'] = fields['username']
+                retFields['password'] =  user.password
+                retFields['firstname'] = user.firstname
+                retFields['lastname'] = user.lastname
+                retFields['bio'] = user.bio
+                retFields['email'] = user.email
+                retFields['role'] = user.role
+                retFields['phonenum'] = user.phonenum
+                retFields['address'] = user.address
+                retVal.append(retFields)
+            return retVal
         else:
             # Return mutiple users. (We only support viewing all right now
-            users = self.storage.get_users_by()
-            users = list(users)
-            users.sort(key= lambda User: User.username)
-            for user in users:
-                retval += user.username + "\n" + "role=" + user.role + "\n\n"
-            return retval.lower()
+            matchingusers = []
+            if 'role' in fields.keys() and fields['role'].strip() != "":
+                # Return all users by a role
+                matchingusers = self.storage.get_users_by(fields['role'])
+            else:
+                # Return all users
+                matchingusers = self.storage.get_users_by()
+            for user in matchingusers:
+                retFields = {}
+                retFields['username'] = user.username
+                retFields['password'] = user.password
+                retFields['firstname'] = user.firstname
+                retFields['lastname'] = user.lastname
+                retFields['bio'] = user.bio
+                retFields['email'] = user.email
+                retFields['role'] = user.role
+                retFields['phonenum'] = user.phonenum
+                retFields['address'] = user.address
+                retVal.append(retFields)
+
+            # Sort by username
+            retVal.sort(key= lambda k: k['username'])
+            return retVal
 
     # This method edits an existing user
     # Returns true if a user existed (And therefore edited), or false if no user existed
