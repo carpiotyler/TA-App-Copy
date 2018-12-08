@@ -165,7 +165,8 @@ class Staff(AbstractUser):
         ('T', 'TA'),
         ('I', 'Instructor'),
         ('A', 'Administrator'),
-        ('S', 'Supervisor')
+        ('S', 'Supervisor'),
+        ('D', 'Default')
     )
 
     # username = models.CharField(max_length=30, default="")

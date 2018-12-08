@@ -1,17 +1,18 @@
 # Helper class for dealing with django's database
 # See myStorageManager Interface for full documentation on method behaviors
 from Managers.myStorageManager import AbstractStorageManager
-from TAServer.models import Course, Section, Staff as User
+from TAServer.models import SupGroup, Course, Section, Staff as User
 
 
 class DjangoStorageManager(AbstractStorageManager):
 
     @staticmethod
     def set_up(overwrite=False)->bool:
+        retVal = False
         if len(Section.objects.all()) > 0 or len(User.objects.all()) > 0 or len(Course.objects.all()) > 0:
             # Database isn't empty!
             if not overwrite:
-                return False
+                retVal = False
             else:
                 for section in Section.objects.all():
                     section.delete()
@@ -19,9 +20,12 @@ class DjangoStorageManager(AbstractStorageManager):
                     user.delete()
                 for course in Course.objects.all():
                     course.delete()
+                retVal = True
         sup = User(username="supervisor", password="123", role=dict(User.ROLES)["S"])
         DjangoStorageManager.insert_user(sup)
-        return True
+        # TODO set sup group!
+        DjangoStorageManager.insert_user(sup)
+        return retVal
 
     @staticmethod
     def insert_course(course: Course)->bool:

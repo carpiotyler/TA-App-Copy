@@ -49,9 +49,20 @@ class UserManagerTests(TestCase):
         fields = {'username': 'test',
                   'password': '123'}
 
-        self.assertEqual(self.user_manager.view({"username":"test"}), "no users", "No users case!")
+        self.assertEqual(len(self.user_manager.view({"username":"test"})), 0, "No users case!")
         self.assertTrue(self.user_manager.add(fields))
-        self.assertEqual(self.user_manager.view(fields), "test\nrole=default\n\n")
+        retVal = self.user_manager.view(fields)[0]
+
+        # Testing all values against what they should be
+        self.assertEqual(retVal['username'], 'test')
+        self.assertEqual(retVal['password'], '123')
+        self.assertEqual(retVal['firstname'], '')
+        self.assertEqual(retVal['lastname'], '')
+        self.assertEqual(retVal['bio'], '')
+        self.assertEqual(retVal['email'], '')
+        self.assertEqual(retVal['role'], dict(User.ROLES)['D'])
+        self.assertEqual(retVal['phonenum'], '')
+        self.assertEqual(retVal['address'], '')
 
     def test_view_user_all_basic(self):
         # Adding three basic users to test with
@@ -71,10 +82,54 @@ class UserManagerTests(TestCase):
         self.assertTrue(self.user_manager.add(fields3), "Error adding fields3!")
 
         # View all (no username or role provided) must return all users, alphabetically sorted by username
-        self.assertEqual(self.user_manager.view({}),
-                "scotty\nrole=administrator\n\nsupervisor\nrole=supervisor\n\ntest\nrole=default\n\ntruff\nrole=instructor\n\n"
-                , "This is a long, convoluted sting, but this is the expected output")
+        retVal = self.user_manager.view({})
+        self.assertEqual(len(retVal), 4)
 
+        # Because sorted by username
+        retFields1 = retVal[2]
+        retFields2 = retVal[0]
+        retFields3 = retVal[3]
+
+        # All retFields should not be None and must all be of type dict
+        self.assertIsNotNone(retFields1)
+        self.assertIsNotNone(retFields2)
+        self.assertIsNotNone(retFields3)
+        
+        self.assertIsInstance(retFields1, dict)
+        self.assertIsInstance(retFields2, dict)
+        self.assertIsInstance(retFields3, dict)
+        
+        # Testing all values against what they should be
+        self.assertEqual(retFields1['username'], 'test')
+        self.assertEqual(retFields1['password'], '123')
+        self.assertEqual(retFields1['firstname'], '')
+        self.assertEqual(retFields1['lastname'], '')
+        self.assertEqual(retFields1['bio'], '')
+        self.assertEqual(retFields1['email'], '')
+        self.assertEqual(retFields1['role'], dict(User.ROLES)['D'])
+        self.assertEqual(retFields1['phonenum'], '')
+        self.assertEqual(retFields1['address'], '')
+
+        self.assertEqual(retFields2['username'], 'scotty')
+        self.assertEqual(retFields2['password'], '232')
+        self.assertEqual(retFields2['firstname'], '')
+        self.assertEqual(retFields2['lastname'], '')
+        self.assertEqual(retFields2['bio'], '')
+        self.assertEqual(retFields2['email'], '')
+        self.assertEqual(retFields2['role'], dict(User.ROLES)['A'])
+        self.assertEqual(retFields2['phonenum'], '')
+        self.assertEqual(retFields2['address'], '')
+
+        self.assertEqual(retFields3['username'], 'truff')
+        self.assertEqual(retFields3['password'], 'pass')
+        self.assertEqual(retFields3['firstname'], '')
+        self.assertEqual(retFields3['lastname'], '')
+        self.assertEqual(retFields3['bio'], '')
+        self.assertEqual(retFields3['email'], '')
+        self.assertEqual(retFields3['role'], dict(User.ROLES)['I'])
+        self.assertEqual(retFields3['phonenum'], '')
+        self.assertEqual(retFields3['address'], '')
+        
     def test_edit_user_basic(self):
         # Basic fields case
         fields = {'username': 'test',
@@ -96,19 +151,39 @@ class UserManagerTests(TestCase):
                   'password': '123'}
 
         self.assertTrue(self.user_manager.add(fields))
-        self.assertEqual(self.user_manager.view({"username":"test"}), "test\nrole=default\n\n")
+        retVal = self.user_manager.view(fields)[0]
+        self.assertEqual(retVal['username'], 'test')
+        self.assertEqual(retVal['password'], '123')
+        self.assertEqual(retVal['firstname'], '')
+        self.assertEqual(retVal['lastname'], '')
+        self.assertEqual(retVal['bio'], '')
+        self.assertEqual(retVal['email'], '')
+        self.assertEqual(retVal['role'], dict(User.ROLES)['D'])
+        self.assertEqual(retVal['phonenum'], '')
+        self.assertEqual(retVal['address'], '')
+
         # Basic fields case
         fields = {'username': 'test',
                   'password': '123',
                   'role': dict(User.ROLES)['I']}
+
         self.assertTrue(self.user_manager.edit(fields))
-        self.assertEqual(self.user_manager.view({"username":"test"}), "test\nrole=instructor\n\n", "Edited!")
+        retVal = self.user_manager.view(fields)[0]
+        self.assertEqual(retVal['username'], 'test')
+        self.assertEqual(retVal['password'], '123')
+        self.assertEqual(retVal['firstname'], '')
+        self.assertEqual(retVal['lastname'], '')
+        self.assertEqual(retVal['bio'], '')
+        self.assertEqual(retVal['email'], '')
+        self.assertEqual(retVal['role'], dict(User.ROLES)['I'])
+        self.assertEqual(retVal['phonenum'], '')
+        self.assertEqual(retVal['address'], '')
 
     def test_delete_user(self):
         # Basic fields case
         fields = {'username': 'test',
                   'password': '123'}
         self.assertTrue(self.user_manager.add(fields))
-        self.assertEqual(self.user_manager.view({"username":"test"}), "test\nrole=default\n\n")
+        self.assertEqual(len(self.user_manager.view({"username":"test"})), 1)
         self.assertTrue(self.user_manager.delete({"username":"test"}))
-        self.assertEqual(self.user_manager.view({"username":"test"}), "no users", "Should have been deleted!")
+        self.assertEqual(len(self.user_manager.view({"username":"test"})), 0, "Should have been deleted!")
