@@ -14,7 +14,7 @@ body {
     height: 30px;
 }
 
-.loginButton{
+.button{
     border: 0px;
     margin: 0;
     width: 50%;
@@ -30,7 +30,17 @@ body {
 .login {
     background: #ffffff;
     width: 360px;
-    margin: 250px auto;
+    margin: 150px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 60px 15px 40px 15px;
+    text-align: center;
+}
+
+.signup {
+    background: #ffffff;
+    width: 360px;
+    margin: 150px auto;
     border: 1px solid #eee;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 60px 15px 40px 15px;
