@@ -6,13 +6,19 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_view
 from TAServer import views
 from TAServer.views import Home, CourseListView
+from django.conf.urls import handler404
 
 urlpatterns = [
-  url(r'^admin/', admin.site.urls),
   url(r'^$', Home.as_view()),
-  url(r'^home/', Home.as_view()),
+  url(r'^home/', Home.as_view(), name='home'),
+  url(r'^admin/', admin.site.urls),
   url(r'^login/$', auth_view.LoginView.as_view(), {'template_name': '/registration/login.html'}, name='login'),
   url(r'^signup/$', views.signup, name='signup'),
   url(r'^courses/$', CourseListView.as_view(), name='Course List'),
-  url(r'^courses/(?P<course_id>\w+)/$', views.courseDetail, name='course')
+  url(r'^courses/(?P<course_id>\w+)/$', views.courseDetail, name='course'),
+  url(r'^FAQ/', views.FAQ, name='faq'),
 ]
+
+
+handler404 = views.error_404
+handler500 = views.error_500
