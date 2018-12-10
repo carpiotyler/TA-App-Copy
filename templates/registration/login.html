@@ -1,18 +1,21 @@
-{% extends "base.html" %}
+{% extends "registration/base.html" %}
 
 {% block content %}
 <div class="login">
     <form method="POST" action="/login/">
 
-    {% csrf_token %}
+        {% csrf_token %}
+        <div class="input-group">
+            <input class="form-control" id="username" maxlength="30" name="username" placeholder="Username" type="text" />
+            <input class="form-control" id="password" maxlength="30" name="password" placeholder="Password" type="password" />
+        </div>
 
-    {{form.as_p}}
 
-    <input type="submit" class="loginButton" value="Log in"/>
 
-</form>
-    <form action="{% url 'signup' %}">
-            <input type="submit" class="signupButton" value="Sign up">
+        <input type="submit" class="button" value="Sign In"/>
+
     </form>
+    <a>Don't have an account?</a>
+    <a href="{% url 'signup' %}" style="text-decoration: none; color:blue" >Sign Up</a>
 </div>
 {% endblock content %}

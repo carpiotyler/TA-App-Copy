@@ -81,8 +81,8 @@ class SupGroup(Group):
 class Course(models.Model):
     cnum = models.CharField(max_length=4)
     dept = models.CharField(max_length=10)
-    name = models.CharField(max_length=40, blank=True, null=True)
-    description = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=40, default="")
+    description = models.CharField(max_length=200, default="")
     sections = models.ManyToManyField('Section', related_name='sec', blank=True)
 
     def __str__(self):
