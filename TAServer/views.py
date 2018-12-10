@@ -37,7 +37,7 @@ def error_404(request):
 
 def error_500(request):
     data = {}
-    return render(request, '404.html', data)
+    return render(request, '500.html', data)
 
 class Home(View):
     def get(self, request):
