@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate, login, logout
 def signup(request):
     return render(request, "registration/signup.html")
 
+def FAQ(request):
+    return render(request, "main/FAQ.html")
 
 def error_404(request):
     data = {}

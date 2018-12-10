@@ -1,12 +1,18 @@
-<form class="login" method="POST" action="/login/">
+{% extends "base.html" %}
 
-  {% csrf_token %}
+{% block content %}
+<div class="login">
+    <form method="POST" action="/login/">
 
-  {{form.as_p}}
+    {% csrf_token %}
 
-  <input type="submit" class="loginButton" value="Log in"/>
+    {{form.as_p}}
+
+    <input type="submit" class="loginButton" value="Log in"/>
 
 </form>
-<form action="{% url 'signup' %}">
-        <input type="submit" class="signupButton" value="Sign up">
-</form>
+    <form action="{% url 'signup' %}">
+            <input type="submit" class="signupButton" value="Sign up">
+    </form>
+</div>
+{% endblock content %}

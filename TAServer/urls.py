@@ -10,10 +10,11 @@ from django.conf.urls import handler404
 
 urlpatterns = [
   url(r'^admin/', admin.site.urls),
-  url('^home/', Home.as_view()),
-  url(r'^login/$', auth_view.LoginView.as_view(), {'template_name': '/registration/login.html'}),
+  url(r'^$', Home.as_view()),
+  url('^home/', Home.as_view(), name='home'),
+  url(r'^login/$', auth_view.LoginView.as_view(), {'template_name': '/registration/login.html'}, name='login'),
   url(r'^signup/$', views.signup, name='signup'),
-
+  url(r'^FAQ/', views.FAQ, name='faq'),
 ]
 
 handler404 = views.error_404
