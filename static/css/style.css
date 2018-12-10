@@ -1,3 +1,149 @@
 /* Rock had a file for this but I'm not going to copy it over unless we actually need it because I don't want anything to break */
+{% load staticfiles %}
+
+body {
+    background: #cecece;
+    margin: 0;
+    padding: 0;
+}
+
+.headerMenu {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #563D7C;
+    width: 100%;
+    height: 50px;
+}
+
+ul.buttons {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    background-color: #563D7C;
+    width: 100%;
+}
+
+.headerMenu ul li {
+    display:inline-block;
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.headerMenu ul li#log{
+    display:inline-block;
+    float: right;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+a.btn {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #191970;
+}
 
 
+.logo img {
+    height: 45px;
+    width: auto;
+    max-width: 50px;
+    max-height: 50px;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    background-color: #563D7C;
+
+}
+
+
+.btn {
+    background-color: #563D7C;
+    color: white;
+    height: 100%;
+    width: auto;
+    float: left;
+    display: inline-block;
+    position: relative;
+    border: 2px black solid;
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.btn-group {
+    margin: 0px;
+    padding: 0px;
+    background-color: #563D7C;
+    height: 100%;
+}
+
+.footerMenu {
+	height: 200px;
+	width: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #563D7C;
+    position: absolute;
+	bottom: 0;
+	clear: both;
+}
+#footerLinks {
+	background-color: #563D7C;
+	margin-left: auto;
+	margin-right: auto;
+	height: 170px;
+	width: 90%;
+}
+
+#ulLinks{
+	width: 200px;
+}
+
+.bottomLinks{
+	background-color:#563D7C;
+	color: white;
+	text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+	font-size:1.5em;
+}
+
+.bottomList{
+	display: block;
+    margin: .5em;
+}
+
+#birdUp{
+    background-image: url("/static/images/birdUp.jpg");
+    margin-left: auto;
+    margin-right: auto;
+    height: 75vh;
+    width: 100vw;
+    top: 10vh;
+    background-size: cover;
+}
+
+.login {
+    width: 60%;
+    margin: 16px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 1px #ccc;
+    padding: 0px 10px;
+    text-align: left;
+}
+
+#404{
+   background-image: url("/static/images/fourOfour.gif");
+    height: 145px;
+    width: 200px;
+}

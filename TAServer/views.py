@@ -28,6 +28,17 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
+def FAQ(request):
+    return render(request, "main/FAQ.html")
+
+def error_404(request):
+    data = {}
+    return render(request, '404.html', data)
+
+def error_500(request):
+    data = {}
+    return render(request, '500.html', data)
+
 class Home(View):
     def get(self, request):
         return render(request, "main/index.html")
