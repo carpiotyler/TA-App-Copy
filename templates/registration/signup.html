@@ -6,11 +6,17 @@
         {% csrf_token %}
 
         <div class="input-group">
-            <input class="form-control" id="username" maxlength="30" name="first_name" placeholder="First Name" type="text" /> 
-            <input class="form-control" id="username" maxlength="30" name="last_name" placeholder="Last Name" type="text" /> 
-            <input class="form-control" id="username" maxlength="30" name="email" placeholder="Email" type="text" /> 
-            <input class="form-control" id="username" maxlength="30" name="username" placeholder="Username" type="text" /> 
+            <label class="input-label">First Name</label>
+            <input class="form-control" id="username" maxlength="30" name="first_name" placeholder="First Name" type="text" />
+            <label class="input-label">Last Name</label> 
+            <input class="form-control" id="username" maxlength="30" name="last_name" placeholder="Last Name" type="text" />
+            <label class="input-label">Email</label> 
+            <input class="form-control" id="username" maxlength="30" name="email" placeholder="Email" type="text" />
+            <label class="input-label">Username</label> 
+            <input class="form-control" id="username" maxlength="30" name="username" placeholder="Username" type="text" />
+            <label class="input-label">Password</label> 
             <input class="form-control" id="password" maxlength="30" name="password1" placeholder="Password" type="password" />
+            <label class="input-label">Confirm Password</label>
             <input class="form-control" id="password" maxlength="30" name="password2" placeholder="Confirm Password" type="password" /> 
         </div>
         
