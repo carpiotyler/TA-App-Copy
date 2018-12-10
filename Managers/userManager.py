@@ -63,6 +63,7 @@ class UserManager(ManagerInterface):
         if 'username' in fields.keys() and fields['username'].strip() != "":
             # We have to return just one user's view. ez
             user = self.storage.get_user(fields['username'])
+
             if user is None:
                 # No users case
                 retVal = []
