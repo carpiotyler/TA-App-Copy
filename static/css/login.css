@@ -42,6 +42,10 @@ button:focus {
     background: #3b92fc;
     margin-bottom: 20px;
 }
+.button:hover{
+    background: #3786e6;
+    cursor: pointer;
+}
 
 
 .login {
