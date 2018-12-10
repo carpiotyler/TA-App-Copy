@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="courses">
+
+    <h1>Course List</h1>
+
+    {% for course in courses %}
+        <div style="padding: 32px; background-color: lightgray">
+            <p>
+                <a href="{{ course.get_absolute_url }}{{ course.dept }}{{ course.cnum }}">
+                    {{ course.dept }} {{ course.cnum }} - {{ course.name }}
+                </a>
+            </p>
+        </div> <br>
+
+    {% empty %}
+        <div>No Courses yet.</div>
+
+    {% endfor %}
+
+</div>
+{% endblock content %}

@@ -5,13 +5,14 @@ from django.urls import include, path
 from django.contrib import admin
 from django.contrib.auth import views as auth_view
 from TAServer import views
-from TAServer.views import Home
+from TAServer.views import Home, CourseListView
 
 urlpatterns = [
   url(r'^admin/', admin.site.urls),
   url(r'^$', Home.as_view()),
-  url('^home/', Home.as_view()),
+  url(r'^home/', Home.as_view()),
   url(r'^login/$', auth_view.LoginView.as_view(), {'template_name': '/registration/login.html'}, name='login'),
   url(r'^signup/$', views.signup, name='signup'),
-
+  url(r'^courses/$', CourseListView.as_view(), name='Course List'),
+  url(r'^courses/(?P<course_id>\w+)/$', views.courseDetail, name='course')
 ]
