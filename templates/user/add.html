@@ -2,5 +2,47 @@
 
 {% extends "user/base.html" %}
 {% block content %}
-    <p>User add</p>
+    <p>User add/edit</p>
+    {% if canedit %}
+        <form method="POST" action="{{ action }}">
+        {% csrf_token %}
+            <p>Username: </br><input type="text" name="username" value="{{ username_value }}" required></p>
+            <p>Password: </br><input type="text" name="password" value="{{ password_value }}"></p>
+
+            {% for role in role_list %}
+                {% if role == checked_role %}
+                    <input type="radio" name="role" value="{{ role }}" checked>{{ role }}</br>
+                {% else %}
+                    <input type="radio" name="role" value="{{ role }}">{{ role }}</br>
+                {% endif %}
+            {% endfor %}
+
+            <p>Address: </br><input type="text" name="address" value="{{ address_value }}"></p>
+            <p>Phone Number: </br><input type="text" name="phone_number" value="{{ phone_number_value }}"></p>
+            <p>Email: </br><input type="text" name="email" value="{{ email_value }}"></p>
+            <p>First Name: </br><input type="text" name="firstname" value="{{ firstname_value }}"></p>
+            <p>Last Name: </br><input type="text" name="lastname" value="{{ lastname_value }}"></p>
+            <p>Bio: </br><input type="text" name="bio" value="{{ bio_value }}"></p>
+
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <form>
+            <p>Username: </br><input type="text" name="username" value="{{ username_value }}" readonly></p>
+            <p>Password: </br><input type="text" name="password" value="{{ password_value }}" readonly></p>
+
+            {% for role in role_list %}
+                {% if role == checked_role %}
+                    <input type="radio" name="role" value="{{ role }}" checked>
+                {% endif %}
+            {% endfor %}
+
+            <p>Address: </br><input type="text" name="address" value="{{ address_value }}" readonly></p>
+            <p>Phone Number: </br><input type="text" name="phone_number" value="{{ phone_number_value }}" readonly></p>
+            <p>Email: </br><input type="text" name="email" value="{{ email_value }}" readonly></p>
+            <p>First Name: </br><input type="text" name="firstname" value="{{ firstname_value }}" readonly></p>
+            <p>Last Name: </br><input type="text" name="lastname" value="{{ lastname_value }}" readonly></p>
+            <p>Bio: </br><input type="text" name="bio" value="{{ bio_value }}" readonly></p>
+        </form>
+    {% endif %}
 {% endblock content %}

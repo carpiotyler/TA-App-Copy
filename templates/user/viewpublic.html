@@ -6,18 +6,22 @@
             <tr>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>Role</th>
+                <th>Email</th>
                 <th>Bio</th>
             </tr>
 
             {% for entry in data %}
                 <tr>
-                    <td>{{ entry.firstname }}</td>
-                    <td>{{ entry.lastname }}</td>
-                    <td>{{ entry.bio }}</td>
+                    <td> {{ entry.firstname }} </td>
+                    <td> {{ entry.lastname }} </td>
+                    <td> {{ entry.role }} </td>
+                    <td> {{ entry.email }} </td>
+                    <td> {{ entry.bio }} </td>
                 </tr>
             {% endfor %}
         </table>
     {% else %}
-        <p>Data could not be found</p>
+        <p>Currently no users</p>
     {% endif %}
 {% endblock content %}

@@ -30,27 +30,33 @@ def signup(request):
 
 class UserView(View):
     def view(self, request, code=""):
-        mgr = UM(Storage()) # Hopefully this is correct
         fields = {}
-        template = "user/viewpublic.html"
+        template = "user/viewpublic.html" # The default is just to load only public data
 
-        if request.user.is_authenticated and request.user.has_perm('can_view_private'):  # Redundant?
+        if request.user.is_authenticated and request.user.has_perm('can_view_private'):
             template = "user/viewprivate.html"
 
         if code != "":
             fields['title'] = "View all users"
-            fields['data'] = mgr.view({'username': code})
+            fields['data'] = UM(Storage()).view({'username': code})
 
         else:
             fields['title'] = "View %s" % code
-            fields['data'] = mgr.view({})  # Hopefully this is correct
+            fields['data'] = UM(Storage()).view({})  # Hopefully this is correct
 
-        fields['datafound'] = len(fields['data']) == 0
+        fields['datafound'] = len(fields['data']) != 0
 
         return render(request, template, fields)
 
+    # This function needs to handle a post too. Probably just return the get of edit with the correct code once everything has been saved to the db
     def add(self, request, code=""):
-        return render(request, "user/add.html", {'title': code})
+        rolelist = ["TA", "Supervisor", "Admin", "Instructor"]
+        fields = {'title': 'Add a new user', 'canedit': False, "role_list": rolelist, 'checked_role': rolelist[0], 'action': '/users/add/'}
+
+        if request.user.has_perm("can_create_user"):
+            fields['canedit'] = True
+
+        return render(request, "user/add.html", fields)
 
     def edit(self, request, code=""):
         return render(request, "user/add.html", {'title': code})
