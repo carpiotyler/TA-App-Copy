@@ -11,6 +11,7 @@ from TAServer.models import Staff as User
 from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGroup
 from django.contrib.auth import authenticate, login, logout
 from TAServer.forms import SignUpForm
+from TAServer.models import Staff as User
 
 
 def signup(request):
@@ -48,17 +49,19 @@ class UserView(View):
 
         return render(request, template, fields)
 
-    # This function needs to handle a post too. Probably just return the get of edit with the correct code once everything has been saved to the db
     def add(self, request, code=""):
-        rolelist = ["TA", "Supervisor", "Admin", "Instructor"]
-        fields = {'title': 'Add a new user', 'canedit': False, "role_list": rolelist, 'checked_role': rolelist[0], 'action': '/users/add/'}
+        rolelist = ['TA', 'Instructor', 'Administrator', 'Supervisor']
+        fields = {'title': 'Add a new user', 'canedit': False, "role_list": rolelist, 'checked_role': rolelist[0], 'action': '/user/add/'}
 
         if request.user.has_perm("can_create_user"):
             fields['canedit'] = True
 
+        else:
+            fields['value'] = {'username': 'Bad Permissions'}
+
         return render(request, "user/add.html", fields)
 
-    def edit(self, request, code=""):
+    def edit(self, request, code="", fields={}):
         return render(request, "user/add.html", {'title': code})
 
     def get(self, request, code=""):
@@ -72,7 +75,24 @@ class UserView(View):
         return render(request, "main/index.html") # Should be changed to go to a 404 (django might do this automatically
 
     def post(self, request, code=""):
-        return self.get(request, code=code)  # Just a placeholder
+        print(request.POST)
+        for key in request.POST:
+            print("Key: %s\nValue: %s\nTypeof: %s\n" % (key, request.POST[key], type(request.POST[key])))
+
+        rtr = ""
+
+        if "edit" in request.path:
+            rtr = UM(Storage()).edit(request.POST)
+
+        elif "add" in request.path:
+            rtr = UM(Storage()).add(request.POST)
+
+        else:
+            print("Someone sent a post fron %s" % request.path)
+
+        print(rtr)
+
+        return self.edit(request, code=request.POST['username'])  # Just a placeholder
 
 
 class Home(View):
