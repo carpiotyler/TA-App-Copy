@@ -8,6 +8,26 @@
         <p>Department: {{ course.dept }}</p>
         <p>Course Number: {{ course.cnum }}</p>
         <p>Description: {{ course.description }}</p>
+        <p>Sections:
+
+            {% for section in course.sections %}
+            <div style="padding: 32px; background-color: lightgray">
+                <p>
+                    <a href="/sections/{{ course.cnum }}{{ course.snum }}">
+                        {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
+                    </a>
+                </p>
+            </div> <br>
+
+            {% empty %}
+                <div>No Sections yet.</div>
+
+        {% endfor %}
+
+        </p>
+
+
+
     </div>
     {% include "main/footer.html" %}
 {% endblock content %}

@@ -3,19 +3,19 @@
 {% block content %}
 <div class="courses">
     {% include "main/header.html" %}
-    <h1>Course List</h1>
+    <h1>Section List</h1>
 
-    {% for course in courses %}
+    {% for section in sections %}
         <div style="padding: 32px; background-color: lightgray">
             <p>
-                <a href="{{ course.dept }}{{ course.cnum }}">
-                    {{ course.dept }} {{ course.cnum }} - {{ course.name }}
+                <a href="{{ section.cnum }}{{ section.snum }}">
+                    {{ section.course.dept }} {{ section.cnum }} - {{ section.snum }}
                 </a>
             </p>
         </div> <br>
 
     {% empty %}
-        <div>No Courses yet.</div>
+        <div>No Sections yet.</div>
 
     {% endfor %}
 

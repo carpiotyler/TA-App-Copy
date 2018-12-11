@@ -17,6 +17,8 @@ urlpatterns = [
   url(r'^signup/$', views.signup, name='signup'),
   url(r'^courses/$', views.courseList, name='Course List'),
   url(r'^courses/(?P<course_id>\w+)/$', views.courseDetail, name='course'),
+  url(r'^sections/$', views.sectionList, name='Section List'),
+  url(r'^sections/(?P<section_id>\w+)/$', views.sectionDetail, name='section'),
   url(r'^FAQ/', views.FAQ, name='faq'),
   url(r'^about/', views.FAQ, name='about'),
 ]
