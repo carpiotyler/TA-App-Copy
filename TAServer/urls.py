@@ -20,7 +20,7 @@ urlpatterns = [
   url(r'^sections/$', views.sectionList, name='Section List'),
   url(r'^sections/(?P<section_id>\w+)/$', views.sectionDetail, name='section'),
   url(r'^FAQ/', views.FAQ, name='faq'),
-  url(r'^about/', views.FAQ, name='about'),
+  url(r'^about/', views.About, name='about'),
 ]
 
 

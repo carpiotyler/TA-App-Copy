@@ -48,6 +48,9 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
+def About(request):
+    return render(request, "main/about.html")
+
 def FAQ(request):
     return render(request, "main/FAQ.html")
 
