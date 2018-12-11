@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    {% include "main/header.html" %}
     <div class="course" style="padding: 32px; background-color: lightgray">
         <h1>Course</h1>
         <p>Name: {{ course.name }}</p>
@@ -9,7 +9,7 @@
         <p>Course Number: {{ course.cnum }}</p>
         <p>Description: {{ course.description }}</p>
     </div>
-
+    {% include "main/footer.html" %}
 {% endblock content %}
 
 

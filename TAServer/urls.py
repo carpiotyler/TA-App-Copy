@@ -13,10 +13,12 @@ urlpatterns = [
   url(r'^home/', Home.as_view(), name='home'),
   url(r'^admin/', admin.site.urls),
   url(r'^login/$', auth_view.LoginView.as_view(), {'template_name': '/registration/login.html'}, name='login'),
+  url(r'^logout/$', auth_view.LogoutView.as_view(), name='logout'),
   url(r'^signup/$', views.signup, name='signup'),
   url(r'^courses/$', CourseListView.as_view(), name='Course List'),
   url(r'^courses/(?P<course_id>\w+)/$', views.courseDetail, name='course'),
   url(r'^FAQ/', views.FAQ, name='faq'),
+  url(r'^about/', views.FAQ, name='about'),
 ]
 
 
