@@ -14,24 +14,13 @@ from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGrou
 from django.contrib.auth import authenticate, login, logout
 from TAServer.forms import SignUpForm
 
-
-from django.db.utils import OperationalError
-
-
-class CourseListView(generic.ListView):
-    try:
-        model = Course
-        context_object_name = 'courses'
-        queryset = CM(Storage()).view({})
-        template_name = 'courses/course_list.html'
-    except OperationalError:
-        pass  # db doesnt exist yet
-    
+def courseList(request):
+    courses = CM(Storage()).view({})
+    return render(request, "courses/course_list.html", {'courses': courses})
 
 def courseDetail(request, course_id):
     course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})
-    context = {'course': course[0]}
-    return render(request, "courses/course_detail.html", context)
+    return render(request, "courses/course_detail.html", {'course': course[0]})
 
 def signup(request):
     if request.method == 'POST':
