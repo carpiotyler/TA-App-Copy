@@ -38,12 +38,11 @@ ul.buttons {
 }
 
 a.btn {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
-
-    display: block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     color: white;
+    display: block;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
