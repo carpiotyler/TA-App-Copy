@@ -12,16 +12,16 @@ class ManagerInterface(ABC):
     def __init__(self, database: StorageManager): pass
 
     @abstractmethod
-    def add(self, fields: dict) -> bool: pass
+    def add(self, fields: dict) -> (bool, str): pass
 
     @abstractmethod
-    def view(self, fields: dict) -> str: pass
+    def view(self, fields: dict) -> [dict]: pass
 
     @abstractmethod
-    def edit(self, fields: dict) -> bool: pass
+    def edit(self, fields: dict) -> (bool, str): pass
 
     @abstractmethod
-    def delete(self, fields: dict) -> bool: pass
+    def delete(self, fields: dict) -> (bool, str): pass
 
     @staticmethod
     def reqFields(self) -> list: pass

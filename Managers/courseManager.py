@@ -20,7 +20,7 @@ class CourseManager(ManagerInterface):
     def add(self, fields: dict):
 
         if not self._check_params(fields):
-            return False
+            return False, "Please fill out both dept and cnum"
 
         course = self.storage.get_course(dept=fields['dept'], cnum=fields['cnum'])
         if course is None:
@@ -33,8 +33,8 @@ class CourseManager(ManagerInterface):
             if 'description' in fields.keys() and fields['description'] is not None and len(fields['description'].strip()) > 0:
                 course.description = fields['description']
             self.storage.insert_course(course)
-            return True
-        return False
+            return True, ""
+        return False, "Course already exists!"
 
     # Returns a list of matching courses.
     # ALWAYS returns a list, even if only one course. access by using list[0]
@@ -73,7 +73,7 @@ class CourseManager(ManagerInterface):
 
         # Check if required params are present and error check optional params
         if not self._check_params(fields):
-            return False
+            return False, "Please fill out both dept and cnum"
 
         # Store dict values into variables
         dept = fields.get('dept').upper()
@@ -85,14 +85,14 @@ class CourseManager(ManagerInterface):
         # Delete all courses retreived from database with given dept and cnum
         for c in course_list:
             if not self.storage.delete(c):
-                return False
-        return True
+                return False, "Error Deleting Course"
+        return True, ""
 
     # Edits a Course, returning true if successful
     def edit(self, fields: dict):
 
         if not self._check_params(fields):
-            return False
+            return False, "Please fill out both dept and cnum"
 
         course = self.storage.get_course(dept=fields['dept'], cnum=fields['cnum'])
         if course is not None:
@@ -103,8 +103,8 @@ class CourseManager(ManagerInterface):
             if 'description' in fields.keys() and fields['description'] is not None and len(fields['description'].strip()) > 0:
                 course.description = fields['description']
             self.storage.insert_course(course)
-            return True
-        return False
+            return True, ""
+        return False, "Course doesn't exist!"
 
     # Check for invalid parameters
     def _check_params(self, fields: dict):

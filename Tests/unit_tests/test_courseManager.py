@@ -14,16 +14,16 @@ class CourseTests(TestCase):
         # Basic add: just return true when a new course is added, false if it exists
         fields = {"dept": "CS",
                   "cnum": "351"}
-        self.assertTrue(self.course_manager.add(fields))
-        self.assertFalse(self.course_manager.add(fields))
+        self.assertTrue(self.course_manager.add(fields)[0])
+        self.assertFalse(self.course_manager.add(fields)[0])
 
     def test_add_all_fields_and_view(self):
         fields = {"dept": "CS",
                   "cnum": "351",
                   "name": "Data Structures and Algorithms",
                   "description": "Lotta work"}
-        self.assertTrue(self.course_manager.add(fields))
-        self.assertFalse(self.course_manager.add(fields))
+        self.assertTrue(self.course_manager.add(fields)[0])
+        self.assertFalse(self.course_manager.add(fields)[0])
 
         retVal = self.course_manager.view({"dept": "CS", "cnum":"351"})[0]
         self.assertEqual(retVal["dept"], "CS")
@@ -42,8 +42,8 @@ class CourseTests(TestCase):
         self.assertEqual(retVal["name"], "Matrices and Applications")
 
         fields["name"] = "Linear Algebra"
-        self.assertFalse(self.course_manager.add(fields))
-        self.assertTrue(self.course_manager.edit(fields))
+        self.assertFalse(self.course_manager.add(fields)[0])
+        self.assertTrue(self.course_manager.edit(fields)[0])
         retVal = self.course_manager.view({"dept": "MATH", "cnum": "240"})[0]
         self.assertEqual(retVal["dept"], "MATH")
         self.assertEqual(retVal["cnum"], "240")
