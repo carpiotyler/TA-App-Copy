@@ -1,6 +1,6 @@
 from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Managers.abstractManager import ManagerInterface
-from TAServer.models import Staff as User
+from TAServer.models import Staff as User, Course, Section
 from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGroup
 
 
@@ -33,18 +33,18 @@ class UserManager(ManagerInterface):
             # Unvalidated fields...
             if 'password' in fields.keys() and fields['password'] is not None and len(
                 fields['password'].strip()) > 0: user.password = fields['password']
-            if 'phonenum' in fields.keys() and fields['phonenum'] is not None and len(
-                fields['phonenum'].strip()) > 0: user.phonenum = fields['phonenum']
+            if 'phone_number' in fields.keys() and fields['phone_number'] is not None and len(
+                fields['phone_number'].strip()) > 0: user.phonenum = fields['phone_number']
             if 'address' in fields.keys() and fields['address'] is not None and len(
-                fields['address'].strip()) > 0: user.phonenum = fields['address']
+                fields['address'].strip()) > 0: user.address = fields['address']
             if 'firstname' in fields.keys() and fields['firstname'] is not None and len(
-                fields['firstname'].strip()) > 0: user.phonenum = fields['firstname']
+                fields['firstname'].strip()) > 0: user.firstname = fields['firstname']
             if 'lastname' in fields.keys() and fields['lastname'] is not None and len(
-                fields['lastname'].strip()) > 0: user.phonenum = fields['lastname']
+                fields['lastname'].strip()) > 0: user.lastname = fields['lastname']
             if 'email' in fields.keys() and fields['email'] is not None and len(
-                fields['email'].strip()) > 0: user.phonenum = fields['email']
+                fields['email'].strip()) > 0: user.email = fields['email']
             if 'bio' in fields.keys() and fields['bio'] is not None and len(
-                fields['bio'].strip()) > 0: user.phonenum = fields['bio']
+                fields['bio'].strip()) > 0: user.bio = fields['bio']
 
             self.storage.insert_user(user)
             return True, ""
@@ -78,6 +78,9 @@ class UserManager(ManagerInterface):
                 retFields['role'] = user.role
                 retFields['phonenum'] = user.phonenum
                 retFields['address'] = user.address
+                CourseSectionTuple = self.getSectionsAndCoursesByUser(username=fields["username"])
+                retFields['courses'] = CourseSectionTuple[0]
+                retFields['sections'] = CourseSectionTuple[1]
                 retVal.append(retFields)
             return retVal
         else:
@@ -127,24 +130,44 @@ class UserManager(ManagerInterface):
             # Unvalidated fields...
             if 'password' in fields.keys() and fields['password'] is not None and len(
                 fields['password'].strip()) > 0: user.password = fields['password']
-            if 'phonenum' in fields.keys() and fields['phonenum'] is not None and len(
-                fields['phonenum'].strip()) > 0: user.phonenum = fields['phonenum']
+            if 'phone_number' in fields.keys() and fields['phone_number'] is not None and len(
+                fields['phone_number'].strip()) > 0: user.phonenum = fields['phone_number']
             if 'address' in fields.keys() and fields['address'] is not None and len(
-                fields['address'].strip()) > 0: user.phonenum = fields['address']
+                fields['address'].strip()) > 0: user.address = fields['address']
             if 'firstname' in fields.keys() and fields['firstname'] is not None and len(
-                fields['firstname'].strip()) > 0: user.phonenum = fields['firstname']
+                fields['firstname'].strip()) > 0: user.firstname = fields['firstname']
             if 'lastname' in fields.keys() and fields['lastname'] is not None and len(
-                fields['lastname'].strip()) > 0: user.phonenum = fields['lastname']
+                fields['lastname'].strip()) > 0: user.lastname = fields['lastname']
             if 'email' in fields.keys() and fields['email'] is not None and len(
-                fields['email'].strip()) > 0: user.phonenum = fields['email']
+                fields['email'].strip()) > 0: user.email = fields['email']
             if 'bio' in fields.keys() and fields['bio'] is not None and len(
-                fields['bio'].strip()) > 0: user.phonenum = fields['bio']
+                fields['bio'].strip()) > 0: user.bio = fields['bio']
 
             self.storage.insert_user(user)
             return True, ""
 
         else:  # user dne!
             return False, "User doesn't exist!"
+
+    def getSectionsAndCoursesByUser(self, username):
+        # Retval[0] = courses, Retval[1] = sections
+        from Managers.sectionManager import SectionManager as SM
+        from Managers.courseManager import CourseManager as CM
+        tempSectionManager = SM(self.storage)
+        tempCourseManager = CM(self.storage)
+        courseList = []
+        sectionList = []
+        for section in self.storage.get_sections_by():
+            if section.instructor is not None and section.instructor.username == username:
+                sectionList.append(tempSectionManager.view({"dept":section.course.dept, "cnum":section.course.cnum, "snum": section.snum})[0])
+                # if not in courses list already, then add to it
+                bCourseAddToList = True #temp bool for course logic
+                for existingCourse in courseList:
+                    # If a course already exists we don't add a new one
+                    if existingCourse["cnum"] == section.course.cnum:
+                        bCourseAddToList = False
+                if bCourseAddToList: courseList.append(tempCourseManager.view({"dept":section.course.dept, "cnum":section.course.cnum})[0])
+        return courseList, sectionList
 
     # Deletes a user if it exists.
     # Returns true if it did delete an existing user, false otherwise
