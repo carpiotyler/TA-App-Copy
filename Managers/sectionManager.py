@@ -1,51 +1,57 @@
 from Managers.DjangoStorageManager import DjangoStorageManager as dsm
+from Managers.userManager import UserManager as UM
 from Managers.ManagerInterface import ManagerInterface
 from TAServer.models import Course, Section, Staff as User
 
 
 class SectionManager(ManagerInterface):
 
-    def __init__(self, db : dsm):
+    def __init__(self, db : dsm, parent=None):
         self.db = db
+        self.user_manager = UM(self.db)
+        if parent is None:
+            from Managers.courseManager import CourseManager as CM
+            self.course_manager = CM(self.db, self)
+        else:
+            self.course_manager = parent
 
-    def add(self, fields: dict)->bool:
+    def add(self, fields: dict):
 
         # check if user inputs information needed for adding
         invalid = self.actionHelper(fields.get("dept"), fields.get("cnum"), fields.get("snum"), "addition")
         if invalid != "okay":
-            print(invalid)
-            return False
+            return False, invalid
 
         # Make sure course already exists
         if not self.courseExists(cnum=fields.get("cnum"), dept=fields.get("dept")):
-            return False
+            return False, "Corresponding course does not exist!"
 
         course = self.db.get_course(dept=fields.get("dept"), cnum=fields.get("cnum"))
 
         # Make sure section doesn't already exist (Should be edit instead)
         if self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
-            return False
+            return False, "Section already exists!"
 
         if not self.checkSnum(fields.get('snum')):
-            return False
+            return False, self.checkSnum(fields.get('snum'))
 
         # Make sure user exists if inst is to be added
         if fields.get('instructor') is not None and not self.userExists(fields.get('instructor')):
-            return False
+            return False, "User doesn't exist!"
 
         # Check days
         if not self.checkDays(fields.get("days")):
-            return False
+            return False, "Days format not accepted!"
 
         # Check for correct time format of start and end time
         if not self.timeFormat(fields.get('time')) :
-            return False
+            return False, "Time format not accepted!"
 
         time = fields.get('time')
         if fields.get('days') is not None:
             days = fields.get('days').upper()
         else:
-            days = None
+            days = ""
 
         snum = fields.get('snum')
         room = fields.get('room')
@@ -54,85 +60,125 @@ class SectionManager(ManagerInterface):
             try:
                 room = int(room)
             except ValueError:
-                print('Room is not a valid integer')
-                return False
+                return False, "Room is not a valid integer!"
 
             # Check if time and room conflict
             if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="add"):
-                return False
+                return False, "Toom taken for that day/time!"
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None:
             toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time)
             self.addHelper(toAdd)
-            return True
+            return True, ""
         else:
-            if not self.valUser(fields.get("instructor")):
-                return False
+            if not self.valUser(fields.get("instructor"), fields.get("stype")):
+                return False, "Error"
             ins = self.db.get_user(username=fields.get("instructor"))
             toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time, instructor=ins)
             self.addHelper(toAdd)
-            return True
+            return True, ""
 
+    # Returns a list of matching sections.
+    # ALWAYS returns a list, even if only one section. access by using list[0]
+    # On multiple view, list of courses is sorted by dept THEN cnum THEN snum eg CS-240-401 is before MATH-105-401
+    def view(self, fields: dict)->[dict]:
+        dept = None
+        cnum = None
+        snum = None
+        retVal = []
+        
+        if 'dept' in fields.keys() and fields['dept'] is not None and len(fields['dept'].strip()) > 0:
+            dept = fields['dept']
+        if 'cnum' in fields.keys() and fields['cnum'] is not None and len(
+                fields['cnum'].strip()) > 0:
+            cnum = fields['cnum']
+        if 'snum' in fields.keys() and fields['snum'] is not None and len(
+                fields['snum'].strip()) > 0:
+            snum = fields['snum']
+            
+        matchingsections = []
+        if dept is not None and cnum is not None and snum is not None:
+            matchingsections = self.db.get_sections_by(dept=dept, cnum=cnum, snum=snum)
+        elif dept is not None and cnum is not None and snum is None:
+            matchingsections = self.db.get_sections_by(dept=dept, cnum=cnum)
+        elif dept is not None and cnum is None and snum is not None:
+            matchingsections = self.db.get_sections_by(dept=dept, snum=snum)
+        elif dept is not None and cnum is None and snum is None:
+            matchingsections = self.db.get_sections_by(dept=dept)
+        elif dept is None and cnum is not None and snum is not None:
+            matchingsections = self.db.get_sections_by(cnum=cnum, snum=snum)
+        elif dept is None and cnum is not None and snum is None:
+            matchingsections = self.db.get_sections_by(cnum=cnum)
+        elif dept is None and cnum is None and snum is not None:
+            matchingsections = self.db.get_sections_by(snum=snum)
+        elif dept is None and cnum is None and snum is None:
+            matchingsections = self.db.get_sections_by()
 
+        for section in matchingsections:
+            retFields = {}
+            course = section.course
+            retFields['dept'] = course.dept
+            retFields['cnum'] = course.cnum
+            retFields['snum'] = section.snum
+            retFields['stype'] = section.stype
+            retFields['instructor'] = section.instructor.username
+            retFields['days'] = section.days
+            retFields['time'] = section.time
+            # This is a course dict representation
+            if 'nonrecursive' not in fields.keys():
+                retFields['course'] = self.course_manager.view({"dept":course.dept, "cnum":course.cnum, 'nonrecursive': "true"})[0]
+            else:
+                retFields['course'] = {"nonrecursive":"true"}
+            retVal.append(retFields)
 
-    def view(self, fields: dict)->str:
-
-        invalid = self.actionHelper(fields.get("dept"), fields.get("cnum"), fields.get("snum"), "viewing")
-        if invalid != "okay":
-            return invalid
-
-        result = self.db.get_section(dept = fields.get("dept"), cnum = fields.get("cnum"), snum = fields.get("snum"))
-        if result is None:
-            return "Could not find " + fields.get("dept") + "-" + str(fields.get("cnum")) + "-" + str(fields.get("snum"))
-        else:
-            return str(result)
+        retVal.sort(key=lambda k: k['dept'] + k['cnum'] + k['snum'])
+        return retVal
 
 
     # Edit will need cnum, snum and dept (like all other commands)
     # Any other fields specified that aren't above(e.g. room, instructor, ect.) will replace what is already in the section
     # You can not change cnum and dept, but if you want to change snum use key "snumNew" as a replacement
-    def edit(self, fields: dict)->bool:
+    def edit(self, fields: dict):
 
         # check if user inputs information needed for adding
         invalid = self.actionHelper(fields.get("dept"), fields.get("cnum"), fields.get("snum"), "addition")
         if invalid != "okay":
-            print(invalid)
-            return False
+            return False, invalid
 
         # Make sure course already exists
         if not self.courseExists(cnum=fields.get("cnum"), dept=fields.get("dept")):
-            return False
+            return False, "Course does not exist!"
 
         course = self.db.get_course(fields.get("dept"), fields.get("cnum"))
 
         # Make sure section exists
         if not self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
-            return False
+            return False, "Section does not exist!"
 
         if not self.checkSnum(fields.get('snum')):
-            return False
+            return False, self.checkSnum(fields.get('snum'))
 
         snum = fields.get('snum')
 
         # Make sure user exists if inst is to be added
         if fields.get('instructor') is not None and not self.userExists(fields.get('instructor')):
-            return False
+            return False, "User does not exist!"
 
         # Check days
         if not self.checkDays(fields.get("days")):
-            return False
+            return False, "Days format not accepted!"
 
         # Check for correct time format of start and end time
         if not self.timeFormat(fields.get('time')):
-            return False
+            return False, "Time format not accepted!"
 
         if fields.get('days') is not None:
             days = fields.get('days').upper()
         else:
-            days = None
+            days = ""
 
         time = fields.get('time')
         room = fields.get('room')
@@ -142,46 +188,42 @@ class SectionManager(ManagerInterface):
             try:
                 room = int(room)
             except ValueError:
-                print('Room is not a valid integer')
-                return False
+                return False, "Room not a valid integer!"
 
             # Check if time and room conflict
             if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="edit"):
-                return False
+                return False, "Room conflict!"
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None:
             toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
-            return True
+            return True, ""
         else:
-            if not self.valUser(username=fields.get("instructor")):
-                return False
+            if not self.valUser(fields.get("instructor"), fields.get("stype")):
+                return False, "Error"
             ins = self.db.get_user(fields.get("instructor"))
             toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time, instructor=ins)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
-            return True
-
-
+            return True, ""
 
     def delete(self, fields: dict)->bool:
 
         invalid = self.actionHelper(fields.get("dept"), fields.get("cnum"), fields.get("snum"), "deletion")
         if invalid != "okay":
-            print(invalid)
-            return False
+            return False, invalid
 
         if self.sectionExists(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")):
             section = self.db.get_section(cnum=fields.get("cnum"),dept=fields.get("dept"), snum=fields.get("snum"))
             test = self.db.delete(section)
             if test:
-                return True
+                return True, ""
             else:
-                return False
+                return False, "Error deleting section!"
         else:
-            return False
+            return False, "Section does not exist!"
 
 
 
@@ -210,7 +252,19 @@ class SectionManager(ManagerInterface):
         }
         return switch.get(None, "okay")
 
+    # I expanded this helper method to also handle user lists of courses, sections. Also course lists of sections
     def addHelper(self, sec: Section):
+        self.db.insert_section(sec)
+        sec.course.sections.add(sec)
+
+        # Keeping instructor fields updated
+        if sec.instructor is not None:
+            sec.instructor.sections.add(sec)
+            if sec.course not in sec.instructor.courses.all():
+                sec.instructor.courses.add(sec.course)
+            self.db.insert_user(sec.instructor)
+
+        self.db.insert_course(sec.course)
         self.db.insert_section(sec)
 
     def editHelper(self, sec: Section, snumNew: str):
@@ -229,14 +283,31 @@ class SectionManager(ManagerInterface):
         if sec.instructor is None:
             sec.instructor = toChange.instructor
 
-
         # remove old section and replace with the new one
+        self.db.insert_section(sec)
+        sec.course.sections.add(sec)
+
+        # Keeping instructor fields updated
+        if sec.instructor is not None:
+            sec.instructor.sections.add(sec)
+            if sec.course not in sec.instructor.courses.all():
+                sec.instructor.courses.add(sec.course)
+            self.db.insert_user(sec.instructor)
+
+        self.db.insert_course(sec.course)
         self.db.insert_section(sec)
 
     # Make sure user is a TA or instructor
-    def valUser(self, ins):
+    def valUser(self, ins, sectype):
         user = self.db.get_user(ins)
-        if user.role.lower() != "ta" and user.role.lower() != "instructor" and user.role is not None:
+        if user.role != dict(User.ROLES)['T'] and user.role != dict(User.ROLES)['I']:
+            # Neither TA or instructor(Professor), can't teach anything
+            return False
+        elif user.role == dict(User.ROLES)['T'] and sectype != dict(Section.SEC_TYPE)['lab']:
+            # TAs may only teach labs
+            return False
+        elif user.role == dict(User.ROLES)['I'] and sectype != dict(Section.SEC_TYPE)['lecture']:
+            # Professors may only teach lectures
             return False
         else:
             return True
@@ -438,18 +509,18 @@ class SectionManager(ManagerInterface):
 
         return switch.get(days)
 
-    def checkSnum(self, snum) ->(bool, str):
+    def checkSnum(self, snum):
         try:
             snum = int(snum)
         except ValueError:
-            print('Section number is not a valid integer')
-            return False
+            return False, "Snum must be integer format!"
 
         # section number should be greater than 0
         if snum < 1:
-            return False
+            return False, "Snum must be positive!"
         else:
             return True, ""
+
     @staticmethod
     def reqFields()->list:
         return ["dept", "cnum", "snum"]

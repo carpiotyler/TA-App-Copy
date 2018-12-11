@@ -1,4 +1,3 @@
-from Managers.sectionManager import SectionManager
 from Managers.ManagerInterface import ManagerInterface
 from Managers.DjangoStorageManager import DjangoStorageManager as dsm
 from TAServer.models import Course
@@ -9,12 +8,17 @@ from TAServer.models import Course
 # Handles adding,viewing,editing and deleting of all courses.
 class CourseManager(ManagerInterface):
 
-    def __init__(self, dm: dsm):
+    def __init__(self, dm: dsm, parent=None):
 
         # Right now only CS dept courses can be added with manager. 
         # Dept list can be changed to support more departments
         self.depts = ['CS', 'MATH']
         self.storage = dm
+        if parent is None:
+            from Managers.sectionManager import SectionManager as SM
+            self.section_manager = SM(self.storage)
+        else:
+            self.section_manager = parent
 
     # Adds a Course to the database, returning True if added, False if not added (Error or already exists).
     def add(self, fields: dict):
@@ -64,6 +68,10 @@ class CourseManager(ManagerInterface):
             retFields['cnum'] = course.cnum
             retFields['name'] = course.name
             retFields['description'] = course.description
+            if 'nonrecursive' not in fields.keys():
+                retFields['sections'] = self.section_manager.view({"dept":course.dept, "cnum":course.cnum, "nonrecursive": "true"})
+            else:
+                retFields['sections'] = ['nonrecursive']
             retVal.append(retFields)
         retVal.sort(key=lambda k: k['dept'] + k['cnum'])
         return retVal
