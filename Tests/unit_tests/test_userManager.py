@@ -1,6 +1,8 @@
 from Managers.DjangoStorageManager import DjangoStorageManager as dm
 from TAServer.models import Course, Section, Staff as User
 from Managers.userManager import UserManager
+from Managers.courseManager import CourseManager
+from Managers.sectionManager import SectionManager
 from django.test import TestCase
 
 
@@ -8,6 +10,8 @@ class UserManagerTests(TestCase):
 
     def setUp(self):
         self.user_manager = UserManager(dm)
+        self.course_manager = CourseManager(dm)
+        self.section_manager = SectionManager(dm)
 
     def tearDown(self):
         del self.user_manager
@@ -187,3 +191,52 @@ class UserManagerTests(TestCase):
         self.assertEqual(len(self.user_manager.view({"username":"test"})), 1)
         self.assertTrue(self.user_manager.delete({"username":"test"})[0])
         self.assertEqual(len(self.user_manager.view({"username":"test"})), 0, "Should have been deleted!")
+
+    # Tests that courses and sections lists work properly
+    def test_view_check_courses_and_sections(self):
+        rockDict = {"username": "Rock",
+                    "role":dict(User.ROLES)["I"]}
+        tanawatDict = {"username": "Tanawat",
+                       "role":dict(User.ROLES)["T"]}
+        self.user_manager.add(rockDict)
+        self.user_manager.add(tanawatDict)
+        self.course_manager.add({"dept":"CS", "cnum":"361"})
+        self.course_manager.add({"dept":"CS", "cnum":"557"})
+        sectionFields1 = {"dept": "CS",
+                          "cnum": "361",
+                          "snum": "401",
+                          "stype": "Lecture",
+                          "instructor": "Rock"}
+
+        sectionFields2 = {"dept": "CS",
+                          "cnum": "361",
+                          "snum": "801",
+                          "stype": "Lab",
+                          "instructor": "Tanawat"}
+
+        sectionFields3 = {"dept": "CS",
+                          "cnum": "557",
+                          "snum": "401",
+                          "stype": "Lecture",
+                          "instructor": "Rock"}
+
+        self.assertTrue(self.section_manager.add(sectionFields1))
+        self.assertTrue(self.section_manager.add(sectionFields2))
+        self.assertTrue(self.section_manager.add(sectionFields3))
+
+        retRock = self.user_manager.view({"username":"Rock"})[0]
+        retTan = self.user_manager.view({"username":"Tanawat"})[0]
+
+        # Rock should have 2 courses and 2 sections
+        self.assertEqual(len(retRock["courses"]), 2)
+        self.assertEqual(len(retRock["sections"]), 2)
+
+        # Rock's first course should be 361, and the second 557 (sorted)
+        self.assertEqual(retRock["courses"][0]["cnum"], "361")
+        self.assertEqual(retRock["courses"][1]["cnum"], "557")
+
+        # Rock's first section should be 361-401 then 557-401
+        self.assertEqual(retRock["sections"][0]["cnum"], "361")
+        self.assertEqual(retRock["sections"][0]["snum"], "401")
+        self.assertEqual(retRock["sections"][1]["cnum"], "557")
+        self.assertEqual(retRock["sections"][1]["snum"], "401")
