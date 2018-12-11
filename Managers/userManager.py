@@ -12,9 +12,9 @@ class UserManager(ManagerInterface):
 
     # This method simply adds a user to the database if they don't exist already.
     # Returns true if a new user was added, returns false otherwise
-    def add(self, fields: dict) -> bool:
+    def add(self, fields: dict):
         # Need username and password to add a user!
-        if 'username' not in fields.keys(): return False
+        if 'username' not in fields.keys(): return False, "Please fill out username"
 
         user = self.storage.get_user(fields["username"])
         if user is None:  # user dne!
@@ -28,7 +28,7 @@ class UserManager(ManagerInterface):
             elif fields['role'] in dict(User.ROLES).values():
                 user.role = fields['role']
             else:
-                return False
+                return False, "Role invalid!"
 
             # Unvalidated fields...
             if 'password' in fields.keys() and fields['password'] is not None and len(
@@ -47,10 +47,10 @@ class UserManager(ManagerInterface):
                 fields['bio'].strip()) > 0: user.phonenum = fields['bio']
 
             self.storage.insert_user(user)
-            return True
+            return True, ""
 
         else:  # user exists
-            return False
+            return False, "User Exists!"
 
     # Returns a list of user dicts that match the parameters.
     # Will ALWAYS return list, if getting a single user, ret[0] will be the user's field dict
@@ -108,9 +108,9 @@ class UserManager(ManagerInterface):
 
     # This method edits an existing user
     # Returns true if a user existed (And therefore edited), or false if no user existed
-    def edit(self, fields: dict) -> bool:
+    def edit(self, fields: dict):
         # Need username to edit a user!
-        if 'username' not in fields.keys(): return False
+        if 'username' not in fields.keys(): return False, "Please fill out username"
 
         user = self.storage.get_user(fields["username"])
         if user is not None:  # user exists
@@ -122,7 +122,7 @@ class UserManager(ManagerInterface):
             elif fields['role'] in dict(User.ROLES).values():
                 user.role = fields['role']
             else:
-                return False
+                return False, "Role Invalid!"
 
             # Unvalidated fields...
             if 'password' in fields.keys() and fields['password'] is not None and len(
@@ -141,22 +141,22 @@ class UserManager(ManagerInterface):
                 fields['bio'].strip()) > 0: user.phonenum = fields['bio']
 
             self.storage.insert_user(user)
-            return True
+            return True, ""
 
         else:  # user dne!
-            return False
+            return False, "User doesn't exist!"
 
     # Deletes a user if it exists.
     # Returns true if it did delete an existing user, false otherwise
     def delete(self, fields: dict) -> bool:
-        if 'username' not in fields.keys(): return False
+        if 'username' not in fields.keys(): return False, "Please fill out username"
 
         user = self.storage.get_user(fields['username'])
         if user is None:
-            return False
+            return False, "No user to delete!"
         else:
             self.storage.delete(user)
-            return True
+            return True, ""
 
     @staticmethod
     def reqFields() -> list:

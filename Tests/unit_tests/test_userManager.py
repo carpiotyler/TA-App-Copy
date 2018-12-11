@@ -18,19 +18,19 @@ class UserManagerTests(TestCase):
                   'password':'123'}
 
         # Testing that the returns are the expected behavior:
-        self.assertTrue(self.user_manager.add(fields), "Should be a valid user add!")
-        self.assertFalse(self.user_manager.add(fields), "Should no longer be able to add !: User Exists")
+        self.assertTrue(self.user_manager.add(fields)[0], "Should be a valid user add!")
+        self.assertFalse(self.user_manager.add(fields)[0], "Should no longer be able to add !: User Exists")
 
     def test_user_add_incorrect_fields(self):
         # Completely incorrect add, the req fields aren't filled out!
         fields = {'un': 'new',
                   'pass': 'lola'}
-        self.assertFalse(self.user_manager.add(fields), "Should only add if reqfields are filled out!")
+        self.assertFalse(self.user_manager.add(fields)[0], "Should only add if reqfields are filled out!")
 
         fields = {'username': 'test',
                   'password':'123',
                   'role': 'student'}
-        self.assertFalse(self.user_manager.add(fields), "Role provided not in ROLES! Should not add!")
+        self.assertFalse(self.user_manager.add(fields)[0], "Role provided not in ROLES! Should not add!")
 
     def test_user_add_complicated(self):
         # A complicated, highest level test, shouldn't fail or throw exceptions:
@@ -41,8 +41,8 @@ class UserManagerTests(TestCase):
                   'address':'123 sesame street'}
 
         # Return val checking for subsequent calls
-        self.assertTrue(self.user_manager.add(fields), "Failed on omplicated user add")
-        self.assertFalse(self.user_manager.add(fields), "Shouldn't be able to call again")
+        self.assertTrue(self.user_manager.add(fields)[0], "Failed on omplicated user add")
+        self.assertFalse(self.user_manager.add(fields)[0], "Shouldn't be able to call again")
 
     def test_view_user_basic(self):
         # adding basic user to test with
@@ -50,7 +50,7 @@ class UserManagerTests(TestCase):
                   'password': '123'}
 
         self.assertEqual(len(self.user_manager.view({"username":"test"})), 0, "No users case!")
-        self.assertTrue(self.user_manager.add(fields))
+        self.assertTrue(self.user_manager.add(fields)[0])
         retVal = self.user_manager.view(fields)[0]
 
         # Testing all values against what they should be
@@ -77,9 +77,9 @@ class UserManagerTests(TestCase):
                   'password': 'pass',
                    'role':dict(User.ROLES)["I"]}
 
-        self.assertTrue(self.user_manager.add(fields1), "Error adding fields1!")
-        self.assertTrue(self.user_manager.add(fields2), "Error adding fields2!")
-        self.assertTrue(self.user_manager.add(fields3), "Error adding fields3!")
+        self.assertTrue(self.user_manager.add(fields1)[0], "Error adding fields1!")
+        self.assertTrue(self.user_manager.add(fields2)[0], "Error adding fields2!")
+        self.assertTrue(self.user_manager.add(fields3)[0], "Error adding fields3!")
 
         # View all (no username or role provided) must return all users, alphabetically sorted by username
         retVal = self.user_manager.view({})
@@ -135,22 +135,22 @@ class UserManagerTests(TestCase):
         fields = {'username': 'test',
                   'password': '123'}
 
-        self.assertFalse(self.user_manager.edit(fields), "No user to edit!")
-        self.assertTrue(self.user_manager.add(fields), "Add should work")
+        self.assertFalse(self.user_manager.edit(fields)[0], "No user to edit!")
+        self.assertTrue(self.user_manager.add(fields)[0], "Add should work")
         # Editing nothing should still return true
-        self.assertTrue(self.user_manager.edit(fields), "Edit should return true if user exists! Even if no changes!")
+        self.assertTrue(self.user_manager.edit(fields)[0], "Edit should return true if user exists! Even if no changes!")
         # Basic editing
         # Basic fields case
         fields = {'username': 'test',
                   'password': 'newpass'}
-        self.assertTrue(self.user_manager.edit(fields), "Edit should return true.")
+        self.assertTrue(self.user_manager.edit(fields)[0], "Edit should return true.")
 
     def test_edit_user_roles_and_view_integrated(self):
         # Basic fields case
         fields = {'username': 'test',
                   'password': '123'}
 
-        self.assertTrue(self.user_manager.add(fields))
+        self.assertTrue(self.user_manager.add(fields)[0])
         retVal = self.user_manager.view(fields)[0]
         self.assertEqual(retVal['username'], 'test')
         self.assertEqual(retVal['password'], '123')
@@ -167,7 +167,7 @@ class UserManagerTests(TestCase):
                   'password': '123',
                   'role': dict(User.ROLES)['I']}
 
-        self.assertTrue(self.user_manager.edit(fields))
+        self.assertTrue(self.user_manager.edit(fields)[0])
         retVal = self.user_manager.view(fields)[0]
         self.assertEqual(retVal['username'], 'test')
         self.assertEqual(retVal['password'], '123')
@@ -183,7 +183,7 @@ class UserManagerTests(TestCase):
         # Basic fields case
         fields = {'username': 'test',
                   'password': '123'}
-        self.assertTrue(self.user_manager.add(fields))
+        self.assertTrue(self.user_manager.add(fields)[0])
         self.assertEqual(len(self.user_manager.view({"username":"test"})), 1)
-        self.assertTrue(self.user_manager.delete({"username":"test"}))
+        self.assertTrue(self.user_manager.delete({"username":"test"})[0])
         self.assertEqual(len(self.user_manager.view({"username":"test"})), 0, "Should have been deleted!")
