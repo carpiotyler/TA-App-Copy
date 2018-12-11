@@ -15,12 +15,18 @@ from django.contrib.auth import authenticate, login, logout
 from TAServer.forms import SignUpForm
 
 
-class CourseListView(generic.ListView):
-    model = Course
-    context_object_name = 'courses'
-    queryset = CM(Storage()).view({})
-    template_name = 'courses/course_list.html'
+from django.db.utils import OperationalError
 
+
+class CourseListView(generic.ListView):
+    try:
+        model = Course
+        context_object_name = 'courses'
+        queryset = CM(Storage()).view({})
+        template_name = 'courses/course_list.html'
+    except OperationalError:
+        pass  # db doesnt exist yet
+    
 
 def courseDetail(request, course_id):
     course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})

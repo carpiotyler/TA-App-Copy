@@ -86,5 +86,5 @@ def create_group(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = [('TAServer', '0002_auto_20181202_1348'), ]
+    dependencies = [('TAServer', '0001_initial'), ]
     operations = [migrations.RunPython(create_group), ]
