@@ -438,7 +438,7 @@ class SectionManager(ManagerInterface):
 
         return switch.get(days)
 
-    def checkSnum(self, snum):
+    def checkSnum(self, snum) ->(bool, str):
         try:
             snum = int(snum)
         except ValueError:
@@ -449,7 +449,7 @@ class SectionManager(ManagerInterface):
         if snum < 1:
             return False
         else:
-            return True
+            return True, ""
     @staticmethod
     def reqFields()->list:
         return ["dept", "cnum", "snum"]
