@@ -38,12 +38,12 @@ button:focus {
     font-size: 1.1em;
     border-radius: 4px;
     padding: 6px;
-    color: white;
-    background: #3b92fc;
+    color: black;
+    background: #fdba2f;
     margin-bottom: 20px;
 }
 .button:hover{
-    background: #3786e6;
+    background: #fdba2f;
     cursor: pointer;
 }
 
