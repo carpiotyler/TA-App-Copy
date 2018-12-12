@@ -2,14 +2,14 @@
 {% load staticfiles %}
 
 body {
-    background: #cecece;
+    background: transparent;
     margin: 0;
     padding: 0;
 }
 
 .headerMenu {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #563D7C;
+    background-color: #fdba2f;
     width: 100%;
     height: 50px;
 }
@@ -19,7 +19,7 @@ ul.buttons {
     display: inline-block;
     margin: 0;
     padding: 0;
-    background-color: #563D7C;
+    background-color: #fdba2f;
     width: 100%;
 }
 
@@ -50,9 +50,8 @@ a.btn {
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #191970;
+    background-color: #FFFFFF;
 }
-
 
 .logo img {
     height: 45px;
@@ -62,13 +61,13 @@ li a:hover {
     float: left;
     padding: 0px;
     margin: 0px;
-    background-color: #563D7C;
+    background-color: #fdba2f;
 
 }
 
 
 .btn {
-    background-color: #563D7C;
+    background-color: #fdba2f;
     color: white;
     height: 100%;
     width: auto;
@@ -84,24 +83,24 @@ li a:hover {
 .btn-group {
     margin: 0px;
     padding: 0px;
-    background-color: #563D7C;
+    background-color: #fdba2f;
     height: 100%;
 }
 
 .footerMenu {
-	height: 200px;
+	height: 150px;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #563D7C;
+	background-color: #232528;
     position: absolute;
 	bottom: 0;
 	clear: both;
 }
 #footerLinks {
-	background-color: #563D7C;
+	background-color: #232528;
 	margin-left: auto;
 	margin-right: auto;
-	height: 170px;
+	height: 130px;
 	width: 90%;
 }
 
@@ -110,7 +109,7 @@ li a:hover {
 }
 
 .bottomLinks{
-	background-color:#563D7C;
+	background-color:#232528;
 	color: white;
 	text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -145,4 +144,20 @@ li a:hover {
    background-image: url("/static/images/fourOfour.gif");
     height: 145px;
     width: 200px;
+}
+
+#headerImageDiv {
+    height: 20vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+#headerImage {
+    position:absolute;
+    height: auto;
+    width: 100%;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
 }
