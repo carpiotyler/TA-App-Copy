@@ -38,12 +38,12 @@ class UserView(View):
             template = "user/viewprivate.html"
 
         if code != "":
-            fields['title'] = "View all users"
+            fields['title'] = "View %s" % code
             fields['data'] = UM(Storage()).view({'username': code})
 
         else:
-            fields['title'] = "View %s" % code
-            fields['data'] = UM(Storage()).view({})  # Hopefully this is correct
+            fields['title'] = "View All Users"
+            fields['data'] = UM(Storage()).view({})
 
         fields['datafound'] = len(fields['data']) != 0
 
@@ -62,7 +62,24 @@ class UserView(View):
         return render(request, "user/add.html", fields)
 
     def edit(self, request, code="", fields={}):
-        return render(request, "user/add.html", {'title': code})
+        if code == "":
+            return self.add(request)
+
+        rolelist = ['TA', 'Instructor', 'Administrator', 'Supervisor']
+        fields['role_list'] = rolelist
+
+        fields['action'] = '/user/edit/%s/' % code
+
+        fields['canedit'] = request.user.has_perm("can_edit_user") or (request.user.username == code and request.user.has_perm("can_edit_self"))
+
+        if fields['canedit']:
+            fields['value'] = UM(Storage()).view({'username': code})[0]
+            fields['checked_role'] = fields['value']['role']
+
+        else:
+            fields['value'] = {'username': 'Bad Permissions'}
+
+        return render(request, "user/add.html", fields)
 
     def get(self, request, code=""):
         action = request.path.split("/")[2].lower()  # The 'action' of the url (view, add, edit)
@@ -92,7 +109,14 @@ class UserView(View):
 
         print(rtr)
 
-        return self.edit(request, code=request.POST['username'])  # Just a placeholder
+        status = ""
+
+        if rtr[0]:
+            status = "Added Correctly"
+        else:
+            status = rtr[1]
+
+        return self.edit(request, code=request.POST['username'], fields={'displaystatus': True, 'status': status})  # Just a placeholder
 
 
 class Home(View):
