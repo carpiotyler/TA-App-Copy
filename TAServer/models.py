@@ -81,8 +81,8 @@ class SupGroup(Group):
 class Course(models.Model):
     cnum = models.CharField(max_length=4)
     dept = models.CharField(max_length=10)
-    name = models.CharField(max_length=40, default="")
-    description = models.CharField(max_length=200, default="")
+    name = models.CharField(max_length=40, default="", blank=True)
+    description = models.CharField(max_length=200, default="", blank=True)
     sections = models.ManyToManyField('Section', related_name='sec', blank=True)
 
     def __str__(self):
@@ -128,7 +128,7 @@ class Section(models.Model):
     # section type (uses SEC_TYPE)
     stype = models.CharField(max_length=10, blank=True, null=True, choices=SEC_TYPE, default=None)
     # course points to course model
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # room Number
     room = models.IntegerField(default=-1, blank=True, null=True)
     # instructor or ta
@@ -171,15 +171,15 @@ class Staff(AbstractUser):
 
     # username = models.CharField(max_length=30, default="")
     # password = models.CharField(max_length=30, default="")
-    firstname = models.CharField(max_length=30, default="")
-    lastname = models.CharField(max_length=30, default="")
-    bio = models.CharField(max_length=100, default="")
-    email = models.CharField(max_length=30, default="")
+    firstname = models.CharField(max_length=30, default="", blank=True)
+    lastname = models.CharField(max_length=30, default="", blank=True)
+    bio = models.CharField(max_length=100, default="", blank=True)
+    email = models.CharField(max_length=30, default="", blank=True)
     role = models.CharField(max_length=13, choices=ROLES, default="")
     sections = models.ManyToManyField(Section, blank=True) # For TA's
     courses = models.ManyToManyField(Course, blank=True) # For instructors
-    phonenum = models.CharField(max_length=10, default="")
-    address = models.CharField(max_length=30, default="")
+    phonenum = models.CharField(max_length=10, default="", blank=True)
+    address = models.CharField(max_length=30, default="", blank=True)
 
     class Meta:
         permissions = (("can_create_user", "Can create users"),
