@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
     {% include "main/header.html" %}
-    <!--<div id="birdUp">-->
-        <h1 style="margin:0">Django model lab</h1>
-        <form method="post" action="/">
-        {% csrf_token %}
-         command: <input type="text" name="command"/><input type="submit"/>
-        </form>
-        <div id="out">{{out|linebreaks}}</div>
 
-<!--</div>-->
-    {% include "main/footer.html" %}
+    <div class="mainWrapper">
+        <div class="insideWrapper">
+            <h1 style="margin:0">Django model lab</h1>
+            <form method="post" action="/">
+                {% csrf_token %}
+                command: <input type="text" name="command"/><input type="submit"/>
+            </form>
+            <div id="out">{{ out|linebreaks }}</div>
+        </div>
+
+        {% include "main/footer.html" %}
+    </div>
 {% endblock content %}

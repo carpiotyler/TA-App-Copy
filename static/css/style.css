@@ -7,6 +7,9 @@ body {
     padding: 0;
 }
 
+.insideWrapper{
+    height:100%;
+}
 .headerMenu {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #fdba2f;
@@ -96,9 +99,10 @@ a.bottomLinks:hover{
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: #232528;
-    position: absolute;
+    position: relative;
 	bottom: 0;
 	clear: both;
+    margin-top: 150px;
 }
 #footerLinks {
 	background-color: #232528;
@@ -125,12 +129,17 @@ a.bottomLinks:hover{
     margin: .5em;
 }
 
+#birdUpWrapper{
+    margin: 1em auto 1em auto;
+
+}
 #birdUp{
     background-image: url("/static/images/birdUp.jpg");
     margin-left: auto;
     margin-right: auto;
-    height: 75vh;
-    width: 100vw;
+    width: 30vw;
+    padding-top: 30vw;
+    border-radius: 50%;
     top: 10vh;
     background-size: cover;
 }
@@ -164,4 +173,48 @@ a.bottomLinks:hover{
     margin: 0 auto;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.mainWrapper{
+    margin-left: auto;
+    margin-right: auto;
+    width: 99vw;
+    height: 50vh;
+    padding: 0 0 0;
+    top: 10px;
+    position: relative;
+}
+
+
+#theAbout{
+    margin-left:auto;
+    margin-right:auto;
+    border-style: solid solid solid;
+    border-width: 2px 2px 1px;
+    border-color: #eeeeee;
+    border-radius: 5px 5px 0 0;
+    width: 80%;
+    padding: 0 1em 0 1em;
+}
+
+#theWho{
+    margin-left:auto;
+    margin-right:auto;
+    border-style: solid solid solid;
+    border-width: 1px 2px 2px;
+    border-color: #eeeeee;
+    width: 80%;
+    padding: 0 1em 0 1em;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+}
+
+.about{
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Helvetica, sans-serif;
+}
+
+#aboutHeader{
+    text-align: center;
 }

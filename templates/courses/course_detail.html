@@ -2,34 +2,37 @@
 
 {% block content %}
     {% include "main/header.html" %}
-    <div class="course" style="padding: 32px; background-color: lightgray">
-        <h1>Course</h1>
-        <p>Name: {{ course.name }}</p>
-        <p>Department: {{ course.dept }}</p>
-        <p>Course Number: {{ course.cnum }}</p>
-        <p>Description: {{ course.description }}</p>
-        <p>Sections:
+    <div class="mainWrapper">
+        <div class="insideWrapper">
+            <div class="course" style="padding: 32px; background-color: lightgray">
+                <h1>Course</h1>
+                <p>Name: {{ course.name }}</p>
+                <p>Department: {{ course.dept }}</p>
+                <p>Course Number: {{ course.cnum }}</p>
+                <p>Description: {{ course.description }}</p>
+                <p>Sections:
 
-            {% for section in course.sections %}
-            <div style="padding: 32px; background-color: lightgray">
-                <p>
-                    <a href="/sections/{{ course.cnum }}{{ course.snum }}">
-                        {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
-                    </a>
-                </p>
-            </div> <br>
+                    {% for section in course.sections %}
+                        <div style="padding: 32px; background-color: lightgray">
+                        <p>
+                            <a href="/sections/{{ course.cnum }}{{ course.snum }}">
+                                {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
+                            </a>
+                        </p>
+                        </div> <br>
 
-            {% empty %}
-                <div>No Sections yet.</div>
+                    {% empty %}
+                        <div>No Sections yet.</div>
 
-        {% endfor %}
+                    {% endfor %}
 
-        </p>
+            </p>
 
 
-
+        </div>
     </div>
     {% include "main/footer.html" %}
+    </div>
 {% endblock content %}
 
 
