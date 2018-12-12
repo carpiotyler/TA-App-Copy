@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="main-content">
     {% include "main/header.html" %}
-    <h1>Course List</h1>
+    <div class="main-content">
+        <h1>Course List</h1>
 
-    {% for course in courses %}
-        <div style="padding: 32px; background-color: lightgray">
-            <p>
-                <a href="{{ course.dept }}{{ course.cnum }}">
-                    {{ course.dept }} {{ course.cnum }} - {{ course.name }}
-                </a>
-            </p>
-        </div> <br>
+        {% for course in courses %}
+            <div style="padding: 32px; background-color: lightgray">
+                <p>
+                    <a href="{{ course.dept }}{{ course.cnum }}">
+                        {{ course.dept }} {{ course.cnum }} - {{ course.name }}
+                    </a>
+                </p>
+            </div> <br>
 
-    {% empty %}
-        <div>No Courses yet.</div>
+        {% empty %}
+            <div>No Courses yet.</div>
 
-    {% endfor %}
+        {% endfor %}
 
-</div>
-        {% include "main/footer.html" %}
+    </div>
+    {% include "main/footer.html" %}
 {% endblock content %}

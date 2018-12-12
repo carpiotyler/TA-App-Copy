@@ -128,7 +128,7 @@ class Section(models.Model):
     # section type (uses SEC_TYPE)
     stype = models.CharField(max_length=10, blank=True, null=True, choices=SEC_TYPE, default=None)
     # course points to course model
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     # room Number
     room = models.IntegerField(default=-1, blank=True, null=True)
     # instructor or ta
