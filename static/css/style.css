@@ -41,7 +41,7 @@ a.btn {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: white;
+    color: black;
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -51,6 +51,10 @@ a.btn {
 /* Change the link color to #111 (black) on hover */
 li a:hover {
     background-color: #FFFFFF;
+}
+
+a.bottomLinks:hover{
+    background-color: #4b4848;
 }
 
 .logo img {

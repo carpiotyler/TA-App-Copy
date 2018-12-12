@@ -124,7 +124,10 @@ class SectionManager(ManagerInterface):
             retFields['cnum'] = course.cnum
             retFields['snum'] = section.snum
             retFields['stype'] = section.stype
-            retFields['instructor'] = section.instructor.username
+            if section.instructor is not None:
+                retFields['instructor'] = section.instructor.username
+            else:
+                retFields['instructor'] = "None"
             retFields['days'] = section.days
             retFields['time'] = section.time
             # This is a course dict representation
