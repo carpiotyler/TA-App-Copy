@@ -1,9 +1,15 @@
 {% extends "base.html" %}
-
 {% block content %}
+
 <div class="courses">
     {% include "main/header.html" %}
     <h1>Course List</h1>
+
+    <div style="padding: 16px;">  {# add button #}
+         <a href="/courses/add">
+            <p> [ Add ] </p>
+         </a>
+    </div>
 
     {% for course in courses %}
         <div style="padding: 32px; background-color: lightgray">

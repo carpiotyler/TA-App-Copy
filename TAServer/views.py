@@ -14,23 +14,39 @@ from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGrou
 from django.contrib.auth import authenticate, login, logout
 from TAServer.forms import SignUpForm
 
+class CourseViews:
 
+    def add(request):
+        return render(request, "courses/course_add.html")
 
-def courseList(request):
-    courses = CM(Storage()).view({})
-    return render(request, "courses/course_list.html", {'courses': courses})
+    def edit(request, course_id):
+        course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})
+        return render(request, "courses/course_edit.html", {'course': course[0]})
 
-def courseDetail(request, course_id):
-    course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})
-    return render(request, "courses/course_detail.html", {'course': course[0]})
+    def list(request):
+        courses = CM(Storage()).view({})
+        return render(request, "courses/course_list.html", {'courses': courses})
 
-def sectionList(request):
-    sections = SM(Storage()).view({})
-    return render(request, "sections/section_list.html", {'sections': sections})
+    def detail(request, course_id):
+        course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})
+        return render(request, "courses/course_detail.html", {'course': course[0]})
 
-def sectionDetail(request, section_id):
-    section = SM(Storage()).view({'cnum': section_id[:3], 'snum': section_id[3:] })
-    return render(request, "sections/section_detail.html", {'section': section[0]})
+class SectionViews:
+
+    def add(request):
+        return render(request, "sections/section_add.html")
+
+    def edit(request, section_id):
+        section = SM(Storage()).view({'cnum': section_id[:3], 'snum': section_id[3:]})
+        return render(request, "sections/section_edit.html", {'section': section[0]})
+
+    def list(request):
+        sections = SM(Storage()).view({})
+        return render(request, "sections/section_list.html", {'sections': sections})
+
+    def detail(request, section_id):
+        section = SM(Storage()).view({'cnum': section_id[:3], 'snum': section_id[3:]})
+        return render(request, "sections/section_detail.html", {'section': section[0]})
 
 
 def signup(request):
