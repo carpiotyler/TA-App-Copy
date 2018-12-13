@@ -1,27 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-
     {% include "main/header.html" %}
-    <div class="mainWrapper">
-        <div class="insideWrapper">
-            <h1>Section List</h1>
+    <div class="main-content">
+        <h1>Section List</h1>
 
-            {% for section in sections %}
-                <div style="padding: 32px; background-color: lightgray">
-                    <p>
-                        <a href="{{ section.cnum }}{{ section.snum }}">
-                            {{ section.course.dept }} {{ section.cnum }} - {{ section.snum }}
-                        </a>
-                    </p>
-                </div> <br>
+        {% for section in sections %}
+            <div style="padding: 32px; background-color: lightgray">
+                <p>
+                    <a href="{{ section.cnum }}{{ section.snum }}">
+                        {{ section.course.dept }} {{ section.cnum }} - {{ section.snum }}
+                    </a>
+                </p>
+            </div> <br>
 
-            {% empty %}
-                <div>No Sections yet.</div>
+        {% empty %}
+            <div>No Sections yet.</div>
 
-            {% endfor %}
+        {% endfor %}
 
-        </div>
-        {% include "main/footer.html" %}
     </div>
+    {% include "main/footer.html" %}
 {% endblock content %}
