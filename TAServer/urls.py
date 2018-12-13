@@ -18,7 +18,6 @@ urlpatterns = [
 
   url(r'^FAQ/', views.FAQ, name='faq'),
   url(r'^about/', views.About, name='about'),
-
   url(r'^courses/$', views.CourseViews.list, name='Course List'),
   url(r'^courses/add', views.CourseViews.add, name='Course Add'),
   url(r'^courses/(?P<course_id>\w+)/$', views.CourseViews.detail, name='Course Detail'),
@@ -29,6 +28,10 @@ urlpatterns = [
   url(r'^sections/(?P<section_id>\w+)/$', views.SectionViews.detail, name='Section Detail'),
   url(r'^sections/edit/(?P<section_id>\w+)/$', views.SectionViews.edit, name='Section Edit'),
 
+  path('user/add/', views.UserView.as_view(), name='User Add'),  # Add a new one
+  path('user/edit/<str:code>/', views.UserView.as_view(), name='User Edit'),  # Edit a specific one
+  path('user/view/', views.UserView.as_view(), name='User List'),  # View all
+  path('user/view/<str:code>/', views.UserView.as_view(), name='User Detail'),  # View one
 ]
 
 

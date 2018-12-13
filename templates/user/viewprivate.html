@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include "main/header.html" %}
+    <div class="main-content">
+        <h1>Users:
+            {# TODO ceck if user can add #}
+            <a href="{% url 'User Add' %}">Add A User</a>
+        </h1>
+        <br>
+        {% if datafound %}
+            {% for entry in data %}
+                <div style="padding: 32px; background-color: lightgray">
+                    <p>User: {{ entry.username }} |
+                        {% if display_edit_link %}
+                            <a href="/user/edit/{{ entry.username }}"> Edit User</a></p>
+                        {% endif %}
+                    <p>First Name: {{ entry.firstname }}</p>
+                    <p>Last Name: {{ entry.lastname }}</p>
+                    </div> <br>
+            {% endfor %}
+        {% else %}
+            <p>Currently no users</p>
+        {% endif %}
+    </div>
+    {% include "main/footer.html" %}
+{% endblock content %}

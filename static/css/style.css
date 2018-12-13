@@ -2,14 +2,14 @@
 {% load staticfiles %}
 
 body {
-    background: #cecece;
+    background: transparent;
     margin: 0;
     padding: 0;
 }
 
 .headerMenu {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #563D7C;
+    background-color: #fdba2f;
     width: 100%;
     height: 50px;
 }
@@ -19,7 +19,7 @@ ul.buttons {
     display: inline-block;
     margin: 0;
     padding: 0;
-    background-color: #563D7C;
+    background-color: #fdba2f;
     width: 100%;
 }
 
@@ -41,7 +41,7 @@ a.btn {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: white;
+    color: black;
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -50,9 +50,12 @@ a.btn {
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #191970;
+    background-color: #FFFFFF;
 }
 
+a.bottomLinks:hover{
+    background-color: #4b4848;
+}
 
 .logo img {
     height: 45px;
@@ -62,13 +65,13 @@ li a:hover {
     float: left;
     padding: 0px;
     margin: 0px;
-    background-color: #563D7C;
+    background-color: #fdba2f;
 
 }
 
 
 .btn {
-    background-color: #563D7C;
+    background-color: #fdba2f;
     color: white;
     height: 100%;
     width: auto;
@@ -84,24 +87,24 @@ li a:hover {
 .btn-group {
     margin: 0px;
     padding: 0px;
-    background-color: #563D7C;
+    background-color: #fdba2f;
     height: 100%;
 }
 
 .footerMenu {
-	height: 200px;
+	height: 20vh;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #563D7C;
-    position: absolute;
+	background-color: #232528;
+    position: relative;
 	bottom: 0;
 	clear: both;
 }
 #footerLinks {
-	background-color: #563D7C;
+	background-color: #232528;
 	margin-left: auto;
 	margin-right: auto;
-	height: 170px;
+	height: 130px;
 	width: 90%;
 }
 
@@ -110,7 +113,7 @@ li a:hover {
 }
 
 .bottomLinks{
-	background-color:#563D7C;
+	background-color:#232528;
 	color: white;
 	text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -122,16 +125,54 @@ li a:hover {
     margin: .5em;
 }
 
+#birdUpWrapper{
+    margin: 1em auto 1em auto;
+
+}
 #birdUp{
     background-image: url("/static/images/birdUp.jpg");
     margin-left: auto;
     margin-right: auto;
-    height: 75vh;
-    width: 100vw;
+    width: 30vw;
+    padding-top: 30vw;
+    border-radius: 50%;
     top: 10vh;
     background-size: cover;
 }
 
+
+#theAbout{
+    margin-left:auto;
+    margin-right:auto;
+    border-style: solid solid solid;
+    border-width: 2px 2px 1px;
+    border-color: #eeeeee;
+    border-radius: 5px 5px 0 0;
+    width: 80%;
+    padding: 0 1em 0 1em;
+}
+
+#theWho{
+    margin-left:auto;
+    margin-right:auto;
+    border-style: solid solid solid;
+    border-width: 1px 2px 2px;
+    border-color: #eeeeee;
+    width: 80%;
+    padding: 0 1em 0 1em;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+}
+
+.about{
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Helvetica, sans-serif;
+}
+
+#aboutHeader{
+    text-align: center;
+}
 .login {
     width: 60%;
     margin: 16px auto;
@@ -145,4 +186,25 @@ li a:hover {
    background-image: url("/static/images/fourOfour.gif");
     height: 145px;
     width: 200px;
+}
+
+#headerImageDiv {
+    height: 20vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+#headerImage {
+    position:absolute;
+    height: auto;
+    width: 100%;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.main-content {
+    min-height: 70vh;
+    position: relative;
+    overflow: hidden;
 }
