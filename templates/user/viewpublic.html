@@ -7,13 +7,26 @@
         {% if datafound %}
             {% for entry in data %}
                 <div style="padding: 32px; background-color: lightgray">
-                    <p>User: {{ entry.username }} |
+                    <p>User: {{ entry.username }}
                         {% if display_edit_link %}
-                            <a href="/user/edit/{{ entry.username }}"> Edit User</a></p>
+                            <a href="/user/edit/{{ entry.username }}"> | Edit User</a></p>
                         {% endif %}
-                    <p>First Name: {{ entry.firstname }}</p>
-                    <p>Last Name: {{ entry.lastname }}</p>
-                    </div> <br>
+                    {% if entry.firstname|length > 0 %}
+                        <p>First Name: {{ entry.firstname }}</p>
+                    {% endif %}
+                    {% if entry.lastname|length > 0 %}
+                        <p>Last Name: {{ entry.lastname }}</p>
+                    {% endif %}
+                    {% if entry.email|length > 0 %}
+                        <p>Email: {{ entry.email }}</p>
+                    {% endif %}
+                    <P>Assigned Courses: {{ entry.courses }}</P>
+                    <p>Assigned Sections: {{ entry.sections }}</p>
+                    {% if entry.bio|length > 0 %}
+                        <h3>Bio:</h3>
+                        <p>{{ entry.bio }}</p>
+                    {% endif %}
+                </div><br>
             {% endfor %}
         {% else %}
             <p>Currently no users</p>
