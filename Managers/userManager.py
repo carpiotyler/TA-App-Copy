@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Managers.abstractManager import ManagerInterface
 from TAServer.models import Staff as User, Course, Section
@@ -32,7 +33,7 @@ class UserManager(ManagerInterface):
 
             # Unvalidated fields...
             if 'password' in fields.keys() and fields['password'] is not None and len(
-                fields['password'].strip()) > 0: user.password = fields['password']
+                fields['password'].strip()) > 0: user.set_password(fields['password'])
             if 'phone_number' in fields.keys() and fields['phone_number'] is not None and len(
                 fields['phone_number'].strip()) > 0: user.phonenum = fields['phone_number']
             if 'address' in fields.keys() and fields['address'] is not None and len(
@@ -47,6 +48,12 @@ class UserManager(ManagerInterface):
                 fields['bio'].strip()) > 0: user.bio = fields['bio']
 
             self.storage.insert_user(user)
+            group = Group.objects.get(name=fields['role'].strip()) 
+            if group:
+                group.user_set.add(user)
+            else:
+                self.storage.delete(user)
+                return False, "Unable to assign user to group."
             return True, ""
 
         else:  # user exists
@@ -129,7 +136,7 @@ class UserManager(ManagerInterface):
 
             # Unvalidated fields...
             if 'password' in fields.keys() and fields['password'] is not None and len(
-                fields['password'].strip()) > 0: user.password = fields['password']
+                fields['password'].strip()) > 0: user.set_password(fields['password'])
             if 'phone_number' in fields.keys() and fields['phone_number'] is not None and len(
                 fields['phone_number'].strip()) > 0: user.phonenum = fields['phone_number']
             if 'address' in fields.keys() and fields['address'] is not None and len(
@@ -144,6 +151,11 @@ class UserManager(ManagerInterface):
                 fields['bio'].strip()) > 0: user.bio = fields['bio']
 
             self.storage.insert_user(user)
+            group = Group.objects.get(name=fields['role'].strip()) 
+            if group:
+                group.user_set.add(user)
+            else:
+                return False, "Unable to assign user to group."
             return True, ""
 
         else:  # user dne!
