@@ -47,6 +47,8 @@ class UserView(View):
 
         fields['datafound'] = len(fields['data']) != 0
 
+        fields['display_edit_link'] = request.user.has_perm("can_edit_user")
+
         return render(request, template, fields)
 
     def add(self, request, code=""):

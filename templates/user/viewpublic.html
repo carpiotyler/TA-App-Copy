@@ -8,7 +8,12 @@
                 <th>Last Name</th>
                 <th>Role</th>
                 <th>Email</th>
+                <th>Sections</th>
+                <th>Courses</th>
                 <th>Bio</th>
+                {% if display_edit_link %}
+                    <th></th>
+                {% endif %}
             </tr>
 
             {% for entry in data %}
@@ -17,7 +22,12 @@
                     <td> {{ entry.lastname }} </td>
                     <td> {{ entry.role }} </td>
                     <td> {{ entry.email }} </td>
+                    <td> {{ entry.sections }} </td>
+                    <td> {{ entry.courses }} </td>
                     <td> {{ entry.bio }} </td>
+                    {% if display_edit_link %}
+                        <td><a href="/user/edit/{{ entry.username }}">edit</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

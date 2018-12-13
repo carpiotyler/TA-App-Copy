@@ -12,6 +12,9 @@
                 <th>Courses</th>
                 <th>Phone Number</th>
                 <th>Address</th>
+                {% if display_edit_link %}
+                    <th></th>
+                {% endif %}
             </tr>
 
             {% for entry in data %}
@@ -24,6 +27,9 @@
                     <td> {{ entry.courses }} </td>
                     <td> {{ entry.phonenum }} </td>
                     <td> {{ entry.address }} </td>
+                    {% if display_edit_link %}
+                        <td><a href="/user/edit/{{ entry.username }}">edit</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
