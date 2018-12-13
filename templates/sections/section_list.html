@@ -4,7 +4,6 @@
     <div class="main-content">
         <h1>Section List</h1>
 
-<<<<<<< HEAD
      <div style="padding: 16px;">  {# add button #}
          <a href="/sections/add">
             <p> [ Add ] </p>
@@ -19,16 +18,6 @@
                 </a>
             </p>
         </div> <br>
-=======
-        {% for section in sections %}
-            <div style="padding: 32px; background-color: lightgray">
-                <p>
-                    <a href="{{ section.cnum }}{{ section.snum }}">
-                        {{ section.course.dept }} {{ section.cnum }} - {{ section.snum }}
-                    </a>
-                </p>
-            </div> <br>
->>>>>>> 5b8be381b49f56756c8d3410829815bf9b9a39e5
 
         {% empty %}
             <div>No Sections yet.</div>

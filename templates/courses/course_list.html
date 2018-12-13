@@ -1,16 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<<<<<<< HEAD
 
 <div class="courses">
-=======
->>>>>>> 5b8be381b49f56756c8d3410829815bf9b9a39e5
+
     {% include "main/header.html" %}
     <div class="main-content">
         <h1>Course List</h1>
 
-<<<<<<< HEAD
-    <div style="padding: 16px;">  {# add button #}
+  <div style="padding: 16px;">  {# add button #}
          <a href="/courses/add">
             <p> [ Add ] </p>
          </a>
@@ -24,16 +21,6 @@
                 </a>
             </p>
         </div> <br>
-=======
-        {% for course in courses %}
-            <div style="padding: 32px; background-color: lightgray">
-                <p>
-                    <a href="{{ course.dept }}{{ course.cnum }}">
-                        {{ course.dept }} {{ course.cnum }} - {{ course.name }}
-                    </a>
-                </p>
-            </div> <br>
->>>>>>> 5b8be381b49f56756c8d3410829815bf9b9a39e5
 
         {% empty %}
             <div>No Courses yet.</div>

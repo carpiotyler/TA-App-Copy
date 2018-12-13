@@ -1,12 +1,7 @@
 
 {% extends "base.html" %}
 {% block content %}
-<<<<<<< HEAD
-{% include "main/header.html" %}
-
-    <div class="course" style="padding: 32px; background-color: lightgray">
-=======
-    {% include "main/header.html" %}
+  {% include "main/header.html" %}
     <div class="main-content" style="padding: 32px; background-color: lightgray">
         <h1>Course</h1>
         <p>Name: {{ course.name }}</p>
@@ -14,7 +9,6 @@
         <p>Course Number: {{ course.cnum }}</p>
         <p>Description: {{ course.description }}</p>
         <p>Sections:
->>>>>>> 5b8be381b49f56756c8d3410829815bf9b9a39e5
 
          <div>  {# edit button #}
              <a href="/courses/edit/{{ course.dept }}{{ course.cnum }}">
@@ -37,21 +31,13 @@
                     <a href="/sections/{{ course.cnum }}{{ course.snum }}">
                         {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
                     </a>
-<<<<<<< HEAD
-                </div>
-            {% empty %}
-                <div>No Sections yet.</div>
-            {% endfor %}
-        </div>
 
-=======
                 </p>
             </div> <br>
             {% empty %}
                 <div>No Sections yet.</div>
         {% endfor %}
         </p>
->>>>>>> 5b8be381b49f56756c8d3410829815bf9b9a39e5
     </div>
     {% include "main/footer.html" %}
 {% endblock content %}
