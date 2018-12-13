@@ -21,6 +21,10 @@ urlpatterns = [
   url(r'^sections/(?P<section_id>\w+)/$', views.sectionDetail, name='section'),
   url(r'^FAQ/', views.FAQ, name='faq'),
   url(r'^about/', views.About, name='about'),
+  path('user/add/', views.UserView.as_view()),  # Add a new one
+  path('user/edit/<str:code>/', views.UserView.as_view()),  # Edit a specific one
+  path('user/view/', views.UserView.as_view(), name='User List'),  # View all
+  path('user/view/<str:code>/', views.UserView.as_view(), name='User Detail'),  # View one
 ]
 
 
