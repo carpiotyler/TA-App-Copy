@@ -1,39 +1,26 @@
-{% extends "user/base.html" %}
-
+{% extends "base.html" %}
 {% block content %}
-    {% if datafound %}
-        <table>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Bio</th>
-                <th>Email</th>
-                <th>Sections</th>
-                <th>Courses</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                {% if display_edit_link %}
-                    <th></th>
-                {% endif %}
-            </tr>
-
+    {% include "main/header.html" %}
+    <div class="main-content">
+        <h1>Users:
+            {# TODO ceck if user can add #}
+            <a href="{% url 'User Add' %}">Add A User</a>
+        </h1>
+        <br>
+        {% if datafound %}
             {% for entry in data %}
-                <tr>
-                    <td> {{ entry.firstname }} </td>
-                    <td> {{ entry.lastname }} </td>
-                    <td> {{ entry.bio }} </td>
-                    <td> {{ entry.email }} </td>
-                    <td> {{ entry.sections }} </td>
-                    <td> {{ entry.courses }} </td>
-                    <td> {{ entry.phonenum }} </td>
-                    <td> {{ entry.address }} </td>
-                    {% if display_edit_link %}
-                        <td><a href="/user/edit/{{ entry.username }}">edit</a></td>
-                    {% endif %}
-                </tr>
+                <div style="padding: 32px; background-color: lightgray">
+                    <p>User: {{ entry.username }} |
+                        {% if display_edit_link %}
+                            <a href="/user/edit/{{ entry.username }}"> Edit User</a></p>
+                        {% endif %}
+                    <p>First Name: {{ entry.firstname }}</p>
+                    <p>Last Name: {{ entry.lastname }}</p>
+                    </div> <br>
             {% endfor %}
-        </table>
-    {% else %}
-        <p>Currently no users</p>
-    {% endif %}
+        {% else %}
+            <p>Currently no users</p>
+        {% endif %}
+    </div>
+    {% include "main/footer.html" %}
 {% endblock content %}
