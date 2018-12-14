@@ -2,7 +2,7 @@
 # See myStorageManager Interface for full documentation on method behaviors
 from django.contrib.auth.models import Group
 from Managers.myStorageManager import AbstractStorageManager
-from TAServer.models import SupGroup, Course, Section, Staff as User
+from TAServer.models import Course, Section, Staff as User
 
 
 class DjangoStorageManager(AbstractStorageManager):
