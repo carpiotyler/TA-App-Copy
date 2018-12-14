@@ -169,13 +169,13 @@ class SectionViews(View):
 
     def post(self, request, code=""):
         print(request.POST)
-
+        res = ""
         if "edit" in request.path:
-            SM(Storage()).edit(request.POST)
+            res = SM(Storage()).edit(request.POST)
 
         elif "add" in request.path:
-            SM(Storage()).add(request.POST)
-
+            res = SM(Storage()).add(request.POST)
+        print(res)
         return redirect('/sections/view')
 
 
