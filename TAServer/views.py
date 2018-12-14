@@ -16,6 +16,8 @@ from TAServer.forms import SignUpForm
 
 class UserView(View):
     def view(self, request, code=""):
+        print(request.GET)
+
         fields = {}
         template = "user/viewpublic.html" # The default is just to load only public data
 
@@ -69,6 +71,8 @@ class UserView(View):
         return render(request, "user/add.html", fields)
 
     def get(self, request, code=""):
+        print(request.GET)
+
         action = request.path.split("/")[2].lower()  # The 'action' of the url (view, add, edit)
 
         # Just a loop through the different helper functions until the action lines up with a helper function we have.
@@ -115,6 +119,7 @@ class CourseViews(View):
         return render(request, "courses/course_edit.html", {'course': course[0]})
 
     def view(self, request, code=""):
+        print(SM(Storage()).view({}))
         courses = CM(Storage()).view({})
         return render(request, "courses/course_list.html", {'courses': courses})
 
