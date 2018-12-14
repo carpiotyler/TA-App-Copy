@@ -7,6 +7,7 @@ from Managers.DjangoStorageManager import DjangoStorageManager as ds
 
 class ViewTest(TestCase):
     def setUp(self):
+        self.client = Client()
         adminUser = {"username":"Admin", "password": "Admin103", "role" :"Administrator"}
         self.storage = ds()
         user = UM(self.storage)
@@ -37,8 +38,7 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_login_Again(self):
-        c = Client()
-        response = c.post(reverse('login'), data={'username': 'Admin', 'password': 'Admin103'}, follow=True)
+        response = self.client.post(reverse('login'), data={'username': 'Admin', 'password': 'Admin103'}, follow=True)
 
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'Admin')
