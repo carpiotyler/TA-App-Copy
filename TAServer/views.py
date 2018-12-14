@@ -105,39 +105,78 @@ class UserView(View):
 
         return self.edit(request, code=request.POST['username'], fields={'displaystatus': True, 'status': status})  # Just a placeholder
 
-class CourseViews:
+class CourseViews(View):
 
-    def add(request):
+    def add(self, request, code=""):
         return render(request, "courses/course_add.html")
 
-    def edit(request, course_id):
-        course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})
+    def edit(self, request, code=""):
+        course = CM(Storage()).view({'dept': code[:2], 'cnum': code[2:]})
         return render(request, "courses/course_edit.html", {'course': course[0]})
 
-    def list(request):
+    def view(self, request, code=""):
         courses = CM(Storage()).view({})
         return render(request, "courses/course_list.html", {'courses': courses})
 
-    def detail(request, course_id):
-        course = CM(Storage()).view({'dept': course_id[:2], 'cnum': course_id[2:]})
+    def detail(self, request, code=""):
+        course = CM(Storage()).view({'dept': code[:2], 'cnum': code[2:]})
         return render(request, "courses/course_detail.html", {'course': course[0]})
 
-class SectionViews:
 
-    def add(request):
+    def get(self, request, code=""):
+        action = request.path.split("/")[2].lower()
+        for fun in [self.add, self.edit, self.view, self.detail]:
+            if fun.__name__ == action:
+                return fun(request, code=code)
+
+        return render(request, "404.html")
+
+    def post(self, request, code=""):
+        print(request.POST)
+
+        if "edit" in request.path:
+            CM(Storage()).edit(request.POST)
+
+        elif "add" in request.path:
+            CM(Storage()).add(request.POST)
+
+        return redirect('/courses/view')
+
+class SectionViews(View):
+
+    def add(self, request, code=""):
         return render(request, "sections/section_add.html")
 
-    def edit(request, section_id):
-        section = SM(Storage()).view({'cnum': section_id[:3], 'snum': section_id[3:]})
+    def edit(self, request, code=""):
+        section = SM(Storage()).view({'cnum': code[:3], 'snum': code[3:]})
         return render(request, "sections/section_edit.html", {'section': section[0]})
 
-    def list(request):
+    def view(self, request, code=""):
         sections = SM(Storage()).view({})
         return render(request, "sections/section_list.html", {'sections': sections})
 
-    def detail(request, section_id):
-        section = SM(Storage()).view({'cnum': section_id[:3], 'snum': section_id[3:]})
+    def detail(self, request, code=""):
+        section = SM(Storage()).view({'cnum': code[:3], 'snum': code[3:]})
         return render(request, "sections/section_detail.html", {'section': section[0]})
+
+    def get(self, request, code=""):
+        action = request.path.split("/")[2].lower()
+        for fun in [self.add, self.edit, self.view, self.detail]:
+            if fun.__name__ == action:
+                return fun(request, code=code)
+
+        return render(request, "404.html")
+
+    def post(self, request, code=""):
+        print(request.POST)
+
+        if "edit" in request.path:
+            SM(Storage()).edit(request.POST)
+
+        elif "add" in request.path:
+            SM(Storage()).add(request.POST)
+
+        return redirect('/sections/view')
 
 
 def signup(request):

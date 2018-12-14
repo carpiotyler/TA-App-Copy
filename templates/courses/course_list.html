@@ -16,7 +16,7 @@
     {% for course in courses %}
         <div style="padding: 32px; background-color: lightgray">
             <p>
-                <a href="{{ course.dept }}{{ course.cnum }}">
+                <a href="detail/{{ course.dept }}{{ course.cnum }}">
                     {{ course.dept }} {{ course.cnum }} - {{ course.name }}
                 </a>
             </p>

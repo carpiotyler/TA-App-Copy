@@ -18,15 +18,16 @@ urlpatterns = [
 
   url(r'^FAQ/', views.FAQ, name='faq'),
   url(r'^about/', views.About, name='about'),
-  url(r'^courses/$', views.CourseViews.list, name='Course List'),
-  url(r'^courses/add', views.CourseViews.add, name='Course Add'),
-  url(r'^courses/(?P<course_id>\w+)/$', views.CourseViews.detail, name='Course Detail'),
-  url(r'^courses/edit/(?P<course_id>\w+)/$', views.CourseViews.edit, name='Course Edit'),
 
-  url(r'^sections/$', views.SectionViews.list, name='Section List'),
-  url(r'^sections/add', views.SectionViews.add, name='Section Add'),
-  url(r'^sections/(?P<section_id>\w+)/$', views.SectionViews.detail, name='Section Detail'),
-  url(r'^sections/edit/(?P<section_id>\w+)/$', views.SectionViews.edit, name='Section Edit'),
+  path('courses/add', views.CourseViews.as_view(), name='Course Add'),
+  path('courses/edit/<str:code>/', views.CourseViews.as_view(), name='Course Edit'),
+  path('courses/view', views.CourseViews.as_view(), name='Course List'),
+  path('courses/detail/<str:code>/', views.CourseViews.as_view(), name='Course Detail'),
+
+  path('sections/add', views.SectionViews.as_view(), name='Section Add'),
+  path('sections/edit/<str:code>/', views.SectionViews.as_view(), name='Section Edit'),
+  path('sections/view', views.SectionViews.as_view(), name='Section List'),
+  path('sections/detail/<str:code>/', views.SectionViews.as_view(), name='Section Detail'),
 
   path('user/add/', views.UserView.as_view(), name='User Add'),  # Add a new one
   path('user/edit/<str:code>/', views.UserView.as_view(), name='User Edit'),  # Edit a specific one
