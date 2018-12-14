@@ -2,7 +2,6 @@ from django.contrib.auth.models import Group
 from Managers.myStorageManager import AbstractStorageManager as StorageManager
 from Managers.abstractManager import ManagerInterface
 from TAServer.models import Staff as User, Course, Section
-from TAServer.models import DefaultGroup, TAGroup, InsGroup, AdminGroup, SupGroup
 
 
 class UserManager(ManagerInterface):
@@ -48,9 +47,14 @@ class UserManager(ManagerInterface):
                 fields['bio'].strip()) > 0: user.bio = fields['bio']
 
             self.storage.insert_user(user)
+
+            #Add user to group
             group = Group.objects.get(name=fields['role'].strip()) 
             if group:
                 group.user_set.add(user)
+
+                #Just for testing
+                print("User Permissions: "+ str(user.get_all_permissions()))
             else:
                 self.storage.delete(user)
                 return False, "Unable to assign user to group."

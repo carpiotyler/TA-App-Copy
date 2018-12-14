@@ -22,7 +22,7 @@ PERMISSIONS_Instructor = ["can_view_course",
                           "can_assign_ta",
                           "can_email_tas"]
 
-PERMISSIONS_Admin = ["can_create_course",
+PERMISSIONS_Administrator = ["can_create_course",
                      "can_edit_course",
                      "can_delete_course",
                      "can_view_course",
@@ -61,7 +61,7 @@ def create_group(apps, schema_editor):
     groups = {'Default': PERMISSIONS_Default,  # Add to this dict if another group needs to be created
               'TA': PERMISSIONS_Ta,
               'Instructor': PERMISSIONS_Instructor,
-              'Admin': PERMISSIONS_Admin,
+              'Administrator': PERMISSIONS_Administrator,
               'Supervisor': PERMISSIONS_Supervisor}
 
     for app_config in apps.get_app_configs():
