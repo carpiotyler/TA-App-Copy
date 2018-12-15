@@ -183,6 +183,26 @@ class SectionViews(View):
         print(res)
         return redirect('/sections/view')
 
+class AssignSectionView(View):
+
+    def get(self, request, user):
+        sections = SM(Storage()).view({})
+        return render(request,"assign/sections.html",{'sections': sections})
+
+    def post(self, request, user):
+        section_req = request.POST['section_select']
+        split_sec = section_req.split('-')
+        dept=split_sec[0]
+        cnum=split_sec[1]
+        snum=split_sec[2].split(' ')[0]
+
+        section = Storage.get_section(dept=dept,cnum=cnum,snum=snum)
+
+        fields = {'dept':dept,'cnum':cnum,'snum':snum,'instructor':user,'stype':section.stype}
+        res = SM(Storage()).edit(fields)
+
+        sections = SM(Storage()).view({})
+        return render(request,"assign/sections.html",{'sections': sections})
 
 def signup(request):
     if request.method == 'POST':
