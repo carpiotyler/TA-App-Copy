@@ -114,6 +114,9 @@ class UserManager(ManagerInterface):
                 retFields['role'] = user.role
                 retFields['phonenum'] = user.phonenum
                 retFields['address'] = user.address
+                CourseSectionTuple = self.getSectionsAndCoursesByUser(username=user.username)
+                retFields['courses'] = CourseSectionTuple[0]
+                retFields['sections'] = CourseSectionTuple[1]
                 retVal.append(retFields)
 
             # Sort by username
