@@ -29,10 +29,13 @@ urlpatterns = [
   path('sections/view', views.SectionViews.as_view(), name='Section List'),
   path('sections/detail/<str:code>/', views.SectionViews.as_view(), name='Section Detail'),
 
+  url(r'^assign/(?P<user>\w+)/section/$', views.AssignSectionView.as_view(), name='assign_section'),
+
   path('user/add/', views.UserView.as_view(), name='User Add'),  # Add a new one
   path('user/edit/<str:code>/', views.UserView.as_view(), name='User Edit'),  # Edit a specific one
   path('user/view/', views.UserView.as_view(), name='User List'),  # View all
   path('user/view/<str:code>/', views.UserView.as_view(), name='User Detail'),  # View one
+
 ]
 
 
