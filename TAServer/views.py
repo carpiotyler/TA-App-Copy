@@ -109,6 +109,7 @@ class UserView(View):
 
         return self.edit(request, code=request.POST['username'], fields={'displaystatus': True, 'status': status})  # Just a placeholder
 
+
 class CourseViews(View):
 
     def add(self, request, code=""):
