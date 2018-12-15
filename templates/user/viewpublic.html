@@ -20,8 +20,16 @@
                     {% if entry.email|length > 0 %}
                         <p>Email: {{ entry.email }}</p>
                     {% endif %}
-                    <P>Assigned Courses: {{ entry.courses }}</P>
-                    <p>Assigned Sections: {{ entry.sections }}</p>
+                    <P>Assigned Courses:
+                        {% for course in entry.courses %}
+                            | {{ course.dept }}-{{course.cnum}} |
+                        {% endfor %}
+                    </P>
+                    <p>Assigned Sections:
+                        {% for section in entry.sections %}
+                            | {{ section.dept }}{{ section.cnum }}-{{section.snum}} |
+                        {% endfor %}
+                    </p>
                     {% if entry.bio|length > 0 %}
                         <h3>Bio:</h3>
                         <p>{{ entry.bio }}</p>

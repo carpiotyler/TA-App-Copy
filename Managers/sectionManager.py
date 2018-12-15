@@ -35,39 +35,40 @@ class SectionManager(ManagerInterface):
         if not self.checkSnum(fields.get('snum')):
             return False, self.checkSnum(fields.get('snum'))
 
+        snum = fields.get('snum')
+
         # Make sure user exists if inst is to be added
-        if fields.get('instructor') is not None and not self.userExists(fields.get('instructor')):
+        if fields.get('instructor') is not None and len(fields.get('instructor').strip()) > 0 and not self.userExists(fields.get('instructor')):
             return False, "User doesn't exist!"
 
         # Check days
-        if not self.checkDays(fields.get("days")):
+        if fields.get("days") is not None and len(fields.get('days').strip()) > 0 and not self.checkDays(fields.get("days")):
             return False, "Days format not accepted!"
 
         # Check for correct time format of start and end time
-        if not self.timeFormat(fields.get('time')) :
+        if fields.get("time") is not None and len(fields.get('time').strip()) > 0 and not self.timeFormat(fields.get('time')) :
             return False, "Time format not accepted!"
 
         time = fields.get('time')
-        if fields.get('days') is not None:
+        if fields.get("days") is not None and len(fields.get('days').strip()) > 0:
             days = fields.get('days').upper()
         else:
             days = ""
 
-        snum = fields.get('snum')
-        room = fields.get('room')
+        room = -1
         # try to convert room into integers
-        if room is not None:
+        if fields.get("room") is not None and len(fields.get("room").strip()) > 0:
             try:
                 room = int(room)
             except ValueError:
                 return False, "Room is not a valid integer!"
 
             # Check if time and room conflict
-            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="add"):
-                return False, "Toom taken for that day/time!"
+            #if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="add"):
+             #   return False, "Toom taken for that day/time!"
 
         # With and without instructor adding to course and sections db
-        if fields.get('instructor') is None:
+        if fields.get('instructor') is None or len(fields.get('instructor').strip()) == 0:
             toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time)
             self.addHelper(toAdd)
@@ -130,6 +131,7 @@ class SectionManager(ManagerInterface):
                 retFields['instructor'] = "None"
             retFields['days'] = section.days
             retFields['time'] = section.time
+            retFields['room'] = section.room.__str__()
             # This is a course dict representation
             if 'nonrecursive' not in fields.keys():
                 retFields['course'] = self.course_manager.view({"dept":course.dept, "cnum":course.cnum, 'nonrecursive': "true"})[0]
@@ -166,39 +168,38 @@ class SectionManager(ManagerInterface):
 
         snum = fields.get('snum')
 
-        # Make sure user exists if inst is to be added
-        if fields.get('instructor') is not None and not self.userExists(fields.get('instructor')):
-            return False, "User does not exist!"
+        if fields.get('instructor') is not None and len(fields.get('instructor').strip()) > 0 and fields.get('instructor') != 'None' and not self.userExists(fields.get('instructor')):
+            return False, "User doesn't exist!"
 
         # Check days
-        if not self.checkDays(fields.get("days")):
+        if fields.get("days") is not None and len(fields.get('days').strip()) > 0 and not self.checkDays(fields.get("days")):
             return False, "Days format not accepted!"
 
         # Check for correct time format of start and end time
-        if not self.timeFormat(fields.get('time')):
+        if fields.get("time") is not None and len(fields.get('time').strip()) > 0 and not self.timeFormat(fields.get('time')) :
             return False, "Time format not accepted!"
 
-        if fields.get('days') is not None:
+        time = fields.get('time')
+        if fields.get("days") is not None and len(fields.get('days').strip()) > 0:
             days = fields.get('days').upper()
         else:
             days = ""
 
-        time = fields.get('time')
-        room = fields.get('room')
-        snum = fields.get('snum')
+        room = -1
+
         # try to convert room into integers
-        if room is not None:
+        if fields.get("room") is not None and len(fields.get("room").strip()) > 0:
             try:
-                room = int(room)
+                room = int(fields.get("room"))
             except ValueError:
                 return False, "Room not a valid integer!"
 
             # Check if time and room conflict
-            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="edit"):
-                return False, "Room conflict!"
+            #if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="edit"):
+                #return False, "Room conflict!"
 
         # With and without instructor adding to course and sections db
-        if fields.get('instructor') is None:
+        if fields.get('instructor') is None or fields.get('instructor') == 'None' or len(fields.get('instructor').strip()) == 0:
             toAdd = Section(course=course, snum=snum, stype=fields.get("stype"), days=fields.get("days"),
                             room=room, time=time)
             self.editHelper(sec=toAdd, snumNew=fields.get("snumNew"))
