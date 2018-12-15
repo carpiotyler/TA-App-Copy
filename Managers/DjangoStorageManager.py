@@ -24,7 +24,11 @@ class DjangoStorageManager(AbstractStorageManager):
                 retVal = True
         sup = User(username="supervisor", password="123", role=dict(User.ROLES)["S"])
         DjangoStorageManager.insert_user(sup)
-        # TODO set sup group!
+        group = Group.objects.get(name=sup.role)
+        if group:
+            group.user_set.add(sup)
+            sup.is_superuser = True
+            sup.set_password(sup.password)
         DjangoStorageManager.insert_user(sup)
         return retVal
 
