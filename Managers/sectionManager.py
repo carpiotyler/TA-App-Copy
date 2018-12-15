@@ -64,8 +64,8 @@ class SectionManager(ManagerInterface):
                 return False, "Room is not a valid integer!"
 
             # Check if time and room conflict
-            #if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="add"):
-             #   return False, "Toom taken for that day/time!"
+            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="add"):
+                return False, "Room taken for that day/time!"
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None or len(fields.get('instructor').strip()) == 0:
@@ -458,7 +458,7 @@ class SectionManager(ManagerInterface):
     # NOTE: timeFormat() should be called before calling this method
     def roomConflict(self, time: str, room: int, days: str, sec: Section, action: str)->bool:
 
-        if time is None or "" or room is -1 or days is None or "":
+        if time is None or len(time) == 0 or room <= 0 or days is None or len(days) == 0:
             return True
 
         roomUse = Section.objects.filter(room=room)
