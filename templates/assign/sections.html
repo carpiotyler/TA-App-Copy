@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include "main/header.html" %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name=filter placeholder="Filter by section number"/>
+        <select name=section_select size="9">
+            {%for s in sections %}
+                <option>
+                    {{s.course.dept}}-{{ s.cnum }}-{{ s.snum }} Instructor:{{s.Instructor}}
+                </option>
+            {%endfor%}
+        </select>
+        <input type="submit" name=assign value="Assign to User"/>
+    </form>
+    
+    {% include "main/footer.html" %}
+{% endblock content %}

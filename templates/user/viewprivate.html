@@ -14,7 +14,9 @@
                 <div style="padding: 32px; background-color: lightgray">
                     <p>User: {{ entry.username }}
                         {% if display_edit_link %}
-                            <a href="/user/edit/{{ entry.username }}"> | Edit User</a></p>
+                            <a href="/user/edit/{{ entry.username }}"> | Edit User</a>
+                            <a href="{% url 'assign_section' user=entry.username%}"> | Assign Section</a>
+                        </p>
                         {% endif %}
                     {% if entry.firstname|length > 0 %}
                         <p>First Name: {{ entry.firstname }}</p>
