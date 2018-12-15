@@ -276,16 +276,16 @@ class SectionManager(ManagerInterface):
         # Users need to explicitly enter "None" to edit the value to None/default
         toChange = self.db.get_section(cnum=sec.course.cnum, dept=sec.course.dept, snum=sec.snum)
 
-        if sec.stype is None:
-            sec.stype = toChange.stype
-        if sec.days is None:
-            sec.days = toChange.days
-        if sec.time is None:
-            sec.time = toChange.time
-        if sec.room is None:
-            sec.room = toChange.room
-        if sec.instructor is None:
-            sec.instructor = toChange.instructor
+        # if sec.stype is None:
+        #     sec.stype = toChange.stype
+        # if sec.days is None:
+        #     sec.days = toChange.days
+        # if sec.time is None:
+        #     sec.time = toChange.time
+        # if sec.room is None:
+        #     sec.room = toChange.room
+        # if sec.instructor is None:
+        #     sec.instructor = "None"
 
         # remove old section and replace with the new one
         self.db.insert_section(sec)
