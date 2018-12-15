@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+
     {% include "main/header.html" %}
+    <div id=userInfo>
+        {%for u in user%}
+            <a> Assigning User:    {{u.username}} Role:   {{u.role}}</a>
+        {%endfor%}
+
+    </div>
+    
     <div class="assignments">
         <form method="POST">
             {% csrf_token %}
@@ -11,7 +19,9 @@
                     </option>
                 {%endfor%}
             </select>
-            <input id=assignButton type="submit" name=assign value="Assign to {{username}}"/>
+            {%for u in user%}
+                <input id=assignButton type="submit" name=assign value="Assign section to {{u.username}}"/>
+            {%endfor%}
         </form>
         <select class=listbox name=section_select size="9" style="pointer-events: none; cursor: default; background-color:#f8f8f8; ">
             {%for u in user_sections %}
