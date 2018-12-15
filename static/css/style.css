@@ -219,3 +219,27 @@ a.bottomLinks:hover{
     padding: 0 1em 0 1em;
     border-radius: 0 0 5px 5px;
 }
+
+.listbox{
+    margin-left: 6px;
+    margin-top: 10px;
+    font-size: 1em;
+    padding: 5px;
+    border-radius: 2px;
+    height: 100%;
+}
+.assignments{
+    display: flex;
+}
+
+#assignButton{
+    border: 0px;
+    margin: 0;
+    width: 50%;
+    font-size: 1.1em;
+    border-radius: 4px;
+    padding: 6px;
+    color: black;
+    background: #fdba2f;
+    margin-bottom: 20px;
+}
