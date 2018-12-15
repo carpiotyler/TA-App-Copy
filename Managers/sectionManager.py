@@ -59,7 +59,7 @@ class SectionManager(ManagerInterface):
         # try to convert room into integers
         if fields.get("room") is not None and len(fields.get("room").strip()) > 0:
             try:
-                room = int(room)
+                room = int(fields.get("room").strip())
             except ValueError:
                 return False, "Room is not a valid integer!"
 
@@ -186,17 +186,16 @@ class SectionManager(ManagerInterface):
             days = ""
 
         room = -1
-
         # try to convert room into integers
         if fields.get("room") is not None and len(fields.get("room").strip()) > 0:
             try:
-                room = int(fields.get("room"))
+                room = int(fields.get("room").strip())
             except ValueError:
                 return False, "Room not a valid integer!"
 
             # Check if time and room conflict
-            #if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="edit"):
-                #return False, "Room conflict!"
+            if not self.roomConflict(time=time, room=room, days=days, sec=self.db.get_section(cnum=fields.get("cnum"), dept=fields.get("dept"), snum=fields.get("snum")), action="edit"):
+                return False, "Room conflict!"
 
         # With and without instructor adding to course and sections db
         if fields.get('instructor') is None or fields.get('instructor') == 'None' or len(fields.get('instructor').strip()) == 0:
@@ -472,7 +471,7 @@ class SectionManager(ManagerInterface):
 
             for x in roomUse:
                 # Need to make certain not to compare the same object on edit, this shouldn't happen with add
-                if sec is None or action == "edit" and sec.snum != x.snum:
+                if sec != x and action=="edit":
                     if x.days in posConflict and x.time is not None or x.time is not "":
                         xTime = self.intTime(x.time)
                         xStart = xTime[0]
@@ -483,7 +482,7 @@ class SectionManager(ManagerInterface):
                             return False
                         elif xStart <= endTime <= xEnd:
                             return False
-                else:
+                elif action=="add":
                     if x.days in posConflict and x.time is not None or x.time is not "":
                         xTime = self.intTime(x.time)
                         xStart = xTime[0]

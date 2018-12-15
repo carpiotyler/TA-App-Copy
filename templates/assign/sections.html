@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {% include "main/header.html" %}
-
+<div class="main-content">
     <form method="POST">
         {% csrf_token %}
         <select name=section_select size="9">
@@ -13,6 +13,6 @@
         </select>
         <input type="submit" name=assign value="Assign to User"/>
     </form>
-    
+</div>
     {% include "main/footer.html" %}
 {% endblock content %}

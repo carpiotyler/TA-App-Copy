@@ -27,7 +27,7 @@
             <p><b>Sections:</b></p>
             {% for section in course.sections %}
                 <div style="padding: 8px; background-color: lightgray">
-                    <a href="/sections/{{ course.cnum }}{{ course.snum }}">
+                    <a href="/sections/detail/{{ course.cnum }}{{ section.snum }}/">
                         {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
                     </a>
 

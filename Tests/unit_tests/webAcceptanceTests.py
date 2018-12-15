@@ -125,3 +125,24 @@ class ViewTest(TestCase):
         self.assertEqual(sec.room, 1)
         self.assertEqual(sec.days, 'MWF')
         self.assertEqual(sec.time, '12:30PM-1:30PM')
+
+    def test_add_course_success(self):
+        self.client.post(reverse('login'), data={'username': 'Admin', 'password': 'Admin103'}, follow=True)
+
+        response = self.client.post(reverse('User Add'), data={'username': 'John', 'password': '123', 'role': 'TA', 'email':'spazcat@aol.com'},
+                                    follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        person = self.storage.get_user('John')
+
+        self.assertTrue(person.role, 'TA')
+        self.assertEqual(person.email, 'spazcat@aol.com')
+
+        response = self.client.post(reverse('Course Add'), data={'name': 'Cream', 'dept': 'CS', 'cnum': '400'}, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        c = self.storage.get_course(dept='CS', cnum="400")
+
+        self.assertEqual(c.name, 'Cream')
