@@ -1,5 +1,5 @@
 # This file is copied straight from Rock's provided code under "Skeleton code for Django" in sprint 2
-import re
+
 from django.views import generic
 from django.shortcuts import render, redirect
 from django.views import View
@@ -163,28 +163,6 @@ class SectionViews(View):
     def detail(self, request, code=""):
         section = SM(Storage()).view({'cnum': code[:3], 'snum': code[3:]})
         return render(request, "sections/section_detail.html", {'section': section[0]})
-    
-class AssignSectionView(View):
-
-    def get(self, request, user):
-        print(dir(request))
-        # <view logic>
-        sections = SM(Storage()).view({})
-        
-        return render(request,"assign/sections.html",{'sections': sections})
-
-    def post(self, request, user):
-        section_req = request.POST['section_select']
-        split_sec = section_req.split('-')
-        dept=split_sec[0]
-        cnum=split_sec[1]
-        snum=split_sec[2].split(' ')[0]
-
-        fields = {'dept':dept,'cnum':cnum,'snum':snum,'instructor':user}
-
-        section = SM(Storage()).edit(fields)
-        sections = SM(Storage()).view({})
-        return render(request,"assign/sections.html",{'sections': sections})
 
     def get(self, request, code=""):
         action = request.path.split("/")[2].lower()
