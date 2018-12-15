@@ -65,6 +65,7 @@ class ViewTest(TestCase):
         person = self.storage.get_user('John')
 
         self.assertTrue(person.role, 'TA')
+        self.assertEqual(person.email, 'spazcat@aol.com')
 
     def test_section_add_success(self):
         TAuser = {"username": "Tanawat", "password": "TA103", "role": "TA"}
@@ -93,7 +94,34 @@ class ViewTest(TestCase):
         self.assertEqual(sec.days, 'MWF')
         self.assertEqual(sec.time, '12:30PM-1:30PM')
 
-    def test_sectionViews(self):
-       # SV.post()
-        pass
+    def test_section_user_combined(self):
+        self.client.post(reverse('login'), data={'username': 'Admin', 'password': 'Admin103'}, follow=True)
 
+        response = self.client.post(reverse('User Add'), data={'username': 'John', 'password': '123', 'role': 'TA', 'email':'spazcat@aol.com'},
+                                    follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        person = self.storage.get_user('John')
+
+        self.assertTrue(person.role, 'TA')
+        self.assertEqual(person.email, 'spazcat@aol.com')
+
+        response = self.client.post(reverse('Course Add'), data={'name': 'Cream', 'dept': 'CS', 'cnum': '400'}, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(reverse('Section Add'), data={'stype': 'Lab', 'snum': '400', 'dept':'CS', 'cnum':'400',
+                                                                  'room':'1', 'instructor':'John', 'days':'MWF', 'time':'12:30PM-1:30PM'}, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        sec = self.storage.get_section(snum='400', dept='CS', cnum='400')
+
+        self.assertEqual(sec.snum, '400')
+        self.assertEqual(sec.stype, 'Lab')
+        self.assertEqual(sec.course.dept, 'CS')
+        self.assertEqual(sec.course.cnum, '400')
+        self.assertEqual(sec.room, 1)
+        self.assertEqual(sec.days, 'MWF')
+        self.assertEqual(sec.time, '12:30PM-1:30PM')
