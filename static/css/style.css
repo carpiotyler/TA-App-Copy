@@ -208,3 +208,14 @@ a.bottomLinks:hover{
     position: relative;
     overflow: hidden;
 }
+
+#welcomeWrapper{
+    margin-left:auto;
+    margin-right:auto;
+    border-style: solid solid solid;
+    border-width: 1px 2px 2px;
+    border-color: #eeeeee;
+    width: 80%;
+    padding: 0 1em 0 1em;
+    border-radius: 0 0 5px 5px;
+}

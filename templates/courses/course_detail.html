@@ -1,7 +1,6 @@
-
 {% extends "base.html" %}
 {% block content %}
-  {% include "main/header.html" %}
+    {% include "main/header.html" %}
     <div class="main-content" style="padding: 32px; background-color: lightgray">
         <h1>Course</h1>
         <p>Name: {{ course.name }}</p>
@@ -10,11 +9,11 @@
         <p>Description: {{ course.description }}</p>
         <p>Sections:
 
-         <div>  {# edit button #}
-             <a href="/courses/edit/{{ course.dept }}{{ course.cnum }}">
-                <p> [ Edit ] </p>
-             </a>
-        </div>
+            <div>  {# edit button #}
+                <a href="/courses/edit/{{ course.dept }}{{ course.cnum }}">
+        <p> [ Edit ] </p>
+        </a>
+
 
         <div>  {# course info #}
             <h1>Course</h1>
@@ -32,12 +31,13 @@
                         {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
                     </a>
 
-                </p>
-            </div> <br>
+                    </p>
+                </div> <br>
             {% empty %}
                 <div>No Sections yet.</div>
-        {% endfor %}
-        </p>
+            {% endfor %}
+            </p>
+        </div>
     </div>
     {% include "main/footer.html" %}
 {% endblock content %}
