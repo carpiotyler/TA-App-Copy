@@ -3,41 +3,30 @@
     {% include "main/header.html" %}
     <div class="main-content" style="padding: 32px; background-color: lightgray">
         <h1>Course</h1>
+        <div>  {# edit button #}
+            <a href="/courses/edit/{{ course.dept }}{{ course.cnum }}">
+                <p> [ Edit ] </p>
+            </a>
+        </div>
         <p>Name: {{ course.name }}</p>
         <p>Department: {{ course.dept }}</p>
         <p>Course Number: {{ course.cnum }}</p>
         <p>Description: {{ course.description }}</p>
         <p>Sections:
 
-            <div>  {# edit button #}
-                <a href="/courses/edit/{{ course.dept }}{{ course.cnum }}">
-        <p> [ Edit ] </p>
-        </a>
+        <p><b>Sections:</b></p>
+        {% for section in course.sections %}
+            <div style="padding: 8px; background-color: lightgray">
+                <a href="/sections/detail/{{ section.cnum }}{{ section.snum }}">
+                    {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
+                </a>
 
-
-        <div>  {# course info #}
-            <h1>Course</h1>
-            <p><b>Name:</b> {{ course.name }}</p>
-            <p><b>Department:</b> {{ course.dept }}</p>
-            <p><b>Course Number:</b> {{ course.cnum }}</p>
-            <p><b>Description:</b> {{ course.description }}</p>
-        </div>
-
-        <div> {# course info #}
-            <p><b>Sections:</b></p>
-            {% for section in course.sections %}
-                <div style="padding: 8px; background-color: lightgray">
-                    <a href="/sections/detail/{{ course.cnum }}{{ section.snum }}/">
-                        {{ course.dept }} {{ section.cnum }} - {{ section.snum }}
-                    </a>
-
-                    </p>
-                </div> <br>
-            {% empty %}
-                <div>No Sections yet.</div>
-            {% endfor %}
-            </p>
-        </div>
+                </p>
+            </div> <br>
+        {% empty %}
+            <div>No Sections yet.</div>
+        {% endfor %}
+        </p>
     </div>
     {% include "main/footer.html" %}
 {% endblock content %}

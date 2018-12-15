@@ -188,7 +188,14 @@ class AssignSectionView(View):
 
     def get(self, request, user):
         sections = SM(Storage()).view({})
-        return render(request,"assign/sections.html",{'sections': sections})
+        user_sections = []
+
+        user = UM(Storage()).view({'username': user})
+        
+        for s in sections:
+            if (s.get('instructor') == user):
+                user_sections.append(s)
+        return render(request,"assign/sections.html",{'sections': sections,'user':user, 'user_sections':user_sections})
 
     def post(self, request, user):
         section_req = request.POST['section_select']
@@ -203,7 +210,14 @@ class AssignSectionView(View):
         res = SM(Storage()).edit(fields)
 
         sections = SM(Storage()).view({})
-        return render(request,"assign/sections.html",{'sections': sections})
+        user = UM(Storage()).view({'username': user})
+        user_sections = []
+
+        for s in sections:
+            if (s.get('instructor') == user):
+                user_sections.append(s)
+
+        return render(request,"assign/sections.html",{'sections': sections,'user':user, 'user_sections':user_sections})
 
 def signup(request):
     if request.method == 'POST':

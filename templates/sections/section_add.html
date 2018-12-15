@@ -2,9 +2,11 @@
 {% block content %}
 {% include "main/header.html" %}
 
-<h1>Section Add</h1>
+
 
 <div class="section" style="padding: 32px; background-color: lightgray">
+    
+    <h1>Section Add</h1>
 
     <form method="POST" action="{{ action }}"> {% csrf_token %}
          <div>  {# section info #}
