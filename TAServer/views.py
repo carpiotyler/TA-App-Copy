@@ -21,7 +21,7 @@ class UserView(View):
         fields = {}
         template = "user/viewpublic.html" # The default is just to load only public data
 
-        if request.user.is_authenticated and request.user.has_perm('can_view_private'):
+        if request.user.is_authenticated and request.user.has_perm('TAServer.can_view_private'):
             template = "user/viewprivate.html"
 
         if code != "":
@@ -34,7 +34,7 @@ class UserView(View):
 
         fields['datafound'] = len(fields['data']) != 0
 
-        fields['display_edit_link'] = request.user.has_perm("can_edit_user")
+        fields['display_edit_link'] = request.user.has_perm("TAServer.can_edit_user")
 
         return render(request, template, fields)
 
@@ -42,7 +42,7 @@ class UserView(View):
         rolelist = ['TA', 'Instructor', 'Administrator', 'Supervisor']
         fields = {'title': 'Add a new user', 'canedit': False, "role_list": rolelist, 'checked_role': rolelist[0], 'action': '/user/add/'}
 
-        if request.user.has_perm("can_create_user"):
+        if request.user.has_perm("TAServer.can_create_user"):
             fields['canedit'] = True
 
         else:
@@ -59,7 +59,7 @@ class UserView(View):
 
         fields['action'] = '/user/edit/%s/' % code
 
-        fields['canedit'] = request.user.has_perm("can_edit_user") or (request.user.username == code and request.user.has_perm("can_edit_self"))
+        fields['canedit'] = request.user.has_perm("TAServer.can_edit_user") or (request.user.username == code and request.user.has_perm("TAServer.can_edit_self"))
 
         if fields['canedit']:
             fields['value'] = UM(Storage()).view({'username': code})[0]
