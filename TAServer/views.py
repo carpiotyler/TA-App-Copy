@@ -193,7 +193,7 @@ class AssignSectionView(View):
         user = UM(Storage()).view({'username': user})
         
         for s in sections:
-            if (s.get('instructor') == user):
+            if (s.get('instructor') == user[0].get('username')):
                 user_sections.append(s)
         return render(request,"assign/sections.html",{'sections': sections,'user':user, 'user_sections':user_sections})
 
@@ -214,7 +214,7 @@ class AssignSectionView(View):
         user_sections = []
 
         for s in sections:
-            if (s.get('instructor') == user):
+            if (s.get('instructor') == user[0].get('username')):
                 user_sections.append(s)
 
         return render(request,"assign/sections.html",{'sections': sections,'user':user, 'user_sections':user_sections})
